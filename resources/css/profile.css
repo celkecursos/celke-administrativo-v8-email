@@ -1,0 +1,153 @@
+/* Layout geral */
+.profile-grid {
+    @apply grid grid-cols-1 lg:grid-cols-3 gap-6;
+}
+
+.profile-left {
+    @apply lg:col-span-1 space-y-6;
+}
+
+/* Card geral */
+.profile-card {
+    @apply bg-white dark:bg-gray-900 rounded-xl p-6 text-center
+           border border-gray-200 dark:border-gray-700 shadow-sm;
+}
+
+/* Imagem do usuário */
+.profile-image-wrapper {
+    @apply relative mb-6 flex justify-center;
+}
+
+.profile-image-container {
+    @apply w-28 h-28 bg-blue-200 dark:bg-gray-900 rounded-full
+           flex items-center justify-center relative shadow-lg
+           ring-4 ring-white dark:ring-gray-700;
+}
+
+.profile-image {
+    @apply w-28 h-28 rounded-full object-cover shadow-md;
+}
+
+/* Ícone de editar imagem */
+.profile-image-edit {
+    @apply absolute -top-2 -right-2 bg-blue-500 hover:bg-blue-600 text-white
+           p-2 rounded-full shadow-lg transition-all duration-200
+           hover:scale-110 border-2 border-white dark:border-gray-700;
+}
+
+/* Nome do usuário */
+.profile-username-wrapper {
+    @apply mb-4;
+}
+
+.profile-username-content {
+    @apply flex items-center justify-center space-x-2 flex-wrap mb-2;
+}
+
+.profile-username {
+    @apply text-xl font-bold text-gray-800 dark:text-gray-200;
+}
+
+/* Estatísticas */
+.profile-stats-grid {
+    @apply grid grid-cols-3 gap-4 mb-6;
+}
+
+.profile-stat-card {
+    @apply text-center bg-white dark:bg-gray-800 rounded-lg
+           p-3 shadow-sm border border-gray-200 dark:border-gray-700;
+}
+
+.profile-stat-value {
+    @apply text-lg font-bold text-blue-600 dark:text-blue-400;
+}
+
+.profile-stat-label {
+    @apply text-xs text-gray-600 dark:text-gray-400;
+}
+
+/* profile cadastrados */
+.profile-box {
+    @apply bg-gradient-to-r from-blue-50 to-indigo-50
+           dark:from-blue-900/20 dark:to-indigo-900/20
+           text-blue-800 dark:text-blue-200 px-4 py-3 rounded-xl
+           border border-blue-200 dark:border-blue-700 shadow-sm;
+}
+
+.profile-value {
+    @apply text-xl font-bold;
+}
+
+.profile-label {
+    @apply text-sm;
+}
+
+/* Card principal "Sobre Mim" */
+.about-me-card {
+    @apply bg-white dark:bg-gray-900 rounded-xl px-6 py-3 border border-gray-200 dark:border-gray-700 shadow-sm;
+}
+
+.about-me-card-content {
+    @apply flex items-center justify-between mb-4;
+}
+
+/* Título */
+.about-me-card h3 {
+    @apply text-lg font-semibold text-gray-800 dark:text-gray-200 flex items-center mb-4;
+}
+
+/* Ícones dentro do título */
+.about-me-card h3 svg {
+    @apply w-5 h-5 mr-2 text-blue-600 dark:text-blue-400;
+}
+
+/* Container dos itens */
+.about-me-card .about-item {
+    @apply flex justify-between items-center py-2 border-b border-gray-100 dark:border-gray-700 last:border-b-0;
+}
+
+/* Texto do label */
+.about-me-card .about-label {
+    @apply text-sm font-medium text-gray-600 dark:text-gray-400 flex items-center;
+}
+
+/* Ícones dos labels */
+.about-me-card .about-label svg {
+    @apply w-4 h-4 mr-2;
+}
+
+/* Texto do valor */
+.about-me-card .about-value {
+    @apply text-sm text-gray-800 dark:text-gray-200;
+}
+
+/* Texto azul (site, github) */
+.about-me-card .about-blue {
+    @apply text-sm text-blue-600 dark:text-blue-400;
+}
+
+/* Container da coluna direita */
+.right-column {
+    @apply lg:col-span-2 space-y-6;
+}
+
+/* Cards gerais da coluna direita */
+.right-card {
+    @apply bg-white dark:bg-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700 shadow-sm;
+}
+
+/* Título dos cards */
+.right-card-title {
+    @apply text-lg font-semibold text-gray-800 dark:text-gray-200 mb-6 flex items-center;
+}
+
+/* Ícone azul (cadastrados) */
+.right-card-title .icon-blue {
+    @apply w-5 h-5 mr-2 text-blue-600 dark:text-blue-400;
+}
+
+/* Ícone laranja (próxima aula sugerida) */
+.right-card-title .icon-orange {
+    @apply w-5 h-5 mr-2 text-orange-500;
+}
+
