@@ -16,4 +16,16 @@ class EmailMachine extends Model implements Auditable
         'name',
         'is_active',
     ];
+
+    protected $casts = [
+        'is_active' => 'boolean',
+    ];
+
+    /**
+     * Relação: cada sequência pertence a uma máquina
+     */
+    public function emailMachine()
+    {
+        return $this->belongsTo(EmailMachine::class);
+    }
 }

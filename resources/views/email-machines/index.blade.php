@@ -77,7 +77,7 @@
                                         'url' => '#',
                                         'class' => 'btn-info-md table-md-hidden',
                                         'icon' => 'lucide-list',
-                                        'label' => 'Trilhas',
+                                        'label' => 'Sequência',
                                     ],
                                     [
                                         'can' => 'show-email-machine',
