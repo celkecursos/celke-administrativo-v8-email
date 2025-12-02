@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\EmailMachines\EmailMachineController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -34,6 +35,17 @@ Route::group(['middleware' => 'auth'], function () {
         Route::put('/image', [ProfileController::class, 'updateImage'])->name('profile.update_image')->middleware('permission:edit-profile');
         Route::get('/edit-password', [ProfileController::class, 'editPassword'])->name('profile.edit_password')->middleware('permission:edit-password-profile');
         Route::put('/update-password', [ProfileController::class, 'updatePassword'])->name('profile.update_password')->middleware('permission:edit-password-profile');
+    });
+
+    // Máquinas
+    Route::prefix('machines')->group(function () {
+        Route::get('/', [EmailMachineController::class, 'index'])->name('email-machines.index')->middleware('permission:index-email-machine');
+        Route::get('/create', [EmailMachineController::class, 'create'])->name('email-machines.create')->middleware('permission:create-email-machine');
+        Route::get('/{emailMachine}', [EmailMachineController::class, 'show'])->name('email-machines.show')->middleware('permission:show-email-machine');
+        Route::post('/', [EmailMachineController::class, 'store'])->name('email-machines.store')->middleware('permission:create-email-machine');
+        Route::get('/{emailMachine}/edit', [EmailMachineController::class, 'edit'])->name('email-machines.edit')->middleware('permission:edit-email-machine');
+        Route::put('/{emailMachine}', [EmailMachineController::class, 'update'])->name('email-machines.update')->middleware('permission:edit-email-machine');
+        Route::delete('/{emailMachine}', [EmailMachineController::class, 'destroy'])->name('email-machines.destroy')->middleware('permission:destroy-role');
     });
 
 });

@@ -156,9 +156,9 @@
                     @endcan
 
                     <!-- Dropdown Máquinas -->
-                    <div x-data="{ open: {{ in_array($menu ?? '', ['users', 'permissions', 'roles']) ? 'true' : 'false' }} }" class="relative">
+                    <div x-data="{ open: {{ in_array($menu ?? '', ['email-machine']) ? 'true' : 'false' }} }" class="relative">
                         <button @click="open = !open"
-                            class="sidebar-link w-full flex justify-between items-center  cursor-pointer">
+                            class="sidebar-link w-full flex justify-between items-center cursor-pointer">
                             <span class="flex items-center space-x-1">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                     stroke-width="1.5" stroke="currentColor" class="size-4">
@@ -178,20 +178,21 @@
                         <!-- Dropdown menu -->
                         <div x-show="open" x-transition class="ml-0 mt-1 space-y-1">
 
-                            {{-- @can('index-user')
+                            @can('index-email-machine')
                                 <a @class([
                                     'sidebar-link item-dropdown',
                                     'active' => isset($menu) && $menu == 'users',
-                                ]) href="{{ route('users.index') }}">
+                                ]) href="{{ route('email-machines.index') }}">
                                     <!-- Ícone user-group (Heroicons) -->
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                         stroke-width="1.5" stroke="currentColor" class="size-4">
                                         <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z" />
+                                            d="M7.217 10.907a2.25 2.25 0 1 0 0 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186 9.566-5.314m-9.566 7.5 9.566 5.314m0 0a2.25 2.25 0 1 0 3.935 2.186 2.25 2.25 0 0 0-3.935-2.186Zm0-12.814a2.25 2.25 0 1 0 3.933-2.185 2.25 2.25 0 0 0-3.933 2.185Z" />
                                     </svg>
-                                    <span>Usuários</span>
+
+                                    <span>Máquinas</span>
                                 </a>
-                            @endcan --}}
+                            @endcan
 
 
                         </div>
