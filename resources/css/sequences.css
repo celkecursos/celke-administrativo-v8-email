@@ -1,0 +1,116 @@
+/****** Início Layout Sequências ******/
+
+/* Container principal das sequências */
+.sequences-container {
+    @apply space-y-4;
+}
+
+/* Card de cada sequência */
+.sequence-card {
+    @apply bg-white dark:bg-backgroundthirddark rounded-lg shadow-sm border border-gray-200 dark:border-backgroundfifthdark overflow-hidden;
+}
+
+/* Cabeçalho do card da sequência */
+.sequence-header {
+    @apply flex items-center justify-between p-4 bg-gray-50 dark:bg-backgroundfourthdark border-b border-gray-200 dark:border-backgroundfifthdark;
+}
+
+/* Info da sequência (número + nome) */
+.sequence-info {
+    @apply flex items-center space-x-3;
+}
+
+/* Círculo com número da sequência */
+.sequence-number {
+    @apply flex items-center justify-center w-10 h-10 rounded-full text-white font-bold text-sm;
+}
+
+/* Título da sequência */
+.sequence-title {
+    @apply text-lg font-semibold text-gray-900 dark:text-gray-100;
+}
+
+/* Container dos botões de ação da sequência */
+.sequence-actions {
+    @apply flex items-center space-x-1;
+}
+
+/* Corpo do card (lista de e-mails) */
+.sequence-body {
+    @apply p-4;
+}
+
+/* Container do botão "Novo E-mail" */
+.sequence-new-email {
+    @apply mb-3 flex justify-end;
+}
+
+/* Lista de e-mails */
+.emails-list {
+    @apply space-y-2;
+}
+
+/* Item individual de e-mail */
+.email-item {
+    @apply flex items-center justify-between p-3 bg-gray-50 dark:bg-backgroundfourthdark rounded-lg border border-gray-200 dark:border-backgroundfifthdark hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors;
+}
+
+/* Info do e-mail */
+.email-info {
+    @apply flex items-center space-x-3 flex-1;
+}
+
+/* Título do e-mail */
+.email-title {
+    @apply text-sm font-medium text-gray-900 dark:text-gray-100;
+}
+
+/* Ações do e-mail */
+.email-actions {
+    @apply flex items-center space-x-1;
+}
+
+/* Mensagem quando não há e-mails */
+.no-emails-message {
+    @apply text-center text-gray-500 dark:text-gray-400 py-4 text-sm;
+}
+
+/* Botão adicionar sequência (fixo no topo) */
+.add-sequence-button {
+    @apply mb-4 flex justify-end;
+}
+
+/* Cores dos círculos de número das sequências */
+.sequence-color-1 {
+    @apply bg-blue-500;
+}
+
+.sequence-color-2 {
+    @apply bg-green-500;
+}
+
+.sequence-color-3 {
+    @apply bg-yellow-500;
+}
+
+.sequence-color-4 {
+    @apply bg-red-500;
+}
+
+.sequence-color-5 {
+    @apply bg-purple-500;
+}
+
+.sequence-color-6 {
+    @apply bg-pink-500;
+}
+
+.sequence-color-7 {
+    @apply bg-indigo-500;
+}
+
+.sequence-color-8 {
+    @apply bg-cyan-500;
+}
+
+/****** Fim Layout Sequências ******/

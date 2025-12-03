@@ -22,10 +22,10 @@ class EmailMachine extends Model implements Auditable
     ];
 
     /**
-     * Relação: cada sequência pertence a uma máquina
+     * Relação: uma máquina pode ter várias sequências
      */
-    public function emailMachine()
+    public function sequences()
     {
-        return $this->belongsTo(EmailMachine::class);
+        return $this->hasMany(EmailMachineSequence::class, 'email_machine_id');
     }
 }

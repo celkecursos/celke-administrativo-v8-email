@@ -72,9 +72,9 @@
                             <td class="table-actions">
                                 <x-table-actions :actions="[
                                     [
-                                        'can' => 'index-course-batch',
+                                        'can' => 'index-email-machine-sequence',
                                         'type' => 'link',
-                                        'url' => '#',
+                                        'url' => route('email-machine-sequences.index', ['emailMachine' => $emailMachine->id]),
                                         'class' => 'btn-info-md table-md-hidden',
                                         'icon' => 'lucide-list',
                                         'label' => 'Sequência',

@@ -17,6 +17,7 @@
 /* Importar os componentes personalizados */
 @import "./profile.css";
 @import "./form-sidebar.css";
+@import "./sequences.css";
 
 @layer components {
 
