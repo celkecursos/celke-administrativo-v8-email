@@ -12,11 +12,19 @@
 
         <x-content-box-header title="Detalhes" :buttons="[
             [
-                'label' => 'Listar',
+                'label' => 'Máquinas',
                 'url' => route('email-machines.index'),
                 'permission' => 'index-email-machine',
                 'class' => 'btn-info-md',
                 'icon' => 'lucide-list',
+            ],
+            [
+                'can' => 'index-email-machine-sequence',
+                'type' => 'link',
+                'url' => route('email-machine-sequences.index', ['emailMachine' => $emailMachine->id]),
+                'class' => 'btn-info-md table-md-hidden',
+                'icon' => 'lucide-list',
+                'label' => 'Sequência',
             ],
             [
                 'label' => 'Editar',

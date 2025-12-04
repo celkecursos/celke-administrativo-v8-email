@@ -75,7 +75,7 @@
                                         'can' => 'show-email-tag',
                                         'type' => 'link',
                                         'url' => route('email-tags.show', ['emailTag' => $emailTag->id]),
-                                        'class' => 'btn-info-md table-md-hidden',
+                                        'class' => 'btn-info-md align-icon-btn',
                                         'icon' => 'lucide-eye',
                                         'label' => 'Visualizar',
                                     ],
@@ -89,41 +89,14 @@
                                     ],
                                     [
                                         'can' => 'destroy-email-tag',
-                                        'type' => 'button',
-                                        'onclick' => 'confirmDelete(' . $emailTag->id . ')',
+                                        'type' => 'delete',
+                                        'id' => $emailTag->id,
+                                        'url' => route('email-tags.destroy', $emailTag->id),
                                         'class' => 'btn-danger-md table-md-hidden',
-                                        'icon' => 'lucide-trash-2',
-                                        'label' => 'Apagar',
-                                    ],
-                                ]" :dropdownActions="[
-                                    [
-                                        'can' => 'show-email-tag',
-                                        'type' => 'link',
-                                        'url' => route('email-tags.show', ['emailTag' => $emailTag->id]),
-                                        'icon' => 'lucide-eye',
-                                        'label' => 'Visualizar',
-                                    ],
-                                    [
-                                        'can' => 'edit-email-tag',
-                                        'type' => 'link',
-                                        'url' => route('email-tags.edit', ['emailTag' => $emailTag->id]),
-                                        'icon' => 'lucide-pencil',
-                                        'label' => 'Editar',
-                                    ],
-                                    [
-                                        'can' => 'destroy-email-tag',
-                                        'type' => 'button',
-                                        'onclick' => 'confirmDelete(' . $emailTag->id . ')',
-                                        'icon' => 'lucide-trash-2',
+                                        'icon' => 'lucide-trash',
                                         'label' => 'Apagar',
                                     ],
                                 ]" />
-
-                                <form method="POST" action="{{ route('email-tags.destroy', ['emailTag' => $emailTag->id]) }}"
-                                    id="formDelete{{ $emailTag->id }}">
-                                    @csrf
-                                    @method('DELETE')
-                                </form>
                             </td>
                         </tr>
                     @empty
@@ -138,23 +111,4 @@
         {{-- Imprimir a paginação --}}
         {{ $emailTags->appends(['name' => $name])->links() }}
     </div>
-
-    <script>
-        function confirmDelete(id) {
-            Swal.fire({
-                title: 'Tem certeza?',
-                text: "Você não poderá reverter isso!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Sim, apagar!',
-                cancelButtonText: 'Cancelar'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    document.getElementById('formDelete' + id).submit();
-                }
-            });
-        }
-    </script>
 @endsection
