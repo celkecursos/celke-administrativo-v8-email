@@ -46,4 +46,10 @@ class EmailSequenceEmail extends Model implements Auditable
     {
         return $this->belongsTo(EmailMachineSequence::class);
     }
+
+    // Criar relacionamento entre um e muitos - Tabela com a chave primária
+    public function emailUser()
+    {
+        return $this->hasMany(EmailUser::class);
+    }
 }

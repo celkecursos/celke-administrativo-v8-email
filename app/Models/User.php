@@ -60,6 +60,12 @@ class User extends Authenticatable implements Auditable
         return $this->belongsTo(UserStatus::class);
     }
 
+    // Criar relacionamento entre um e muitos - Tabela com a chave primária
+    public function emailUser()
+    {
+        return $this->hasMany(EmailUser::class);
+    }
+
     // Formatar o CPF para imprimir na VIEW
     public function getCpfFormattedAttribute()
     {
