@@ -51,7 +51,7 @@ class UserController extends Controller
     public function show(User $user)
     {
         // Carregar os e-mails programados do usuário com o relacionamento
-        $emailUsers = $user->emailUsers()->with('emailSequenceEmail')->orderBy('id', 'DESC')->get();
+        $emailUsers = $user->emailUser()->with('emailSequenceEmail')->orderBy('id', 'DESC')->get();
 
         // Carregar as tags do usuário
         $user->load('emailTags');
