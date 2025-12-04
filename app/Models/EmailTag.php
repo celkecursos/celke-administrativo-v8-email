@@ -8,6 +8,7 @@ use OwenIt\Auditing\Contracts\Auditable;
 class EmailTag extends Model implements Auditable
 {
     use \OwenIt\Auditing\Auditable;
+
     // Indicar o nome da tabela
     protected $table = 'email_tags';
 

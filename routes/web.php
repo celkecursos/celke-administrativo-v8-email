@@ -4,6 +4,8 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EmailMachines\EmailMachineController;
 use App\Http\Controllers\EmailMachines\EmailMachineSequenceController;
+use App\Http\Controllers\EmailTagController;
+use App\Http\Controllers\EmailUserController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -65,6 +67,23 @@ Route::group(['middleware' => 'auth'], function () {
     Route::prefix('users')->group(function () {
         Route::get('/', [UserController::class, 'index'])->name('users.index')->middleware('permission:index-user');
         Route::get('/{user}', [UserController::class, 'show'])->name('users.show')->middleware('permission:show-user');
+    });
+
+    // E-mails do usuário
+    Route::prefix('email-users')->group(function () {
+        Route::patch('/{emailUser}/toggle-status', [EmailUserController::class, 'toggleStatus'])->name('email-users.toggle-status')->middleware('permission:edit-email-user');
+        Route::delete('/{emailUser}', [EmailUserController::class, 'destroy'])->name('email-users.destroy')->middleware('permission:destroy-email-user');
+    });
+
+    // Tags
+    Route::prefix('email-tags')->group(function () {
+        Route::get('/', [EmailTagController::class, 'index'])->name('email-tags.index')->middleware('permission:index-email-tag');
+        Route::get('/create', [EmailTagController::class, 'create'])->name('email-tags.create')->middleware('permission:create-email-tag');
+        Route::post('/', [EmailTagController::class, 'store'])->name('email-tags.store')->middleware('permission:create-email-tag');
+        Route::get('/{emailTag}', [EmailTagController::class, 'show'])->name('email-tags.show')->middleware('permission:show-email-tag');
+        Route::get('/{emailTag}/edit', [EmailTagController::class, 'edit'])->name('email-tags.edit')->middleware('permission:edit-email-tag');
+        Route::put('/{emailTag}', [EmailTagController::class, 'update'])->name('email-tags.update')->middleware('permission:edit-email-tag');
+        Route::delete('/{emailTag}', [EmailTagController::class, 'destroy'])->name('email-tags.destroy')->middleware('permission:destroy-email-tag');
     });
 
 });

@@ -72,6 +72,7 @@ class User extends Authenticatable implements Auditable
         return $this->hasMany(EmailTagUser::class);
     }
 
+    // Relacionamento many-to-many com tags através da tabela pivot email_tag_users
     public function emailTags()
     {
         return $this->belongsToMany(

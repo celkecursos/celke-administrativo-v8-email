@@ -50,6 +50,12 @@ class UserController extends Controller
     // Visualizar os detalhes do usuário
     public function show(User $user)
     {
+        // Carregar os e-mails programados do usuário com o relacionamento
+        $emailUsers = $user->emailUsers()->with('emailSequenceEmail')->orderBy('id', 'DESC')->get();
+
+        // Carregar as tags do usuário
+        $user->load('emailTags');
+
         // Log para debug
         Log::info('Visualizar o usuário.', [
             'id' => $user->id,
@@ -59,7 +65,8 @@ class UserController extends Controller
         // Carregar a view 
         return view('users.show', [
             'menu' => 'users',
-            'user' => $user
+            'user' => $user,
+            'emailUsers' => $emailUsers
         ]);
     }
 }

@@ -46,6 +46,17 @@
                     <span class="detail-content">{{ $user->email }}</span>
                 </div>
 
+                <div>
+                    <span class="title-detail-content">Tags: </span>
+                    <span class="detail-content">
+                        @if($user->emailTags->count() > 0)
+                            {{ $user->emailTags->pluck('name')->implode(', ') }}
+                        @else
+                            <span class="text-gray-500 dark:text-gray-400">Nenhuma tag atribuída</span>
+                        @endif
+                    </span>
+                </div>
+
                 @if ($user->cpf)
                     <div>
                         <span class="title-detail-content">CPF: </span>
@@ -77,5 +88,77 @@
             </div>
         </div>
 
+    </div>
+
+    <!-- Seção: E-mails Programados -->
+    <div class="content-box mt-6">
+        <div class="content-box-header">
+            <h3 class="content-box-title">E-mails Programados</h3>
+        </div>
+
+        <div class="table-container mt-4">
+            <table class="table">
+                <thead>
+                    <tr class="table-row-header">
+                        <th class="table-header">ID</th>
+                        <th class="table-header">Título do E-mail</th>
+                        <th class="table-header">Situação</th>
+                        <th class="table-header center">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse ($emailUsers as $emailUser)
+                        <tr class="table-row-body">
+                            <td class="table-body">{{ $emailUser->id }}</td>
+                            <td class="table-body">{{ $emailUser->emailSequenceEmail->title ?? 'N/A' }}</td>
+                            <td class="table-body">
+                                <span class="{{ $emailUser->is_active ? 'badge badge-success' : 'badge badge-danger' }}">
+                                    {{ $emailUser->is_active ? 'Ativo' : 'Inativo' }}
+                                </span>
+                            </td>
+                            <td class="table-actions">
+                                <div class="table-actions-align">
+                                    <!-- Botão Ativar/Desativar -->
+                                    @can('edit-email-user')
+                                        <form action="{{ route('email-users.toggle-status', $emailUser->id) }}" method="POST" class="inline">
+                                            @csrf
+                                            @method('PATCH')
+                                            <button type="submit" class="btn-warning-md align-icon-btn" title="{{ $emailUser->is_active ? 'Desativar' : 'Ativar' }}">
+                                                @if ($emailUser->is_active)
+                                                    <x-lucide-toggle-right class="icon-btn" />
+                                                @else
+                                                    <x-lucide-toggle-left class="icon-btn" />
+                                                @endif
+                                                <span>{{ $emailUser->is_active ? 'Desativar' : 'Ativar' }}</span>
+                                            </button>
+                                        </form>
+                                    @endcan
+
+                                    <!-- Botão Apagar -->
+                                    @can('destroy-email-user')
+                                        <form id="delete-form-{{ $emailUser->id }}" action="{{ route('email-users.destroy', $emailUser->id) }}" method="POST" class="inline">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="button" onclick="confirmDelete({{ $emailUser->id }})" class="btn-danger-md align-icon-btn" title="Apagar">
+                                                <x-lucide-trash class="icon-btn" />
+                                                <span>Apagar</span>
+                                            </button>
+                                        </form>
+                                    @endcan
+                                </div>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="4" class="table-body text-center">
+                                <div class="alert-warning">
+                                    Nenhum e-mail programado encontrado para este usuário.
+                                </div>
+                            </td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
     </div>
 @endsection
