@@ -12,26 +12,22 @@
 
         <x-content-box-header :title="'Sequências: ' . $emailMachine->name" :buttons="[
             [
-                'label' => 'Máquinas',
-                'url' => route('email-machines.index'),
-                'permission' => 'index-email-machine',
-                'class' => 'btn-info-md',
-                'icon' => 'lucide-arrow-left',
+            'label' => 'Máquinas',
+            'url' => route('email-machines.index'),
+            'permission' => 'index-email-machine',
+            'class' => 'btn-info-md',
+            'icon' => 'lucide-arrow-left',
+            ],
+            [
+            'label' => 'Nova Sequência',
+            'url' => route('email-machine-sequences.create', ['emailMachine' => $emailMachine->id]),
+            'permission' => 'create-email-machine-sequence',
+            'class' => 'btn-success-md',
+            'icon' => 'lucide-plus',
             ],
         ]" />
 
         <x-alert />
-
-        <!-- Botão Nova Sequência -->
-        <div class="add-sequence-button">
-            @can('create-email-machine-sequence')
-                <a href="{{ route('email-machine-sequences.create', ['emailMachine' => $emailMachine->id]) }}"
-                    class="btn-success-md align-icon-btn">
-                    <x-lucide-plus class="icon-btn" />
-                    <span>Nova Sequência</span>
-                </a>
-            @endcan
-        </div>
 
         <!-- Container das Sequências -->
         <div class="sequences-container">
@@ -72,13 +68,13 @@
                             @endcan
 
                             @can('destroy-email-machine-sequence')
-                                <form
+                                <form id="delete-form-{{ $sequence->id }}"
                                     action="{{ route('email-machine-sequences.destroy', ['emailMachine' => $emailMachine->id, 'sequence' => $sequence->id]) }}"
-                                    method="POST" class="inline-block"
-                                    onsubmit="return confirm('Tem certeza que deseja apagar esta sequência?');">
+                                    method="POST" class="inline-block">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn-danger-md align-icon-btn" title="Apagar">
+                                    <button type="button" onclick="confirmDelete({{ $sequence->id }})" 
+                                        class="btn-danger-md align-icon-btn" title="Apagar">
                                         <x-lucide-trash class="icon-btn" />
                                         <span class="hidden md:inline">Apagar</span>
                                     </button>

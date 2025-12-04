@@ -34,6 +34,8 @@
             @csrf
             @method('PUT')
 
+            <input type="hidden" name="email_machine_id" value="{{ $emailMachine->id }}">
+
             <div class="mb-4">
                 <label for="name" class="form-label">Nome*</label>
                 <input type="text" name="name" id="name" class="form-input" placeholder="Nome da sequência"

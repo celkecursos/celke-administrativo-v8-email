@@ -5,6 +5,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EmailMachines\EmailMachineController;
 use App\Http\Controllers\EmailMachines\EmailMachineSequenceController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 // Página inicial como redirecionamento para o login
@@ -58,6 +59,12 @@ Route::group(['middleware' => 'auth'], function () {
             Route::put('/{sequence}', [EmailMachineSequenceController::class, 'update'])->name('email-machine-sequences.update')->middleware('permission:edit-email-machine-sequence');
             Route::delete('/{sequence}', [EmailMachineSequenceController::class, 'destroy'])->name('email-machine-sequences.destroy')->middleware('permission:destroy-email-machine-sequence');
         });
+    });
+
+    // Usuários
+    Route::prefix('users')->group(function () {
+        Route::get('/', [UserController::class, 'index'])->name('users.index')->middleware('permission:index-user');
+        Route::get('/{user}', [UserController::class, 'show'])->name('users.show')->middleware('permission:show-user');
     });
 
 });
