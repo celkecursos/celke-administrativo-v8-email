@@ -25,6 +25,16 @@
                 'class' => 'btn-warning-md',
                 'icon' => 'lucide-pencil',
             ],
+            [
+                'label' => 'Apagar',
+                'url' => route('email-tags.destroy', ['emailTag' => $emailTag->id]),
+                'permission' => 'destroy-email-tag',
+                'class' => 'btn-danger-md',
+                'icon' => 'lucide-trash',
+                'method' => 'delete',
+                'confirm' => true,
+                'id' => $emailTag->id,
+            ],
         ]" />
 
         <x-alert />
