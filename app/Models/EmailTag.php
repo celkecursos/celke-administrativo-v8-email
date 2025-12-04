@@ -25,4 +25,10 @@ class EmailTag extends Model implements Auditable
     protected $casts = [
         'is_active' => 'boolean',
     ];
+
+    // Criar relacionamento entre um e muitos - Tabela com a chave primária
+    public function emailTagUser()
+    {
+        return $this->hasMany(EmailTagUser::class);
+    }
 }

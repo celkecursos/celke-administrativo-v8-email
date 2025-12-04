@@ -66,6 +66,22 @@ class User extends Authenticatable implements Auditable
         return $this->hasMany(EmailUser::class);
     }
 
+    // Criar relacionamento entre um e muitos - Tabela com a chave primária
+    public function emailTagUser()
+    {
+        return $this->hasMany(EmailTagUser::class);
+    }
+
+    public function emailTags()
+    {
+        return $this->belongsToMany(
+            EmailTag::class,
+            'email_tag_users',
+            'user_id',
+            'email_tag_id'
+        )->withTimestamps();
+    }
+
     // Formatar o CPF para imprimir na VIEW
     public function getCpfFormattedAttribute()
     {
