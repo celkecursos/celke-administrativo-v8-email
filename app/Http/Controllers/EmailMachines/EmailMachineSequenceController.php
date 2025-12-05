@@ -19,9 +19,11 @@ class EmailMachineSequenceController extends Controller
         // Buscar a máquina
         $emailMachine = EmailMachine::findOrFail($emailMachineId);
 
-        // Recuperar as sequências desta máquina com seus e-mails
+        // Recuperar as sequências desta máquina com seus e-mails ordenados
         $sequences = EmailMachineSequence::where('email_machine_id', $emailMachineId)
-            ->with('emails')
+            ->with(['emails' => function($query) {
+                $query->orderBy('order', 'ASC');
+            }])
             ->orderBy('id', 'ASC')
             ->get();
 

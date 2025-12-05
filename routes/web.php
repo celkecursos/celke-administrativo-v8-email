@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EmailMachines\EmailMachineController;
 use App\Http\Controllers\EmailMachines\EmailMachineSequenceController;
+use App\Http\Controllers\EmailMachines\EmailSequenceEmailController;
 use App\Http\Controllers\EmailTagController;
 use App\Http\Controllers\EmailUserController;
 use App\Http\Controllers\ProfileController;
@@ -60,6 +61,28 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('/{sequence}/edit', [EmailMachineSequenceController::class, 'edit'])->name('email-machine-sequences.edit')->middleware('permission:edit-email-machine-sequence');
             Route::put('/{sequence}', [EmailMachineSequenceController::class, 'update'])->name('email-machine-sequences.update')->middleware('permission:edit-email-machine-sequence');
             Route::delete('/{sequence}', [EmailMachineSequenceController::class, 'destroy'])->name('email-machine-sequences.destroy')->middleware('permission:destroy-email-machine-sequence');
+            
+            // E-mails da sequência
+            Route::prefix('{sequence}/emails')->group(function () {
+                Route::get('/order', [EmailSequenceEmailController::class, 'order'])->name('email-sequence-emails.order')->middleware('permission:edit-email-sequence-email');
+                Route::put('/order', [EmailSequenceEmailController::class, 'updateOrder'])->name('email-sequence-emails.update-order')->middleware('permission:edit-email-sequence-email');
+                Route::patch('/{email}/move-up', [EmailSequenceEmailController::class, 'moveUp'])->name('email-sequence-emails.move-up')->middleware('permission:edit-email-sequence-email');
+                Route::patch('/{email}/move-down', [EmailSequenceEmailController::class, 'moveDown'])->name('email-sequence-emails.move-down')->middleware('permission:edit-email-sequence-email');
+                Route::get('/create', [EmailSequenceEmailController::class, 'create'])->name('email-sequence-emails.create')->middleware('permission:create-email-sequence-email');
+                Route::post('/', [EmailSequenceEmailController::class, 'store'])->name('email-sequence-emails.store')->middleware('permission:create-email-sequence-email');
+                Route::patch('/{email}/toggle-status', [EmailSequenceEmailController::class, 'toggleStatus'])->name('email-sequence-emails.toggle-status')->middleware('permission:edit-email-sequence-email');
+                Route::get('/{email}', [EmailSequenceEmailController::class, 'show'])->name('email-sequence-emails.show')->middleware('permission:show-email-sequence-email');
+                Route::get('/{email}/dates', [EmailSequenceEmailController::class, 'showDates'])->name('email-sequence-emails.show-dates')->middleware('permission:show-email-sequence-email');
+                Route::get('/{email}/config', [EmailSequenceEmailController::class, 'showConfig'])->name('email-sequence-emails.show-config')->middleware('permission:show-email-sequence-email');
+                Route::get('/{email}/users', [EmailSequenceEmailController::class, 'showUsers'])->name('email-sequence-emails.show-users')->middleware('permission:show-email-sequence-email');
+                Route::get('/{email}/edit', [EmailSequenceEmailController::class, 'edit'])->name('email-sequence-emails.edit')->middleware('permission:edit-email-sequence-email');
+                Route::put('/{email}', [EmailSequenceEmailController::class, 'update'])->name('email-sequence-emails.update')->middleware('permission:edit-email-sequence-email');
+                Route::get('/{email}/edit-dates', [EmailSequenceEmailController::class, 'editDates'])->name('email-sequence-emails.edit-dates')->middleware('permission:edit-email-sequence-email');
+                Route::put('/{email}/dates', [EmailSequenceEmailController::class, 'updateDates'])->name('email-sequence-emails.update-dates')->middleware('permission:edit-email-sequence-email');
+                Route::get('/{email}/edit-config', [EmailSequenceEmailController::class, 'editConfig'])->name('email-sequence-emails.edit-config')->middleware('permission:edit-email-sequence-email');
+                Route::put('/{email}/config', [EmailSequenceEmailController::class, 'updateConfig'])->name('email-sequence-emails.update-config')->middleware('permission:edit-email-sequence-email');
+                Route::delete('/{email}', [EmailSequenceEmailController::class, 'destroy'])->name('email-sequence-emails.destroy')->middleware('permission:destroy-email-sequence-email');
+            });
         });
     });
 

@@ -72,7 +72,8 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 // Função para apresentar o SweetAlert2 para confirmar a exclusão
-window.confirmDelete = function (id) {
+window.confirmDelete = function (id, prefix = '') {
+    const formId = prefix ? 'delete-' + prefix + '-form-' + id : 'delete-form-' + id;
     Swal.fire({
         title: "Tem certeza?",
         text: "Essa ação não pode ser desfeita!",
@@ -84,7 +85,7 @@ window.confirmDelete = function (id) {
         cancelButtonText: "Cancelar",
     }).then((result) => {
         if (result.isConfirmed) {
-            document.getElementById('delete-form-' + id).submit();
+            document.getElementById(formId).submit();
         }
     });
 }

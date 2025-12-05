@@ -88,26 +88,49 @@
                         <!-- Botão Novo E-mail -->
                         <div class="sequence-new-email">
                             @can('create-email-sequence-email')
-                                <button class="btn-success-md align-icon-btn" disabled title="Em breve">
+                                <a href="{{ route('email-sequence-emails.create', ['emailMachine' => $emailMachine->id, 'sequence' => $sequence->id]) }}"
+                                    class="btn-success-md align-icon-btn" title="Novo E-mail">
                                     <x-lucide-plus class="icon-btn" />
                                     <span>Novo E-mail</span>
-                                </button>
+                                </a>
                             @endcan
                         </div>
 
                         <!-- Lista de E-mails -->
                         <div class="emails-list">
-                            @forelse ($sequence->emails as $email)
+                            @forelse ($sequence->emails as $emailIndex => $email)
                                 <div class="email-item">
                                     <div class="email-info">
+                                        <!-- Número da Ordem -->
+                                        <div class="flex items-center justify-center w-8 h-8 bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400 rounded-full font-bold text-sm">
+                                            {{ $email->order }}
+                                        </div>
                                         <x-lucide-mail class="w-5 h-5 text-gray-500 dark:text-gray-400" />
                                         <div>
                                             <p class="email-title">{{ $email->title }}</p>
                                             <div class="flex items-center space-x-2 mt-1">
-                                                <span
-                                                    class="{{ $email->is_active ? 'badge badge-success' : 'badge badge-danger' }}">
-                                                    {{ $email->is_active ? 'Ativo' : 'Inativo' }}
-                                                </span>
+                                                <!-- Botão Ativar/Desativar -->
+                                                @can('edit-email-sequence-email')
+                                                    <form action="{{ route('email-sequence-emails.toggle-status', ['emailMachine' => $emailMachine->id, 'sequence' => $sequence->id, 'email' => $email->id]) }}" 
+                                                        method="POST" class="inline">
+                                                        @csrf
+                                                        @method('PATCH')
+                                                        <button type="submit" 
+                                                            class="btn-{{ $email->is_active ? 'success' : 'danger' }} align-icon-btn" 
+                                                            title="{{ $email->is_active ? 'Desativar' : 'Ativar' }}">
+                                                            @if ($email->is_active)
+                                                                <x-lucide-toggle-right class="w-4 h-4" />
+                                                            @else
+                                                                <x-lucide-toggle-left class="w-4 h-4" />
+                                                            @endif
+                                                            <span>{{ $email->is_active ? 'Ativo' : 'Inativo' }}</span>
+                                                        </button>
+                                                    </form>
+                                                @else
+                                                    <span class="{{ $email->is_active ? 'badge badge-success' : 'badge badge-danger' }}">
+                                                        {{ $email->is_active ? 'Ativo' : 'Inativo' }}
+                                                    </span>
+                                                @endcan
                                                 @if ($email->skip_email)
                                                     <span class="badge badge-warning">Pular</span>
                                                 @endif
@@ -115,17 +138,58 @@
                                         </div>
                                     </div>
 
-                                    <!-- Ações do E-mail (Desabilitadas por enquanto) -->
+                                    <!-- Ações do E-mail -->
                                     <div class="email-actions">
-                                        <button class="btn-primary align-icon-btn" disabled title="Em breve">
-                                            <x-lucide-eye class="w-4 h-4" />
-                                        </button>
-                                        <button class="btn-warning align-icon-btn" disabled title="Em breve">
-                                            <x-lucide-pencil class="w-4 h-4" />
-                                        </button>
-                                        <button class="btn-danger align-icon-btn" disabled title="Em breve">
-                                            <x-lucide-trash class="w-4 h-4" />
-                                        </button>
+                                        @can('edit-email-sequence-email')
+                                            <!-- Botão Subir -->
+                                            <form action="{{ route('email-sequence-emails.move-up', ['emailMachine' => $emailMachine->id, 'sequence' => $sequence->id, 'email' => $email->id]) }}"
+                                                method="POST" class="inline-block">
+                                                @csrf
+                                                @method('PATCH')
+                                                <button type="submit" 
+                                                    class="btn-secondary align-icon-btn" 
+                                                    title="Subir"
+                                                    {{ $emailIndex === 0 ? 'disabled' : '' }}>
+                                                    <x-lucide-arrow-up class="w-4 h-4" />
+                                                </button>
+                                            </form>
+                                            <!-- Botão Descer -->
+                                            <form action="{{ route('email-sequence-emails.move-down', ['emailMachine' => $emailMachine->id, 'sequence' => $sequence->id, 'email' => $email->id]) }}"
+                                                method="POST" class="inline-block">
+                                                @csrf
+                                                @method('PATCH')
+                                                <button type="submit" 
+                                                    class="btn-secondary align-icon-btn" 
+                                                    title="Descer"
+                                                    {{ $emailIndex === count($sequence->emails) - 1 ? 'disabled' : '' }}>
+                                                    <x-lucide-arrow-down class="w-4 h-4" />
+                                                </button>
+                                            </form>
+                                        @endcan
+                                        @can('show-email-sequence-email')
+                                            <a href="{{ route('email-sequence-emails.show', ['emailMachine' => $emailMachine->id, 'sequence' => $sequence->id, 'email' => $email->id]) }}"
+                                                class="btn-primary align-icon-btn" title="Visualizar">
+                                                <x-lucide-eye class="w-4 h-4" />
+                                            </a>
+                                        @endcan
+                                        @can('edit-email-sequence-email')
+                                            <a href="{{ route('email-sequence-emails.edit', ['emailMachine' => $emailMachine->id, 'sequence' => $sequence->id, 'email' => $email->id]) }}"
+                                                class="btn-warning align-icon-btn" title="Editar">
+                                                <x-lucide-pencil class="w-4 h-4" />
+                                            </a>
+                                        @endcan
+                                        @can('destroy-email-sequence-email')
+                                            <form id="delete-email-form-{{ $email->id }}"
+                                                action="{{ route('email-sequence-emails.destroy', ['emailMachine' => $emailMachine->id, 'sequence' => $sequence->id, 'email' => $email->id]) }}"
+                                                method="POST" class="inline-block">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="button" onclick="confirmDelete({{ $email->id }}, 'email')" 
+                                                    class="btn-danger align-icon-btn" title="Apagar">
+                                                    <x-lucide-trash class="w-4 h-4" />
+                                                </button>
+                                            </form>
+                                        @endcan
                                     </div>
                                 </div>
                             @empty

@@ -27,6 +27,7 @@ class EmailSequenceEmail extends Model implements Auditable
         'send_window_end_hour',
         'send_window_end_minute',
         'email_machine_sequence_id',
+        'order',
     ];
 
     /**
