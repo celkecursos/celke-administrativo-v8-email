@@ -9,7 +9,7 @@
 
 /* Card geral */
 .profile-card {
-    @apply bg-white dark:bg-gray-900 rounded-xl p-6 text-center
+    @apply bg-white dark:bg-backgroundfourthdark rounded-xl p-6 text-center
            border border-gray-200 dark:border-gray-700 shadow-sm;
 }
 
@@ -19,7 +19,7 @@
 }
 
 .profile-image-container {
-    @apply w-28 h-28 bg-blue-200 dark:bg-gray-900 rounded-full
+    @apply w-28 h-28 bg-blue-200 dark:bg-backgroundfourthdark rounded-full
            flex items-center justify-center relative shadow-lg
            ring-4 ring-white dark:ring-gray-700;
 }
@@ -68,10 +68,10 @@
 
 /* profile cadastrados */
 .profile-box {
-    @apply bg-gradient-to-r from-blue-50 to-indigo-50
-           dark:from-blue-900/20 dark:to-indigo-900/20
+    @apply bg-blue-100
+           dark:bg-backgroundfourthdark
            text-blue-800 dark:text-blue-200 px-4 py-3 rounded-xl
-           border border-blue-200 dark:border-blue-700 shadow-sm;
+           border border-blue-200 dark:border-backgroundfifthdark shadow-sm;
 }
 
 .profile-value {
@@ -84,7 +84,7 @@
 
 /* Card principal "Sobre Mim" */
 .about-me-card {
-    @apply bg-white dark:bg-gray-900 rounded-xl px-6 py-3 border border-gray-200 dark:border-gray-700 shadow-sm;
+    @apply bg-gray-50 dark:bg-backgroundfourthdark rounded-xl px-6 py-3 border border-gray-200 dark:border-gray-700 shadow-sm;
 }
 
 .about-me-card-content {
@@ -133,7 +133,7 @@
 
 /* Cards gerais da coluna direita */
 .right-card {
-    @apply bg-white dark:bg-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700 shadow-sm;
+    @apply bg-gray-50 dark:bg-backgroundfourthdark rounded-xl p-6 border border-gray-200 dark:border-gray-700 shadow-sm;
 }
 
 /* Título dos cards */

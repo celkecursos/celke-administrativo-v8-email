@@ -25,7 +25,7 @@
         <!-- Layout Principal com Menu Lateral e Conteúdo -->
         <div class="form-group-grid-container">
 
-            
+
 
             <!-- Menu Lateral de Configurações -->
             <x-form-sidebar-menu :items="[
@@ -57,11 +57,11 @@
 
                 <!-- Seção Editar Foto -->
                 <div class="profile-section">
-                    <div class="bg-white dark:bg-gray-900 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
-                        <div class="p-4 border-b border-gray-200 dark:border-gray-700">
+                    <div class="sidebar-card">
+                        <div class="sidebar-card-header">
                             <div class="flex items-center justify-between">
                                 <div>
-                                    <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Foto do Perfil</h3>
+                                    <h3 class="sidebar-card-title">Foto do Perfil</h3>
                                 </div>
                             </div>
                         </div>
@@ -91,24 +91,23 @@
                                 @csrf
                                 @method('PUT')
 
-                                <div class="form-group">
+                                <div class="mb-4">
                                     <label for="image" class="form-label">Escolher Nova Foto *</label>
-                                    <input type="file" name="image" id="image" accept="image/*"
-                                        class="form-input" onchange="previewImageUpload()" required>
+                                    <input type="file" name="image" id="image" accept="image/*" class="form-input"
+                                        onchange="previewImageUpload()" required>
                                     <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
                                         Formatos aceitos: JPG ou PNG. Tamanho máximo: 2MB.
                                     </p>
                                 </div>
 
-                                <div class="mt-6 pt-4 border-t border-gray-200 dark:border-gray-700">
-                                    <div class="flex items-center justify-between">
-                                        <button type="submit" class="btn-warning-md align-icon-btn">                                           
-                                            <x-lucide-save class="icon-btn" />
-                                            <span>Salvar</span>
-                                        </button>
-                                        <span class="text-xs text-gray-500 dark:text-gray-400">* Campo obrigatório</span>
-                                    </div>
+                                <div class="mb-4">
+                                    <span class="required-field">* Campo obrigatório</span>
                                 </div>
+
+                                <button type="submit" class="btn-warning-md align-icon-btn">
+                                    <x-lucide-save class="icon-btn" />
+                                    <span>Salvar</span>
+                                </button>
                             </form>
                         </div>
                     </div>

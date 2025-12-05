@@ -10,12 +10,12 @@
 
 /* Card do menu lateral */
 .sidebar-card {
-    @apply bg-white dark:bg-gray-900 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700;
+    @apply bg-gray-50 dark:bg-backgroundfourthdark rounded-lg shadow-sm border border-gray-200 dark:border-backgroundfifthdark;
 }
 
 /* Cabeçalho do card */
 .sidebar-card-header {
-    @apply p-4 border-b border-gray-200 dark:border-gray-700;
+    @apply p-4 border-b border-gray-200 dark:border-backgroundfifthdark;
 }
 
 .sidebar-card-title {

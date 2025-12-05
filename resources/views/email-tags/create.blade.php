@@ -25,11 +25,11 @@
             @csrf
 
             <div class="mb-4">
-                <label for="name" class="form-label">Nome</label>
+                <label for="name" class="form-label">Nome *</label>
                 <input type="text" name="name" id="name" class="form-input"
-                    placeholder="Digite o nome da tag (ex: tag-teste)" value="{{ old('name') }}"
-                    required>
-                <span class="text-xs text-gray-500">Apenas letras minúsculas, números e hífens, sem espaços ou acentos</span>
+                    placeholder="Digite o nome da tag (ex: tag-teste)" value="{{ old('name') }}" required>
+                <span class="text-xs text-gray-500">Apenas letras minúsculas, números e hífens, sem espaços ou
+                    acentos</span>
                 @error('name')
                     <p class="form-input-error">{{ $message }}</p>
                 @enderror
@@ -43,6 +43,10 @@
                 @error('is_active')
                     <p class="form-input-error">{{ $message }}</p>
                 @enderror
+            </div>
+
+            <div class="mb-4">
+                <span class="required-field">* Campo obrigatório</span>
             </div>
 
             <button type="submit" class="btn-success-md align-icon-btn">

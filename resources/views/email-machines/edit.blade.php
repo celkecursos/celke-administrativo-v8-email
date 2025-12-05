@@ -33,7 +33,7 @@
             @method('PUT')
 
             <div class="mb-4">
-                <label for="name" class="form-label">Nome</label>
+                <label for="name" class="form-label">Nome *</label>
                 <input type="text" name="name" id="name" class="form-input" placeholder="Nome da máquina"
                     value="{{ old('name', $emailMachine->name) }}" required>
                 @error('name')
@@ -49,6 +49,10 @@
                 @error('is_active')
                     <p class="form-input-error">{{ $message }}</p>
                 @enderror
+            </div>
+
+            <div class="mb-4">
+                <span class="required-field">* Campo obrigatório</span>
             </div>
 
             <button type="submit" class="btn-warning-md align-icon-btn">

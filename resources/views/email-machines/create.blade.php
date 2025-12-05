@@ -1,7 +1,6 @@
 @extends('layouts.admin')
 
 @section('content')
-
     <!-- Título e Trilha de Navegação -->
     <x-breadcrumb title="Máquinas" :items="[
         ['label' => 'Dashboard', 'url' => route('dashboard.index')],
@@ -27,7 +26,7 @@
             @method('POST')
 
             <div class="mb-4">
-                <label for="name" class="form-label">Nome*</label>
+                <label for="name" class="form-label">Nome *</label>
                 <input type="text" name="name" id="name" class="form-input" placeholder="Nome do curso"
                     value="{{ old('name') }}" required>
                 @error('name')
@@ -43,6 +42,10 @@
                 @error('is_active')
                     <p class="form-input-error">{{ $message }}</p>
                 @enderror
+            </div>
+
+            <div class="mb-4">
+                <span class="required-field">* Campo obrigatório</span>
             </div>
 
             <div class="mt-6">

@@ -243,12 +243,12 @@
 
     /* Input padrão */
     .form-input {
-        @apply border p-2 w-full mt-1 rounded-md border-gray-200 shadow-sm focus:border-gray-300 focus:ring focus:ring-gray-200 focus:outline-none dark:border-gray-600 dark:bg-gray-900 dark:text-gray-200 dark:placeholder-gray-400;
+        @apply border p-2 w-full mt-1 rounded-md border-gray-200 shadow-sm focus:border-gray-300 focus:ring focus:ring-gray-200 focus:outline-none dark:border-gray-600 dark:bg-zinc-800 dark:text-gray-200 dark:placeholder-gray-400;
     }
 
     /* Campo Select padrão */
     .form-select {
-        @apply border p-2 w-full mt-1 rounded-md border-gray-200 shadow-sm bg-white text-gray-900 focus:border-gray-300 focus:ring focus:ring-gray-200 focus:outline-none cursor-pointer dark:border-gray-600 dark:bg-gray-900 dark:text-gray-200 dark:placeholder-gray-400 dark:focus:border-gray-500;
+        @apply border p-2 w-full mt-1 rounded-md border-gray-200 shadow-sm bg-white text-gray-900 focus:border-gray-300 focus:ring focus:ring-gray-200 focus:outline-none cursor-pointer dark:border-gray-600 dark:bg-zinc-800 dark:text-gray-200 dark:placeholder-gray-400 dark:focus:border-gray-500;
     }
 
     /* Input checkbox */
