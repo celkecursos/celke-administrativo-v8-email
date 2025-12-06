@@ -20,7 +20,7 @@
                 'url' => route('email-machine-sequences.index', ['emailMachine' => $emailMachine->id]),
                 'permission' => 'index-email-machine-sequence',
                 'class' => 'btn-info-md align-icon-btn',
-                'icon' => 'lucide-arrow-left',
+                'icon' => 'lucide-list',
             ],
             [
                 'label' => 'Editar',

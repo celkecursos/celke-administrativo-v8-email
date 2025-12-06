@@ -20,7 +20,14 @@
                 'url' => route('email-machine-sequences.index', ['emailMachine' => $emailMachine->id]),
                 'permission' => 'index-email-machine-sequence',
                 'class' => 'btn-info-md align-icon-btn',
-                'icon' => 'lucide-arrow-left',
+                'icon' => 'lucide-list',
+            ],
+            [
+                'label' => 'Visualizar',
+                'url' => route('email-sequence-emails.show', ['emailMachine' => $emailMachine->id, 'sequence' => $sequence->id, 'email' => $email->id]),
+                'permission' => 'edit-email-sequence-email',
+                'class' => 'btn-primary align-icon-btn',
+                'icon' => 'lucide-eye',
             ],
         ]" />
 

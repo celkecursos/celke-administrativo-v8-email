@@ -16,7 +16,7 @@
             'url' => route('email-machines.index'),
             'permission' => 'index-email-machine',
             'class' => 'btn-info-md',
-            'icon' => 'lucide-arrow-left',
+            'icon' => 'lucide-list',
             ],
             [
             'label' => 'Nova Sequência',

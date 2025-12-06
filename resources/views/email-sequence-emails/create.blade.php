@@ -18,7 +18,7 @@
                 'url' => route('email-machine-sequences.index', ['emailMachine' => $emailMachine->id]),
                 'permission' => 'index-email-machine-sequence',
                 'class' => 'btn-info-md',
-                'icon' => 'lucide-arrow-left',
+                'icon' => 'lucide-list',
             ],
         ]" />
 
