@@ -35,6 +35,7 @@ class EmailMachineSequenceRequest extends FormRequest
         return [
             'name' => 'required',
             'email_machine_id' => 'required|exists:email_machines,id',
+            'is_active' => 'required|boolean',
         ];
     }
 
@@ -49,6 +50,8 @@ class EmailMachineSequenceRequest extends FormRequest
             'name.required' => "Campo nome é obrigatório!",
             'email_machine_id.required' => "Campo máquina é obrigatório!",
             'email_machine_id.exists' => "Máquina selecionada não existe!",
+            'is_active.required' => 'O campo situação é obrigatório.',
+            'is_active.boolean' => 'O campo situação deve ser ativo ou inativo.',
         ];
     }
 }

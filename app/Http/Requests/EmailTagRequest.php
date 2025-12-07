@@ -16,32 +16,22 @@ class EmailTagRequest extends FormRequest
     }
 
     /**
-     * Prepare the data for validation.
-     */
-    protected function prepareForValidation(): void
-    {
-        // Remove espaços em branco e converte para minúsculas
-        if ($this->has('name')) {
-            $this->merge([
-                'name' => Str::lower(str_replace(' ', '', $this->name)),
-            ]);
-        }
-    }
-
-    /**
      * Get the validation rules that apply to the request.
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
     public function rules(): array
     {
+        $emailTag = $this->route('emailTag'); // Obtém o modelo EmailTag da rota, se existir (para edição)
+
         return [
             'name' => [
                 'required',
                 'regex:/^[a-z0-9\-]+$/', // Apenas letras minúsculas, números e hífens, sem espaços ou caracteres especiais
                 'max:255',
+                'unique:email_tags,name,' . ($emailTag ? $emailTag->id : 'null'),
             ],
-            'is_active' => 'nullable|boolean',
+            'is_active' => 'required|boolean',
         ];
     }
 
@@ -54,7 +44,9 @@ class EmailTagRequest extends FormRequest
             'name.required' => 'O campo nome é obrigatório.',
             'name.regex' => 'O campo nome deve conter apenas letras minúsculas, números e hífens, sem espaços ou caracteres especiais.',
             'name.max' => 'O campo nome não pode ter mais de :max caracteres.',
-            'is_active.boolean' => 'O campo status deve ser verdadeiro ou falso.',
+            'name.unique' => "A tag com esse nome já está cadastrada!",
+            'is_active.required' => 'O campo situação é obrigatório.',
+            'is_active.boolean' => 'O campo situação deve ser ativo ou inativo.',
         ];
     }
 }

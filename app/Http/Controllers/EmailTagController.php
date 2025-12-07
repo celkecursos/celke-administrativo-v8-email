@@ -4,7 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\EmailTagRequest;
 use App\Models\EmailTag;
+use App\Services\SlugService;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class EmailTagController extends Controller
 {
@@ -27,6 +31,9 @@ class EmailTagController extends Controller
         // Buscar os dados do banco de dados, com paginação
         $emailTags = $emailTags->orderBy('id', 'DESC')->paginate(10);
 
+        // Salvar log
+        Log::info('Listar as tag.', ['action_user_id' => Auth::id()]);
+
         // Retornar a view com os dados
         return view('email-tags.index', [
             'emailTags' => $emailTags,
@@ -48,17 +55,33 @@ class EmailTagController extends Controller
      */
     public function store(EmailTagRequest $request)
     {
-        // Validar os dados do formulário através do EmailTagRequest
-        $validated = $request->validated();
+        // Capturar possíveis exceções durante a execução.
+        try {
+            // Gerar o slug utilizando o SlugService
+            $slug = app(SlugService::class)->generate($request->name);
 
-        // Definir o status padrão como ativo se não for fornecido
-        $validated['is_active'] = $request->has('is_active') ? 1 : 0;
+            // Cadastrar no banco de dados
+            $emailTag = EmailTag::create([
+                'name' => $slug,
+                'is_active' => $request->is_active,
+            ]);
 
-        // Cadastrar no banco de dados
-        EmailTag::create($validated);
+            // Salvar log
+            Log::info('Tag cadastrada.', ['id' => $emailTag->id, 'action_user_id' => Auth::id()]);
 
-        // Redirecionar o usuário e enviar a mensagem de sucesso
-        return redirect()->route('email-tags.index')->with('success', 'Tag cadastrada com sucesso!');
+            // Redirecionar o usuário e enviar a mensagem de sucesso
+            return redirect()->route('email-tags.index')->with('success', 'Tag cadastrada com sucesso!');
+        } catch (Exception $e) {
+
+            // Salvar log detalhado do erro
+            Log::notice('Tag não cadastrada.', [
+                'error' => $e->getMessage(),
+                'action_user_id' => Auth::id()
+            ]);
+
+            // Redirecionar o usuário, enviar a mensagem de erro
+            return back()->withInput()->with('error', 'Tag não cadastrada!');
+        }
     }
 
     /**
@@ -66,6 +89,13 @@ class EmailTagController extends Controller
      */
     public function show(EmailTag $emailTag)
     {
+
+        // Log para debug
+        Log::info('Visualizar a tag.', [
+            'id' => $emailTag->id,
+            'action_user_id' => Auth::id()
+        ]);
+
         // Retornar a view com os dados
         return view('email-tags.show', [
             'emailTag' => $emailTag,
@@ -88,17 +118,31 @@ class EmailTagController extends Controller
      */
     public function update(EmailTagRequest $request, EmailTag $emailTag)
     {
-        // Validar os dados do formulário através do EmailTagRequest
-        $validated = $request->validated();
+        // Capturar possíveis exceções durante a execução.
+        try {
 
-        // Atualizar o status
-        $validated['is_active'] = $request->has('is_active') ? 1 : 0;
+            // Gerar o slug utilizando o SlugService
+            $slug = app(SlugService::class)->generate($request->name);
 
-        // Editar as informações no banco de dados
-        $emailTag->update($validated);
+            // Editar as informações no banco de dados
+            $emailTag->update([
+                'name' => $slug,
+                'is_active' => $request->is_active,
+            ]);
 
-        // Redirecionar o usuário e enviar a mensagem de sucesso
-        return redirect()->route('email-tags.index')->with('success', 'Tag editada com sucesso!');
+            // Salvar log
+            Log::info('tag editada.', ['id' => $emailTag->id, 'action_user_id' => Auth::id()]);
+
+            // Redirecionar o usuário e enviar a mensagem de sucesso
+            return redirect()->route('email-tags.index')->with('success', 'Tag editada com sucesso!');
+        } catch (Exception $e) {
+
+            // Salvar log
+            Log::notice('Tag não editada.', ['error' => $e->getMessage()]);
+
+            // Redirecionar o usuário, enviar a mensagem de erro
+            return back()->withInput()->with('error', 'Tag não editada!');
+        }
     }
 
     /**
@@ -106,10 +150,24 @@ class EmailTagController extends Controller
      */
     public function destroy(EmailTag $emailTag)
     {
-        // Apagar o registro do banco de dados
-        $emailTag->delete();
+        // Capturar possíveis exceções durante a execução.
+        try {
+            // Apagar o registro do banco de dados
+            $emailTag->delete();
 
-        // Redirecionar o usuário e enviar a mensagem de sucesso
-        return redirect()->route('email-tags.index')->with('success', 'Tag apagada com sucesso!');
+            // Salvar log
+            Log::info('Tag apagada.', ['id' => $emailTag->id, 'action_user_id' => Auth::id()]);
+
+
+            // Redirecionar o usuário e enviar a mensagem de sucesso
+
+        } catch (Exception $e) {
+
+            // Salvar log
+            Log::notice('Tag não apagada.', ['error' => $e->getMessage(), 'action_user_id' => Auth::id()]);
+
+            // Redirecionar o usuário, enviar a mensagem de erro
+            return back()->withInput()->with('error', 'Tag não apagado!');
+        }
     }
 }

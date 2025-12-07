@@ -5,14 +5,14 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 
 /**
- * Classe de requisição para validação de máquina.
+ * Classe de requisição para validação configuração do conteúdo do e-mail.
  *
  * Responsável por definir as regras de validação e mensagens de erro 
- * para operações relacionadas a máquina, como criação e edição.
+ * para operações relacionadas configuração do conteúdo do e-mail, como criação e edição.
  *
  * @package App\Http\Requests
  */
-class EmailMachineRequest extends FormRequest
+class EmailSequenceEmailConfigRequest extends FormRequest
 {
     /**
      * Determina se o usuário está autorizado a fazer esta requisição.
@@ -33,8 +33,8 @@ class EmailMachineRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required',
             'is_active' => 'required|boolean',
+            'skip_email' => 'required|boolean',
         ];
     }
 
@@ -46,9 +46,10 @@ class EmailMachineRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'name.required' => "Campo nome é obrigatório!",
             'is_active.required' => 'O campo situação é obrigatório.',
-            'is_active.boolean' => 'O campo situação deve ser ativo ou inativo.',
+            'is_active.boolean' => 'O campo situação deve ser sim ou não.',
+            'skip_email.required' => 'O campo pular este e-mail é obrigatório.',
+            'skip_email.boolean' => 'O campo pular este e-mail deve ser ativo ou inativo.',
         ];
     }
 }

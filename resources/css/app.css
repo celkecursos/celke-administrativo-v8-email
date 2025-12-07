@@ -256,8 +256,14 @@
         @apply text-sm text-gray-500 dark:text-gray-400;
     }
 
+    /* Mensagem de erro do campo */
     .form-input-error {
         @apply text-red-500 text-sm mt-1;
+    }
+
+    /* Texto descrição do campo */
+    .form-helper-text{
+        @apply text-sm text-gray-500 dark:text-gray-400 mt-1;
     }
 
     /* Texto campo obrigatório */

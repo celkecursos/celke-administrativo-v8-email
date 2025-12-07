@@ -40,15 +40,19 @@
 
             <!-- Status -->
             <div class="mb-4">
-                <label for="is_active" class="form-label">Sequência Ativa</label>
-                <input type="checkbox" id="is_active" name="is_active" value="1" class="form-input-checkbox"
-                    {{ old('is_active') ? 'checked' : '' }}>
+                <label class="form-label mb-4">Situação *</label>
+                <input type="radio" name="is_active" value="1" id="is_active_true"
+                    {{ old('is_active') == '1' ? 'checked' : '' }}>
+                <label for="is_active_true" class="form-input-checkbox">Ativo</label>
+                <input type="radio" name="is_active" value="0" id="is_active_false"
+                    {{ old('is_active') == '0' ? 'checked' : '' }}>
+                <label for="is_active_false" class="form-input-checkbox">Inativo</label>
                 @error('is_active')
                     <p class="form-input-error">{{ $message }}</p>
                 @enderror
             </div>
 
-            <div class="mt-6">
+            <div class="mt-4">
                 <button type="submit" class="btn-success-md align-icon-btn">
                     <x-lucide-plus-circle class="icon-btn" />
                     <span>Cadastrar</span>

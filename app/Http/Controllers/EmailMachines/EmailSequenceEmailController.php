@@ -3,7 +3,11 @@
 namespace App\Http\Controllers\EmailMachines;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\EmailDeliveryDelayRequest;
+use App\Http\Requests\EmailFixedShippingDateRequest;
+use App\Http\Requests\EmailSequenceEmailConfigRequest;
 use App\Http\Requests\EmailSequenceEmailRequest;
+use App\Http\Requests\EmailSubmissionWindowRequest;
 use App\Models\EmailMachine;
 use App\Models\EmailMachineSequence;
 use App\Models\EmailSequenceEmail;
@@ -361,51 +365,27 @@ class EmailSequenceEmailController extends Controller
             'sequence' => $sequence,
             'email' => $email
         ]);
-    }
+    }  
 
     // Editar no banco de dados as datas do e-mail
-    public function updateDates($emailMachineId, $sequenceId, $id)
+    public function updateDeliveryDelay($emailMachineId, $sequenceId, $id, EmailDeliveryDelayRequest $request)
     {
-        // Validação específica para datas
-        request()->validate([
-            'delay_day' => 'nullable|integer|min:0',
-            'delay_hour' => 'nullable|integer|min:0|max:23',
-            'delay_minute' => 'nullable|integer|min:0|max:59',
-            'fixed_send_datetime' => 'nullable|date',
-            'use_fixed_send_datetime' => 'nullable|boolean',
-            'send_window_start_hour' => 'nullable|integer|min:0|max:23',
-            'send_window_start_minute' => 'nullable|integer|min:0|max:59',
-            'send_window_end_hour' => 'nullable|integer|min:0|max:23',
-            'send_window_end_minute' => 'nullable|integer|min:0|max:59',
-        ]);
 
         // Capturar possíveis exceções durante a execução.
         try {
-            // Log dos dados recebidos
-            Log::info('Dados recebidos para atualização de datas.', [
-                'request_data' => request()->all(),
-                'email_id' => $id,
-                'action_user_id' => Auth::id()
-            ]);
             // Buscar o e-mail
             $email = EmailSequenceEmail::where('email_machine_sequence_id', $sequenceId)
                 ->findOrFail($id);
 
             // Editar as informações do registro no banco de dados
             $email->update([
-                'delay_day' => request('delay_day') ?? 0,
-                'delay_hour' => request('delay_hour') ?? 0,
-                'delay_minute' => request('delay_minute') ?? 0,
-                'fixed_send_datetime' => request('fixed_send_datetime'),
-                'use_fixed_send_datetime' => request('use_fixed_send_datetime') ?? 0,
-                'send_window_start_hour' => request('send_window_start_hour') ?? null,
-                'send_window_start_minute' => request('send_window_start_minute') ?? null,
-                'send_window_end_hour' => request('send_window_end_hour') ?? null,
-                'send_window_end_minute' => request('send_window_end_minute') ?? null,
+                'delay_day' => $request->delay_day ?? 0,
+                'delay_hour' => $request->delay_hour ?? 0,
+                'delay_minute' => $request->delay_minute ?? 0,
             ]);
 
             // Salvar log
-            Log::info('Datas do e-mail editadas.', [
+            Log::info('Data de atraso de envio editado.', [
                 'id' => $email->id,
                 'action_user_id' => Auth::id()
             ]);
@@ -417,18 +397,106 @@ class EmailSequenceEmailController extends Controller
                     'sequence' => $sequenceId,
                     'email' => $id
                 ])
-                ->with('success', 'Datas editadas com sucesso!');
+                ->with('success', 'Data de atraso de envio editado com sucesso!');
         } catch (Exception $e) {
 
             // Salvar log detalhado do erro
-            Log::notice('Datas do e-mail não editadas.', [
+            Log::notice('Data de atraso de envio não editado.', [
                 'error' => $e->getMessage(),
-                'trace' => $e->getTraceAsString(),
                 'action_user_id' => Auth::id()
             ]);
 
             // Redirecionar o usuário, enviar a mensagem de erro
-            return back()->withInput()->with('error', 'Datas não editadas!');
+            return back()->withInput()->with('error', 'Data de atraso de envio não editado!');
+        }
+    }
+
+    // Editar no banco de dados as datas do e-mail
+    public function updateFixedShippingDate($emailMachineId, $sequenceId, $id, EmailFixedShippingDateRequest $request)
+    {
+
+        // Capturar possíveis exceções durante a execução.
+        try {
+            // Buscar o e-mail
+            $email = EmailSequenceEmail::where('email_machine_sequence_id', $sequenceId)
+                ->findOrFail($id);
+
+            // Editar as informações do registro no banco de dados
+            $email->update([
+                'use_fixed_send_datetime' => $request->use_fixed_send_datetime ?? 0,
+                'fixed_send_datetime' => $request->fixed_send_datetime ?? null,
+            ]);
+
+            // Salvar log
+            Log::info('Data fixa de envio do e-mail editada.', [
+                'id' => $email->id,
+                'action_user_id' => Auth::id()
+            ]);
+
+            // Redirecionar o usuário, enviar a mensagem de sucesso
+            return redirect()
+                ->route('email-sequence-emails.edit-dates', [
+                    'emailMachine' => $emailMachineId,
+                    'sequence' => $sequenceId,
+                    'email' => $id
+                ])
+                ->with('success', 'Data fixa de envio do e-mail editada com sucesso!');
+        } catch (Exception $e) {
+
+            // Salvar log detalhado do erro
+            Log::notice('Data fixa de envio do e-mail não editada.', [
+                'error' => $e->getMessage(),
+                'action_user_id' => Auth::id()
+            ]);
+
+            // Redirecionar o usuário, enviar a mensagem de erro
+            return back()->withInput()->with('error', 'Data fixa de envio do e-mail não editada!');
+        }
+    }
+
+    // Editar no banco de dados as datas do e-mail
+    public function updateSubmissionWindow($emailMachineId, $sequenceId, $id, EmailSubmissionWindowRequest $request)
+    {
+
+        // Capturar possíveis exceções durante a execução.
+        try {
+            // Buscar o e-mail
+            $email = EmailSequenceEmail::where('email_machine_sequence_id', $sequenceId)
+                ->findOrFail($id);
+
+            // Editar as informações do registro no banco de dados
+            $email->update([
+                'use_send_window' => $request->use_send_window ?? 0,
+                'send_window_start_hour' => $request->send_window_start_hour ?? null,
+                'send_window_start_minute' => $request->send_window_start_minute ?? null,
+                'send_window_end_hour' => $request->send_window_end_hour ?? null,
+                'send_window_end_minute' => $request->send_window_end_minute ?? null,
+            ]);
+
+            // Salvar log
+            Log::info('Janela de envio de envio do e-mail editada.', [
+                'id' => $email->id,
+                'action_user_id' => Auth::id()
+            ]);
+
+            // Redirecionar o usuário, enviar a mensagem de sucesso
+            return redirect()
+                ->route('email-sequence-emails.edit-dates', [
+                    'emailMachine' => $emailMachineId,
+                    'sequence' => $sequenceId,
+                    'email' => $id
+                ])
+                ->with('success', 'Janela de envio do e-mail editada com sucesso!');
+        } catch (Exception $e) {
+
+            // Salvar log detalhado do erro
+            Log::notice('Janela de envio do e-mail não editada.', [
+                'error' => $e->getMessage(),
+                'action_user_id' => Auth::id()
+            ]);
+
+            // Redirecionar o usuário, enviar a mensagem de erro
+            return back()->withInput()->with('error', 'Janela de envio do e-mail não editada!');
         }
     }
 
@@ -452,13 +520,8 @@ class EmailSequenceEmailController extends Controller
     }
 
     // Editar no banco de dados a configuração do e-mail
-    public function updateConfig($emailMachineId, $sequenceId, $id)
+    public function updateConfig($emailMachineId, $sequenceId, $id, EmailSequenceEmailConfigRequest $request)
     {
-        // Validação específica para configuração
-        request()->validate([
-            'is_active' => 'nullable|boolean',
-            'skip_email' => 'nullable|boolean',
-        ]);
 
         // Capturar possíveis exceções durante a execução.
         try {
@@ -468,8 +531,8 @@ class EmailSequenceEmailController extends Controller
 
             // Editar as informações do registro no banco de dados
             $email->update([
-                'is_active' => request('is_active') ?? 0,
-                'skip_email' => request('skip_email') ?? 0,
+                'is_active' => $request->is_active,
+                'skip_email' => $request->skip_email,
             ]);
 
             // Salvar log

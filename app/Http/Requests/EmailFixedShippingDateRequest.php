@@ -5,14 +5,14 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 
 /**
- * Classe de requisição para validação de máquina.
+ * Classe de requisição para validação configuração da data fixa de envio do e-mail.
  *
  * Responsável por definir as regras de validação e mensagens de erro 
- * para operações relacionadas a máquina, como criação e edição.
+ * para operações relacionadas configuração da data fixa de envio do e-mail, como criação e edição.
  *
  * @package App\Http\Requests
  */
-class EmailMachineRequest extends FormRequest
+class EmailFixedShippingDateRequest extends FormRequest
 {
     /**
      * Determina se o usuário está autorizado a fazer esta requisição.
@@ -33,8 +33,8 @@ class EmailMachineRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required',
-            'is_active' => 'required|boolean',
+            'use_fixed_send_datetime' => 'required|boolean',
+            'fixed_send_datetime' => 'required_if:use_fixed_send_datetime,true|nullable|date',
         ];
     }
 
@@ -46,9 +46,9 @@ class EmailMachineRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'name.required' => "Campo nome é obrigatório!",
-            'is_active.required' => 'O campo situação é obrigatório.',
-            'is_active.boolean' => 'O campo situação deve ser ativo ou inativo.',
+            'use_fixed_send_datetime.required' => 'O campo usar data fixa de envio é obrigatória.',
+            'use_fixed_send_datetime.boolean' => 'O campo usar data fixa de envio deve ser sim ou não.',
+            'fixed_send_datetime.required_if' => 'O campo data e hora é obrigatória.',
         ];
     }
 }

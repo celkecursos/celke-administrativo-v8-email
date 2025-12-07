@@ -78,7 +78,9 @@ Route::group(['middleware' => 'auth'], function () {
                 Route::get('/{email}/edit', [EmailSequenceEmailController::class, 'edit'])->name('email-sequence-emails.edit')->middleware('permission:edit-email-sequence-email');
                 Route::put('/{email}', [EmailSequenceEmailController::class, 'update'])->name('email-sequence-emails.update')->middleware('permission:edit-email-sequence-email');
                 Route::get('/{email}/edit-dates', [EmailSequenceEmailController::class, 'editDates'])->name('email-sequence-emails.edit-dates')->middleware('permission:edit-email-sequence-email');
-                Route::put('/{email}/dates', [EmailSequenceEmailController::class, 'updateDates'])->name('email-sequence-emails.update-dates')->middleware('permission:edit-email-sequence-email');
+                Route::put('/{email}/delivery-delay', [EmailSequenceEmailController::class, 'updateDeliveryDelay'])->name('email-sequence-emails.update-delivery-delay')->middleware('permission:edit-email-sequence-email');
+                Route::put('/{email}/fixed-shipping-date', [EmailSequenceEmailController::class, 'updateFixedShippingDate'])->name('email-sequence-emails.update-fixed-shipping-date')->middleware('permission:edit-email-sequence-email');
+                Route::put('/{email}/submission-window', [EmailSequenceEmailController::class, 'updateSubmissionWindow'])->name('email-sequence-emails.update-submission-window')->middleware('permission:edit-email-sequence-email');
                 Route::get('/{email}/edit-config', [EmailSequenceEmailController::class, 'editConfig'])->name('email-sequence-emails.edit-config')->middleware('permission:edit-email-sequence-email');
                 Route::put('/{email}/config', [EmailSequenceEmailController::class, 'updateConfig'])->name('email-sequence-emails.update-config')->middleware('permission:edit-email-sequence-email');
                 Route::delete('/{email}', [EmailSequenceEmailController::class, 'destroy'])->name('email-sequence-emails.destroy')->middleware('permission:destroy-email-sequence-email');

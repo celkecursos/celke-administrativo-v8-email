@@ -36,9 +36,13 @@
 
             <!-- Status -->
             <div class="mb-4">
-                <label for="name" class="form-label">Máquina Ativa</label>
-                <input type="checkbox" id="is_active" name="is_active" value="1" class="form-input-checkbox"
-                    {{ old('is_active') ? 'checked' : '' }}>
+                <label class="form-label mb-4">Situação *</label>
+                <input type="radio" name="is_active" value="1" id="is_active_true"
+                    {{ old('is_active') == '1' ? 'checked' : '' }}>
+                <label for="is_active_true" class="form-input-checkbox">Ativo</label>
+                <input type="radio" name="is_active" value="0" id="is_active_false"
+                    {{ old('is_active') == '0' ? 'checked' : '' }}>
+                <label for="is_active_false" class="form-input-checkbox">Inativo</label>
                 @error('is_active')
                     <p class="form-input-error">{{ $message }}</p>
                 @enderror
@@ -48,14 +52,9 @@
                 <span class="required-field">* Campo obrigatório</span>
             </div>
 
-            <div class="mt-6">
+            <div class="mt-4">
                 <button type="submit" class="btn-success-md align-icon-btn">
-                    <!-- Ícone plus-circle (Heroicons) -->
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                        stroke="currentColor" class="size-5">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                    </svg>
+                    <x-lucide-plus-circle class="icon-btn" />
                     <span>Cadastrar</span>
                 </button>
             </div>

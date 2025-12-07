@@ -103,6 +103,22 @@
                                 @csrf
                                 @method('PUT')
 
+                                <input type="hidden" name="email_machine_sequence_id" value="{{ $sequence->id }}">
+                                <!-- Preservar valores de data fixa -->
+                                <input type="hidden" name="use_fixed_send_datetime"
+                                    value="{{ $email->use_fixed_send_datetime ?? 0 }}">
+                                <input type="hidden" name="fixed_send_datetime"
+                                    value="{{ $email->fixed_send_datetime ? $email->fixed_send_datetime->format('Y-m-d H:i:s') : '' }}">
+                                <!-- Preservar valores de janela de envio -->
+                                <input type="hidden" name="send_window_start_hour"
+                                    value="{{ $email->send_window_start_hour }}">
+                                <input type="hidden" name="send_window_start_minute"
+                                    value="{{ $email->send_window_start_minute }}">
+                                <input type="hidden" name="send_window_end_hour"
+                                    value="{{ $email->send_window_end_hour }}">
+                                <input type="hidden" name="send_window_end_minute"
+                                    value="{{ $email->send_window_end_minute }}">
+
                                 <div class="three-inputs-per-line">
                                     <div>
                                         <label for="delay_day" class="form-label">Dias</label>
@@ -152,6 +168,12 @@
                                 @csrf
                                 @method('PUT')
 
+                                <input type="hidden" name="email_machine_sequence_id" value="{{ $sequence->id }}">
+                                <!-- Preservar valores de atraso -->
+                                <input type="hidden" name="delay_day" value="{{ $email->delay_day ?? 0 }}">
+                                <input type="hidden" name="delay_hour" value="{{ $email->delay_hour ?? 0 }}">
+                                <input type="hidden" name="delay_minute" value="{{ $email->delay_minute ?? 0 }}">
+
                                 <div class="mb-4">
                                     <label class="form-label mb-4">Usar data fixa de envio *</label>
                                     <input type="radio" name="use_fixed_send_datetime" value="1" id="use_fixed_send_datetime_true"
@@ -200,18 +222,16 @@
                                 @csrf
                                 @method('PUT')
 
-                                <div class="mb-4">
-                                    <label class="form-label mb-4">Usar Janela de Envio *</label>
-                                    <input type="radio" name="use_send_window" value="1" id="use_send_window_true"
-                                        {{ old('use_send_window', $email->use_send_window) == '1' ? 'checked' : '' }}>
-                                    <label for="use_send_window_true" class="form-input-checkbox">Sim</label>
-                                    <input type="radio" name="use_send_window" value="0" id="use_send_window_false"
-                                        {{ old('use_send_window', $email->use_send_window) == '0' ? 'checked' : '' }}>
-                                    <label for="use_send_window_false" class="form-input-checkbox">Não</label>
-                                    @error('use_send_window')
-                                        <p class="form-input-error">{{ $message }}</p>
-                                    @enderror
-                                </div>
+                                <input type="hidden" name="email_machine_sequence_id" value="{{ $sequence->id }}">
+                                <!-- Preservar valores de atraso -->
+                                <input type="hidden" name="delay_day" value="{{ $email->delay_day ?? 0 }}">
+                                <input type="hidden" name="delay_hour" value="{{ $email->delay_hour ?? 0 }}">
+                                <input type="hidden" name="delay_minute" value="{{ $email->delay_minute ?? 0 }}">
+                                <!-- Preservar valores de data fixa -->
+                                <input type="hidden" name="use_fixed_send_datetime"
+                                    value="{{ $email->use_fixed_send_datetime ?? 0 }}">
+                                <input type="hidden" name="fixed_send_datetime"
+                                    value="{{ $email->fixed_send_datetime ? $email->fixed_send_datetime->format('Y-m-d H:i:s') : '' }}">
 
                                 <div class="mb-4">
                                     <label class="form-label">Horário Inicial</label>

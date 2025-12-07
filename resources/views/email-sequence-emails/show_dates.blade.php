@@ -76,7 +76,7 @@
                             <div class="flex items-center justify-between">
                                 <div>
                                     <h3 class="sidebar-card-title">Atraso de Envio</h3>
-                                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Tempo de espera antes de enviar este e-mail</p>
+                                    <p class="form-helper-text">Tempo de espera antes de enviar este e-mail</p>
                                 </div>
                             </div>
                         </div>
@@ -111,7 +111,7 @@
                             <div class="flex items-center justify-between">
                                 <div>
                                     <h3 class="sidebar-card-title">Data Fixa de Envio</h3>
-                                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Envio agendado para data e hora específica</p>
+                                    <p class="form-helper-text">Envio agendado para data e hora específica</p>
                                 </div>
                             </div>
                         </div>
@@ -151,7 +151,7 @@
                             <div class="flex items-center justify-between">
                                 <div>
                                     <h3 class="sidebar-card-title">Janela de Envio</h3>
-                                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Horário permitido para envio do e-mail</p>
+                                    <p class="form-helper-text">Horário permitido para envio do e-mail</p>
                                 </div>
                             </div>
                         </div>

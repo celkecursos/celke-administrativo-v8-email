@@ -32,9 +32,9 @@
 
             <div class="mb-4">
                 <label for="sequence_name" class="form-label">Sequência</label>
-                <input type="text" id="sequence_name" class="form-input bg-gray-100 dark:bg-gray-800 cursor-not-allowed" 
+                <input type="text" id="sequence_name" class="form-input" 
                     value="{{ $sequence->name }}" readonly>
-                <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                <p class="form-helper-text">
                     Este e-mail será adicionado à sequência acima
                 </p>
             </div>
@@ -46,7 +46,7 @@
                 @error('title')
                     <p class="form-input-error">{{ $message }}</p>
                 @enderror
-                <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                <p class="form-helper-text">
                     Após cadastrar, você será redirecionado para editar o conteúdo completo do e-mail
                 </p>
             </div>
@@ -55,7 +55,7 @@
                 <span class="required-field">* Campo obrigatório</span>
             </div>
 
-            <div class="mt-6">
+            <div class="mt-4">
                 <button type="submit" class="btn-success-md align-icon-btn">
                     <x-lucide-plus-circle class="icon-btn" />
                     <span>Cadastrar</span>

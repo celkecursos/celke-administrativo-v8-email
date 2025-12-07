@@ -91,8 +91,8 @@ class EmailMachineSequenceController extends Controller
             // Cadastrar no banco de dados
             $sequence = EmailMachineSequence::create([
                 'email_machine_id' => $emailMachineId,
-                'name' => $request->name,
-                'is_active' => $request->is_active ?? 0,
+                'name' => $request->name,                
+                'is_active' => $request->is_active,
             ]);
 
             // Salvar log
@@ -146,7 +146,7 @@ class EmailMachineSequenceController extends Controller
             // Editar as informações do registro no banco de dados
             $sequence->update([
                 'name' => $request->name,
-                'is_active' => $request->is_active ?? 0,
+                'is_active' => $request->is_active,
             ]);
 
             // Salvar log

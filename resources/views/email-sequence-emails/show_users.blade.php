@@ -69,7 +69,7 @@
                             <div class="flex items-center justify-between">
                                 <div>
                                     <h3 class="sidebar-card-title">Usuários Programados</h3>
-                                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                                    <p class="form-helper-text">
                                         Lista de usuários que receberão este e-mail
                                     </p>
                                 </div>

@@ -23,7 +23,7 @@
             'url' => route('email-machine-sequences.create', ['emailMachine' => $emailMachine->id]),
             'permission' => 'create-email-machine-sequence',
             'class' => 'btn-success-md',
-            'icon' => 'lucide-plus',
+            'icon' => 'lucide-plus-circle',
             ],
         ]" />
 
@@ -90,7 +90,7 @@
                             @can('create-email-sequence-email')
                                 <a href="{{ route('email-sequence-emails.create', ['emailMachine' => $emailMachine->id, 'sequence' => $sequence->id]) }}"
                                     class="btn-success-md align-icon-btn" title="Novo E-mail">
-                                    <x-lucide-plus class="icon-btn" />
+                                    <x-lucide-plus-circle class="icon-btn" />
                                     <span>Novo E-mail</span>
                                 </a>
                             @endcan

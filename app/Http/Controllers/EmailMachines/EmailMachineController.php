@@ -41,7 +41,7 @@ class EmailMachineController extends Controller
     {
 
         // Log para debug
-        Log::info('Visualizar o máquina.', [
+        Log::info('Visualizar a máquina.', [
             'id' => $emailMachine->id, 
             'action_user_id' => Auth::id()
         ]);
@@ -70,14 +70,14 @@ class EmailMachineController extends Controller
             // Cadastrar no banco de dados na tabela máquina
             $emailMachine = EmailMachine::create([
                 'name' => $request->name,
-                'is_active' => $request->is_active ?? 0,
+                'is_active' => $request->is_active,
             ]);
 
             // Salvar log
             Log::info('Máquina cadastrada.', ['id' => $emailMachine->id, 'action_user_id' => Auth::id()]);
 
             // Redirecionar o usuário, enviar a mensagem de sucesso
-            return redirect()->route('email-machines.index')->with('success', 'Máquina cadastrada com sucesso!');
+            return redirect()->route('email-machines.show', ['emailMachine' => $emailMachine->id])->with('success', 'Máquina cadastrada com sucesso!');
         } catch (Exception $e) {
 
             // Salvar log detalhado do erro
@@ -110,7 +110,7 @@ class EmailMachineController extends Controller
             // Editar as informações do registro no banco de dados
             $emailMachine->update([
                 'name' => $request->name,
-                'is_active' => $request->is_active ?? 0,
+                'is_active' => $request->is_active,
             ]);
 
             // Salvar log
@@ -145,10 +145,10 @@ class EmailMachineController extends Controller
         } catch (Exception $e) {
 
             // Salvar log
-            Log::notice('Máquina não editado.', ['error' => $e->getMessage(), 'action_user_id' => Auth::id()]);
+            Log::notice('Máquina não apagada.', ['error' => $e->getMessage(), 'action_user_id' => Auth::id()]);
 
             // Redirecionar o usuário, enviar a mensagem de erro
-            return back()->withInput()->with('error', 'Máquina não apagado!');
+            return back()->withInput()->with('error', 'Máquina não apagada!');
         }
     }
 }
