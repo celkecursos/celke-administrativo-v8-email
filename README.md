@@ -272,7 +272,7 @@ Etapa 3 - Remover o diretório "node_modules".
 
 Alterar a propriedade do diretório.
 ```
-sudo chown -R user:user /home/celke-thanos/htdocs/thanos.celke.com.br
+sudo chown -R user:user /home/celke-leademail/htdocs/leademail.celke.com.br
 ```
 
 Reiniciar Nginx.
@@ -320,7 +320,7 @@ php artisan db:seed
 Comando que será abordado no decorrer das aulas.
 Marcar o diretório como "seguro" para o Git.
 ```
-git config --global --add safe.directory /home/celke-thanos/htdocs/thanos.celke.com.br 
+git config --global --add safe.directory /home/celke-leademail/htdocs/leademail.celke.com.br 
 ```
 
 ## Ativar o JOB no servidor/VPS
@@ -375,7 +375,7 @@ sudo systemctl restart nginx
 
 Acessar o caminho do projeto.
 ```
-cd /home/celke-thanos/htdocs/thanos.celke.com.br
+cd /home/celke-leademail/htdocs/leademail.celke.com.br
 ```
 
 Limpar a fila após deploys que mudam jobs.
