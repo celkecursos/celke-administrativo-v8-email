@@ -696,7 +696,7 @@ git merge <branch_name>
 git merge develop
 ```
 
-Fazer o push das alterações.
+Fazer o push das alterações. 
 ```
 git push origin <branch_name>
 ```
