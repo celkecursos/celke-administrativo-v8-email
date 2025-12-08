@@ -662,15 +662,28 @@ class EmailSequenceEmailController extends Controller
         $sequence = EmailMachineSequence::where('email_machine_id', $emailMachineId)
             ->findOrFail($sequenceId);
         $email = EmailSequenceEmail::where('email_machine_sequence_id', $sequenceId)
-            ->with('emailUser.user') // Carregar relacionamento com usuários
             ->findOrFail($id);
+
+        // Buscar usuários programados com paginação
+        $emailUsers = \App\Models\EmailUser::where('email_sequence_email_id', $id)
+            ->with('user')
+            ->orderBy('id', 'DESC')
+            ->paginate(10)
+            ->withQueryString();
+
+        // Salvar log
+        Log::info('Visualizar usuários programados do e-mail.', [
+            'email_sequence_email_id' => $id,
+            'action_user_id' => Auth::id()
+        ]);
 
         // Carregar a view 
         return view('email-sequence-emails.show_users', [
             'menu' => 'email-machine',
             'emailMachine' => $emailMachine,
             'sequence' => $sequence,
-            'email' => $email
+            'email' => $email,
+            'emailUsers' => $emailUsers
         ]);
     }
 }

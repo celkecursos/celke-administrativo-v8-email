@@ -77,7 +77,7 @@
                         </div>
 
                         <div class="p-4">
-                            @forelse($email->emailUser as $emailUser)
+                            @forelse($emailUsers as $emailUser)
                                 <div class="mb-4 p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
                                     <div class="space-y-3">
                                         <div class="flex items-center justify-between">
@@ -121,6 +121,35 @@
                                                 <span class="badge badge-warning">Pendente</span>
                                             @endif
                                         </div>
+
+                                        <!-- Botões de Ação -->
+                                        <div class="flex items-center space-x-2 pt-2">
+                                            @can('edit-email-user')
+                                                <form action="{{ route('email-users.toggle-status', $emailUser->id) }}" method="POST" class="inline">
+                                                    @csrf
+                                                    @method('PATCH')
+                                                    <button type="submit" class="btn-warning-md align-icon-btn" title="{{ $emailUser->is_active ? 'Desativar' : 'Ativar' }}">
+                                                        @if ($emailUser->is_active)
+                                                            <x-lucide-toggle-right class="icon-btn" />
+                                                        @else
+                                                            <x-lucide-toggle-left class="icon-btn" />
+                                                        @endif
+                                                        <span>{{ $emailUser->is_active ? 'Desativar' : 'Ativar' }}</span>
+                                                    </button>
+                                                </form>
+                                            @endcan
+
+                                            @can('destroy-email-user')
+                                                <form id="delete-form-{{ $emailUser->id }}" action="{{ route('email-users.destroy', $emailUser->id) }}" method="POST" class="inline">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="button" onclick="confirmDelete({{ $emailUser->id }})" class="btn-danger-md align-icon-btn" title="Apagar">
+                                                        <x-lucide-trash class="icon-btn" />
+                                                        <span>Apagar</span>
+                                                    </button>
+                                                </form>
+                                            @endcan
+                                        </div>
                                     </div>
                                 </div>
                             @empty
@@ -129,6 +158,13 @@
                                     Nenhum usuário programado para receber este e-mail.
                                 </div>
                             @endforelse
+
+                            <!-- Paginação -->
+                            @if($emailUsers->hasPages())
+                                <div class="mt-6">
+                                    {{ $emailUsers->links() }}
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </div>
