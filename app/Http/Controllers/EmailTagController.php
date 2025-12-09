@@ -36,6 +36,7 @@ class EmailTagController extends Controller
 
         // Retornar a view com os dados
         return view('email-tags.index', [
+            'menu' => 'email-tags',
             'emailTags' => $emailTags,
             'name' => $name,
         ]);
@@ -47,7 +48,9 @@ class EmailTagController extends Controller
     public function create()
     {
         // Retornar a view
-        return view('email-tags.create');
+        return view('email-tags.create', [
+            'menu' => 'email-tags',
+        ]);
     }
 
     /**
@@ -98,6 +101,7 @@ class EmailTagController extends Controller
 
         // Retornar a view com os dados
         return view('email-tags.show', [
+            'menu' => 'email-tags',
             'emailTag' => $emailTag,
         ]);
     }
@@ -109,6 +113,7 @@ class EmailTagController extends Controller
     {
         // Retornar a view com os dados
         return view('email-tags.edit', [
+            'menu' => 'email-tags',
             'emailTag' => $emailTag,
         ]);
     }

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\EmailAutomationActionController;
 use App\Http\Controllers\EmailMachines\EmailMachineController;
 use App\Http\Controllers\EmailMachines\EmailMachineSequenceController;
 use App\Http\Controllers\EmailMachines\EmailSequenceEmailController;
@@ -109,6 +110,17 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/{emailTag}/edit', [EmailTagController::class, 'edit'])->name('email-tags.edit')->middleware('permission:edit-email-tag');
         Route::put('/{emailTag}', [EmailTagController::class, 'update'])->name('email-tags.update')->middleware('permission:edit-email-tag');
         Route::delete('/{emailTag}', [EmailTagController::class, 'destroy'])->name('email-tags.destroy')->middleware('permission:destroy-email-tag');
+    });
+
+    // Ações Automatizadas
+    Route::prefix('email-automation-actions')->group(function () {
+        Route::get('/', [EmailAutomationActionController::class, 'index'])->name('email-automation-actions.index')->middleware('permission:index-email-automation-action');
+        Route::get('/create', [EmailAutomationActionController::class, 'create'])->name('email-automation-actions.create')->middleware('permission:create-email-automation-action');
+        Route::post('/', [EmailAutomationActionController::class, 'store'])->name('email-automation-actions.store')->middleware('permission:create-email-automation-action');
+        Route::get('/{emailAutomationAction}', [EmailAutomationActionController::class, 'show'])->name('email-automation-actions.show')->middleware('permission:show-email-automation-action');
+        Route::get('/{emailAutomationAction}/edit', [EmailAutomationActionController::class, 'edit'])->name('email-automation-actions.edit')->middleware('permission:edit-email-automation-action');
+        Route::put('/{emailAutomationAction}', [EmailAutomationActionController::class, 'update'])->name('email-automation-actions.update')->middleware('permission:edit-email-automation-action');
+        Route::delete('/{emailAutomationAction}', [EmailAutomationActionController::class, 'destroy'])->name('email-automation-actions.destroy')->middleware('permission:destroy-email-automation-action');
     });
 
 });
