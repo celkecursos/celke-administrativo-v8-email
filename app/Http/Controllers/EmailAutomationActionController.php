@@ -70,7 +70,7 @@ class EmailAutomationActionController extends Controller
             Log::info('Ação automatizada cadastrada.', ['id' => $emailAutomationAction->id, 'action_user_id' => Auth::id()]);
 
             // Redirecionar o usuário e enviar a mensagem de sucesso
-            return redirect()->route('email-automation-actions.index')->with('success', 'Ação automatizada cadastrada com sucesso!');
+            return redirect()->route('email-automation-actions.show', ['emailAutomationAction' => $emailAutomationAction->id])->with('success', 'Ação automatizada cadastrada com sucesso!');
         } catch (Exception $e) {
 
             // Salvar log detalhado do erro
@@ -132,7 +132,7 @@ class EmailAutomationActionController extends Controller
             Log::info('Ação automatizada editada.', ['id' => $emailAutomationAction->id, 'action_user_id' => Auth::id()]);
 
             // Redirecionar o usuário e enviar a mensagem de sucesso
-            return redirect()->route('email-automation-actions.index')->with('success', 'Ação automatizada editada com sucesso!');
+            return redirect()->route('email-automation-actions.show', ['emailAutomationAction' => $emailAutomationAction->id])->with('success', 'Ação automatizada editada com sucesso!');
         } catch (Exception $e) {
 
             // Salvar log
