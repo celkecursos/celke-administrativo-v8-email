@@ -18,7 +18,10 @@ class EmailAutomationTriggerController extends Controller
             'id' => $emailAutomationTrigger->id,
             'action_user_id' => Auth::id()
         ]);
-        return view('email-automation-triggers.show', compact('emailAutomationTrigger'));
+        return view('email-automation-triggers.show', [
+            'emailAutomationTrigger' => $emailAutomationTrigger,
+            'menu'                   => 'email-automation-actions',
+        ]);
     }
 
     public function destroy(EmailAutomationTrigger $emailAutomationTrigger)

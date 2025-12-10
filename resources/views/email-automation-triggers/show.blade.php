@@ -3,9 +3,11 @@
 @section('content')
     <!-- Título e Trilha de Navegação -->
     <x-breadcrumb title="Visualizar Gatilho de Automação" :items="[
-        ['label' => 'Dashboard', 'url' => route('dashboard.index')],
-        ['label' => 'Ações Automatizadas', 'url' => route('email-automation-actions.index')],
-        ['label' => 'Gatilho #' . $emailAutomationTrigger->id],
+    ['label' => 'Dashboard', 'url' => route('dashboard.index')],
+    ['label' => 'Ações Automatizadas', 'url' => route('email-automation-actions.index')],
+    ['label' => $emailAutomationTrigger->action->name ?? 'Ação sem nome',
+     'url'   => route('email-automation-actions.show', $emailAutomationTrigger->action)],
+    ['label' => 'Gatilho #' . $emailAutomationTrigger->id],
     ]" />
 
     <div class="content-box">
@@ -13,9 +15,9 @@
         <x-content-box-header title="Detalhes do Gatilho" :buttons="[
             [
                 'label' => 'Voltar',
-                'url' => url()->previous(),
+                'url'   => route('email-automation-actions.show', $emailAutomationTrigger->action),
                 'class' => 'btn-info-md',
-                'icon' => 'lucide-arrow-left',
+                'icon'  => 'lucide-arrow-left',
             ],
             [
                 'label' => 'Apagar',
