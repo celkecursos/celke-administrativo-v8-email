@@ -6,7 +6,8 @@
     ['label' => 'Dashboard', 'url' => route('dashboard.index')],
     ['label' => 'Ações Automatizadas', 'url' => route('email-automation-actions.index')],
     ['label' => $emailAutomationTrigger->action->name ?? 'Ação sem nome',
-     'url'   => route('email-automation-actions.show', $emailAutomationTrigger->action)],
+     'url'   => route('email-automation-actions.show', $emailAutomationTrigger->automationAction)
+    ],
     ['label' => 'Gatilho #' . $emailAutomationTrigger->id],
     ]" />
 
@@ -15,7 +16,7 @@
         <x-content-box-header title="Detalhes do Gatilho" :buttons="[
             [
                 'label' => 'Voltar',
-                'url'   => route('email-automation-actions.show', $emailAutomationTrigger->action),
+                'url'   => route('email-automation-actions.show', $emailAutomationTrigger->automationAction),
                 'class' => 'btn-info-md',
                 'icon'  => 'lucide-arrow-left',
             ],
@@ -43,8 +44,8 @@
             <div class="mb-1">
                 <span class="title-detail-content">Ação Automatizada: </span>
                 <span class="detail-content">
-                    <a href="{{ route('email-automation-actions.show', $emailAutomationTrigger->action) }}">
-                        {{ $emailAutomationTrigger->action->name ?? 'N/D' }}
+                    <a href="{{ route('email-automation-actions.show', $emailAutomationTrigger->automationAction) }}">
+                        {{ $emailAutomationTrigger->automationAction->name ?? 'N/D' }}
                     </a>
                 </span>
             </div>

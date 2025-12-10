@@ -12,7 +12,12 @@ class EmailAutomationTriggerController extends Controller
 {
     public function show(EmailAutomationTrigger $emailAutomationTrigger)
     {
-        $emailAutomationTrigger->load(['action', 'filterType', 'actionType']);
+        // Carrega relacionamentos necessários
+        $emailAutomationTrigger->load([
+            'automationAction',
+            'filterType',
+            'actionType'
+        ]);
 
         Log::info('Visualizar gatilho de automação.', [
             'id' => $emailAutomationTrigger->id,

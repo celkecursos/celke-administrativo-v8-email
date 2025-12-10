@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\EmailAutomationActionRequest;
 use App\Models\EmailAutomationAction;
+use App\Models\EmailAutomationTrigger;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -77,7 +78,6 @@ class EmailAutomationActionController extends Controller
             return redirect()
                 ->route('email-automation-actions.show', $emailAutomationAction)
                 ->with('success', 'Ação automatizada cadastrada com sucesso!');
-
         } catch (Exception $e) {
             // Log detalhado do erro para análise posterior
             Log::notice('Falha ao cadastrar ação automatizada.', [
@@ -96,12 +96,15 @@ class EmailAutomationActionController extends Controller
      */
     public function show(EmailAutomationAction $emailAutomationAction)
     {
-        // Carrega os gatilhos relacionados com os tipos de filtro e ação (evita N+1 queries)
-        $emailAutomationAction->load([
-            'triggers' => function ($query) {
-                $query->with(['filterType', 'actionType'])->orderBy('id', 'asc');
-            }
-        ]);
+        // Carrega os gatilhos relacionados à ação automatizada
+        $emailAutomationTriggers = EmailAutomationTrigger::with([
+            'automationAction',
+            'filterType',
+            'actionType'
+        ])
+            ->where('email_automation_action_id', $emailAutomationAction->id)
+            ->orderBy('id', 'asc')
+            ->get();
 
         // Registra visualização detalhada da ação
         Log::info('Visualização detalhada da ação automatizada.', [
@@ -112,7 +115,8 @@ class EmailAutomationActionController extends Controller
         return view('email-automation-actions.show', [
             'menu'                  => 'email-automation-actions',
             'emailAutomationAction' => $emailAutomationAction,
-            'triggers'              => $emailAutomationAction->triggers,
+            // 'triggers'              => $emailAutomationAction->triggers,
+            'emailAutomationTriggers'              => $emailAutomationTriggers,
         ]);
     }
 
@@ -153,7 +157,6 @@ class EmailAutomationActionController extends Controller
             return redirect()
                 ->route('email-automation-actions.show', $emailAutomationAction)
                 ->with('success', 'Ação automatizada editada com sucesso!');
-
         } catch (Exception $e) {
             Log::notice('Falha ao editar ação automatizada.', [
                 'error'          => $e->getMessage(),
@@ -184,7 +187,6 @@ class EmailAutomationActionController extends Controller
             return redirect()
                 ->route('email-automation-actions.index')
                 ->with('success', 'Ação automatizada apagada com sucesso!');
-
         } catch (Exception $e) {
             Log::notice('Falha ao excluir ação automatizada.', [
                 'error'          => $e->getMessage(),

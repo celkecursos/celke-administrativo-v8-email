@@ -101,21 +101,21 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse ($triggers as $trigger)
+                    @forelse ($emailAutomationTriggers as $emailAutomationTrigger)
                         <tr class="table-row-body">
-                            <td class="table-body">{{ $trigger->id }}</td>
-                            <td class="table-body">{{ $trigger->emailFilterType->name ?? 'N/A' }}</td>
-                            <td class="table-body">{{ $trigger->emailActionType->name ?? 'N/A' }}</td>
+                            <td class="table-body">{{ $emailAutomationTrigger->id }}</td>
+                            <td class="table-body">{{ $emailAutomationTrigger->filterType->name ?? 'N/A' }}</td>
+                            <td class="table-body">{{ $emailAutomationTrigger->actionType->name ?? 'N/A' }}</td>
                             <td class="table-body">
-                                <span class="{{ $trigger->is_active ? 'badge badge-success' : 'badge badge-danger' }}">
-                                    {{ $trigger->is_active ? 'Ativo' : 'Inativo' }}
+                                <span class="{{ $emailAutomationTrigger->is_active ? 'badge badge-success' : 'badge badge-danger' }}">
+                                    {{ $emailAutomationTrigger->is_active ? 'Ativo' : 'Inativo' }}
                                 </span>
                             </td>
                             <td class="table-actions">
                                 <div class="table-actions-align">
                                     <!-- Botão Visualizar -->
                                     @can('show-email-automation-trigger')
-                                        <a href="{{ route('email-automation-triggers.show', $trigger->id) }}" class="btn-primary-md align-icon-btn" title="Visualizar">
+                                        <a href="{{ route('email-automation-triggers.show', $emailAutomationTrigger->id) }}" class="btn-primary-md align-icon-btn" title="Visualizar">
                                             <x-lucide-eye class="icon-btn" />
                                             <span>Visualizar</span>
                                         </a>
@@ -123,10 +123,10 @@
 
                                     <!-- Botão Apagar -->
                                     @can('destroy-email-automation-trigger')
-                                        <form id="delete-form-{{ $trigger->id }}" action="{{ route('email-automation-triggers.destroy', $trigger->id) }}" method="POST" class="inline">
+                                        <form id="delete-form-{{ $emailAutomationTrigger->id }}" action="{{ route('email-automation-triggers.destroy', $emailAutomationTrigger->id) }}" method="POST" class="inline">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="button" onclick="confirmDelete({{ $trigger->id }})" class="btn-danger-md align-icon-btn" title="Apagar">
+                                            <button type="button" onclick="confirmDelete({{ $emailAutomationTrigger->id }})" class="btn-danger-md align-icon-btn" title="Apagar">
                                                 <x-lucide-trash class="icon-btn" />
                                                 <span>Apagar</span>
                                             </button>
