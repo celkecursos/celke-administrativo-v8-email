@@ -12,159 +12,187 @@ use Illuminate\Support\Facades\Log;
 class EmailAutomationActionController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Exibe a listagem paginada de todas as ações automatizadas com filtro por nome
      */
     public function index(Request $request)
     {
-        // Recuperar os valores enviados pelo formulário
+        // Captura o termo de busca enviado pelo formulário (campo nome)
         $name = $request->input('name');
 
-        // Query base
+        // Inicia a query base para ações automatizadas
         $emailAutomationActions = EmailAutomationAction::query();
 
-        // Aplicar filtros se existirem
+        // Aplica filtro por nome (busca parcial, case-insensitive)
         if (!empty($name)) {
             $emailAutomationActions->where('name', 'LIKE', "%{$name}%");
         }
 
-        // Buscar os dados do banco de dados, com paginação
+        // Ordena do mais recente para o mais antigo e aplica paginação (10 por página)
         $emailAutomationActions = $emailAutomationActions->orderBy('id', 'DESC')->paginate(10);
 
-        // Salvar log
-        Log::info('Listar as ações automatizadas.', ['action_user_id' => Auth::id()]);
+        // Registra no log a visualização da listagem
+        Log::info('Listagem de ações automatizadas acessada.', ['action_user_id' => Auth::id()]);
 
-        // Retornar a view com os dados
+        // Retorna a view com os dados e mantém o termo de busca para o campo do formulário
         return view('email-automation-actions.index', [
             'menu' => 'email-automation-actions',
             'emailAutomationActions' => $emailAutomationActions,
-            'name' => $name,
+            'name' => $name, // mantém o filtro ativo após paginação
         ]);
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Exibe o formulário para criação de uma nova ação automatizada
      */
     public function create()
     {
-        // Retornar a view
+        // Registra acesso ao formulário (opcional, mas recomendado para auditoria)
+        Log::info('Formulário de criação de ação automatizada acessado.', ['action_user_id' => Auth::id()]);
+
         return view('email-automation-actions.create', [
             'menu' => 'email-automation-actions',
         ]);
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Salva uma nova ação automatizada no banco de dados
      */
     public function store(EmailAutomationActionRequest $request)
     {
-        // Capturar possíveis exceções durante a execução.
         try {
-            // Cadastrar no banco de dados
+            // Cria o registro no banco com os dados validados pelo Form Request
             $emailAutomationAction = EmailAutomationAction::create([
-                'name' => $request->name,
-                'is_recursive' => $request->is_recursive,
-                'is_active' => $request->is_active,
+                'name'         => $request->name,
+                'is_recursive' => $request->is_recursive ? 1 : 0,
+                'is_active'    => $request->is_active ? 1 : 0,
             ]);
 
-            // Salvar log
-            Log::info('Ação automatizada cadastrada.', ['id' => $emailAutomationAction->id, 'action_user_id' => Auth::id()]);
-
-            // Redirecionar o usuário e enviar a mensagem de sucesso
-            return redirect()->route('email-automation-actions.show', ['emailAutomationAction' => $emailAutomationAction->id])->with('success', 'Ação automatizada cadastrada com sucesso!');
-        } catch (Exception $e) {
-
-            // Salvar log detalhado do erro
-            Log::notice('Ação automatizada não cadastrada.', [
-                'error' => $e->getMessage(),
+            // Log de sucesso com ID do registro criado
+            Log::info('Ação automatizada cadastrada com sucesso.', [
+                'id'             => $emailAutomationAction->id,
                 'action_user_id' => Auth::id()
             ]);
 
-            // Redirecionar o usuário, enviar a mensagem de erro
-            return back()->withInput()->with('error', 'Ação automatizada não cadastrada!');
+            // Redireciona para a tela de visualização com mensagem de sucesso
+            return redirect()
+                ->route('email-automation-actions.show', $emailAutomationAction)
+                ->with('success', 'Ação automatizada cadastrada com sucesso!');
+
+        } catch (Exception $e) {
+            // Log detalhado do erro para análise posterior
+            Log::notice('Falha ao cadastrar ação automatizada.', [
+                'error'          => $e->getMessage(),
+                'action_user_id' => Auth::id(),
+                'request_data'   => $request->except('_token')
+            ]);
+
+            // Volta ao formulário com os dados preenchidos e mensagem de erro
+            return back()->withInput()->with('error', 'Erro ao cadastrar ação automatizada. Tente novamente.');
         }
     }
 
     /**
-     * Display the specified resource.
+     * Exibe os detalhes de uma ação automatizada específica, incluindo seus gatilhos vinculados
      */
     public function show(EmailAutomationAction $emailAutomationAction)
     {
-        // Log para debug
-        Log::info('Visualizar a ação automatizada.', [
-            'id' => $emailAutomationAction->id,
+        // Carrega os gatilhos relacionados com os tipos de filtro e ação (evita N+1 queries)
+        $emailAutomationAction->load([
+            'triggers' => function ($query) {
+                $query->with(['filterType', 'actionType'])->orderBy('id', 'asc');
+            }
+        ]);
+
+        // Registra visualização detalhada da ação
+        Log::info('Visualização detalhada da ação automatizada.', [
+            'id'             => $emailAutomationAction->id,
             'action_user_id' => Auth::id()
         ]);
 
-        // Retornar a view com os dados
         return view('email-automation-actions.show', [
-            'menu' => 'email-automation-actions',
+            'menu'                  => 'email-automation-actions',
             'emailAutomationAction' => $emailAutomationAction,
+            'triggers'              => $emailAutomationAction->triggers,
         ]);
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Exibe o formulário para edição de uma ação automatizada existente
      */
     public function edit(EmailAutomationAction $emailAutomationAction)
     {
-        // Retornar a view com os dados
+        Log::info('Formulário de edição de ação automatizada acessado.', [
+            'id'             => $emailAutomationAction->id,
+            'action_user_id' => Auth::id()
+        ]);
+
         return view('email-automation-actions.edit', [
-            'menu' => 'email-automation-actions',
+            'menu'                  => 'email-automation-actions',
             'emailAutomationAction' => $emailAutomationAction,
         ]);
     }
 
     /**
-     * Update the specified resource in storage.
+     * Atualiza os dados de uma ação automatizada no banco
      */
     public function update(EmailAutomationActionRequest $request, EmailAutomationAction $emailAutomationAction)
     {
-        // Capturar possíveis exceções durante a execução.
         try {
-            // Editar as informações no banco de dados
+            // Atualiza apenas os campos permitidos
             $emailAutomationAction->update([
-                'name' => $request->name,
-                'is_recursive' => $request->is_recursive,
-                'is_active' => $request->is_active,
+                'name'         => $request->name,
+                'is_recursive' => $request->is_recursive ? 1 : 0,
+                'is_active'    => $request->is_active ? 1 : 0,
             ]);
 
-            // Salvar log
-            Log::info('Ação automatizada editada.', ['id' => $emailAutomationAction->id, 'action_user_id' => Auth::id()]);
+            Log::info('Ação automatizada atualizada com sucesso.', [
+                'id'             => $emailAutomationAction->id,
+                'action_user_id' => Auth::id()
+            ]);
 
-            // Redirecionar o usuário e enviar a mensagem de sucesso
-            return redirect()->route('email-automation-actions.show', ['emailAutomationAction' => $emailAutomationAction->id])->with('success', 'Ação automatizada editada com sucesso!');
+            return redirect()
+                ->route('email-automation-actions.show', $emailAutomationAction)
+                ->with('success', 'Ação automatizada editada com sucesso!');
+
         } catch (Exception $e) {
+            Log::notice('Falha ao editar ação automatizada.', [
+                'error'          => $e->getMessage(),
+                'id'             => $emailAutomationAction->id,
+                'action_user_id' => Auth::id()
+            ]);
 
-            // Salvar log
-            Log::notice('Ação automatizada não editada.', ['error' => $e->getMessage()]);
-
-            // Redirecionar o usuário, enviar a mensagem de erro
-            return back()->withInput()->with('error', 'Ação automatizada não editada!');
+            return back()->withInput()->with('error', 'Erro ao editar ação automatizada. Tente novamente.');
         }
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove permanentemente uma ação automatizada do sistema
      */
     public function destroy(EmailAutomationAction $emailAutomationAction)
     {
-        // Capturar possíveis exceções durante a execução.
         try {
-            // Apagar o registro do banco de dados
+            $actionId = $emailAutomationAction->id;
+
+            // Exclui o registro (cuidado: gatilhos relacionados podem precisar de cascade ou soft delete)
             $emailAutomationAction->delete();
 
-            // Salvar log
-            Log::info('Ação automatizada apagada.', ['id' => $emailAutomationAction->id, 'action_user_id' => Auth::id()]);
+            Log::info('Ação automatizada excluída com sucesso.', [
+                'id'             => $actionId,
+                'action_user_id' => Auth::id()
+            ]);
 
-            // Redirecionar o usuário e enviar a mensagem de sucesso
-            return redirect()->route('email-automation-actions.index')->with('success', 'Ação automatizada apagada com sucesso!');
+            return redirect()
+                ->route('email-automation-actions.index')
+                ->with('success', 'Ação automatizada apagada com sucesso!');
+
         } catch (Exception $e) {
+            Log::notice('Falha ao excluir ação automatizada.', [
+                'error'          => $e->getMessage(),
+                'id'             => $emailAutomationAction->id ?? 'indefinido',
+                'action_user_id' => Auth::id()
+            ]);
 
-            // Salvar log
-            Log::notice('Ação automatizada não apagada.', ['error' => $e->getMessage(), 'action_user_id' => Auth::id()]);
-
-            // Redirecionar o usuário, enviar a mensagem de erro
-            return back()->withInput()->with('error', 'Ação automatizada não apagada!');
+            return back()->with('error', 'Erro ao excluir ação automatizada. Pode haver gatilhos vinculados.');
         }
     }
 }

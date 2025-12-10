@@ -20,4 +20,12 @@ class EmailAutomationAction extends Model implements Auditable
         'is_recursive',
         'is_active',
     ];
+    
+    /**
+     * Relação: uma ação automatizada tem vários gatilhos (triggers)
+     */
+    public function triggers()
+    {
+        return $this->hasMany(EmailAutomationTrigger::class, 'email_automation_action_id');
+    }
 }

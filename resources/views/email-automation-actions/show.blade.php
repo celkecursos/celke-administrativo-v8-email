@@ -82,4 +82,78 @@
         </div>
 
     </div>
+
+    <!-- Seção: Gatilhos de Automação -->
+    <div class="content-box mt-6">
+        <div class="content-box-header">
+            <h3 class="content-box-title">Gatilhos de Automação</h3>
+        </div>
+
+        <div class="table-container mt-4">
+            <table class="table">
+                <thead>
+                    <tr class="table-row-header">
+                        <th class="table-header">ID</th>
+                        <th class="table-header">Tipo de Filtro</th>
+                        <th class="table-header">Tipo de Ação</th>
+                        <th class="table-header">Situação</th>
+                        <th class="table-header center">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse ($triggers as $trigger)
+                        <tr class="table-row-body">
+                            <td class="table-body">{{ $trigger->id }}</td>
+                            <td class="table-body">{{ $trigger->emailFilterType->name ?? 'N/A' }}</td>
+                            <td class="table-body">{{ $trigger->emailActionType->name ?? 'N/A' }}</td>
+                            <td class="table-body">
+                                <span class="{{ $trigger->is_active ? 'badge badge-success' : 'badge badge-danger' }}">
+                                    {{ $trigger->is_active ? 'Ativo' : 'Inativo' }}
+                                </span>
+                            </td>
+                            <td class="table-actions">
+                                <div class="table-actions-align">
+                                    <!-- Botão Visualizar -->
+                                    @can('show-email-automation-trigger')
+                                        <a href="{{ route('email-automation-triggers.show', $trigger->id) }}" class="btn-primary-md align-icon-btn" title="Visualizar">
+                                            <x-lucide-eye class="icon-btn" />
+                                            <span>Visualizar</span>
+                                        </a>
+                                    @endcan
+
+                                    <!-- Botão Apagar -->
+                                    @can('destroy-email-automation-trigger')
+                                        <form id="delete-form-{{ $trigger->id }}" action="{{ route('email-automation-triggers.destroy', $trigger->id) }}" method="POST" class="inline">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="button" onclick="confirmDelete({{ $trigger->id }})" class="btn-danger-md align-icon-btn" title="Apagar">
+                                                <x-lucide-trash class="icon-btn" />
+                                                <span>Apagar</span>
+                                            </button>
+                                        </form>
+                                    @endcan
+                                </div>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="5" class="table-body text-center">
+                                <div class="alert-warning">
+                                    Nenhum gatilho encontrado para esta ação automatizada.
+                                </div>
+                            </td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        function confirmDelete(id) {
+            if (confirm('Tem certeza que deseja apagar este gatilho?')) {
+                document.getElementById('delete-form-' + id).submit();
+            }
+        }
+    </script>
 @endsection

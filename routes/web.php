@@ -10,6 +10,7 @@ use App\Http\Controllers\EmailTagController;
 use App\Http\Controllers\EmailUserController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\EmailAutomationTriggerController;
 use Illuminate\Support\Facades\Route;
 
 // Página inicial como redirecionamento para o login
@@ -121,6 +122,17 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/{emailAutomationAction}/edit', [EmailAutomationActionController::class, 'edit'])->name('email-automation-actions.edit')->middleware('permission:edit-email-automation-action');
         Route::put('/{emailAutomationAction}', [EmailAutomationActionController::class, 'update'])->name('email-automation-actions.update')->middleware('permission:edit-email-automation-action');
         Route::delete('/{emailAutomationAction}', [EmailAutomationActionController::class, 'destroy'])->name('email-automation-actions.destroy')->middleware('permission:destroy-email-automation-action');
+    });
+    
+    //Gatilhos de automação de e-mails (Triggers)
+    Route::prefix('email-automation-triggers')->group(function () {
+        Route::get('/{emailAutomationTrigger}', [EmailAutomationTriggerController::class, 'show'])
+             ->name('email-automation-triggers.show')
+             ->middleware('permission:show-email-automation-trigger');
+
+        Route::delete('/{emailAutomationTrigger}', [EmailAutomationTriggerController::class, 'destroy'])
+             ->name('email-automation-triggers.destroy')
+             ->middleware('permission:destroy-email-automation-trigger');
     });
 
 });
