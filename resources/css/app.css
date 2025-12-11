@@ -300,6 +300,11 @@
         @apply dark:text-gray-300;
     }
 
+    /* Título seção detalhes do registro */
+    .subtitle-detail-content{
+        @apply mt-4 mb-2 text-sm text-gray-500 font-bold border-b-2 border-b-gray-100 dark:border-b-gray-600;
+    }
+
     /****** Fim Detalhes registro ******/
 
     /****** Início Botões ******/

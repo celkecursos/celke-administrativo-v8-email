@@ -75,9 +75,11 @@
                     </span>
                 </span>
             </div>
+
             <!-- ==================== FILTROS ==================== -->
-            <div class="mt-4 mb-2"><strong>Filtros Aplicados</strong></div>
-            <hr class="my-2">
+            <div class="subtitle-detail-content">
+                Filtros Aplicados
+            </div>            
 
             <div class="mb-1">
                 <span class="title-detail-content">Máquina de Email:</span>
@@ -95,8 +97,9 @@
             </div>
 
             <!-- ==================== AÇÕES ==================== -->
-            <div class="mt-4 mb-2"><strong>Ações Executadas</strong></div>
-            <hr class="my-2">
+            <div class="subtitle-detail-content">
+                Ações Executadas
+            </div>
 
             <div class="mb-1">
                 <span class="title-detail-content">Adicionar Tag:</span>
@@ -124,8 +127,9 @@
             </div>
 
             <!-- ==================== DATAS ==================== -->
-            <div class="mt-4"></div>
-            <hr class="my-2">
+            <div class="subtitle-detail-content">
+                Datas
+            </div>
             <div class="mb-1">
                 <span class="title-detail-content">Cadastrado em: </span>
                 <span class="detail-content">
