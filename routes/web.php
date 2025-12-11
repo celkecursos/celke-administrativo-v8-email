@@ -130,6 +130,14 @@ Route::group(['middleware' => 'auth'], function () {
              ->name('email-automation-triggers.show')
              ->middleware('permission:show-email-automation-trigger');
 
+        Route::get('/{emailAutomationTrigger}/edit', [EmailAutomationTriggerController::class, 'edit'])
+         ->name('email-automation-triggers.edit')
+         ->middleware('permission:update-email-automation-trigger');
+
+        Route::put('/{emailAutomationTrigger}', [EmailAutomationTriggerController::class, 'update'])
+            ->name('email-automation-triggers.update')
+            ->middleware('permission:update-email-automation-trigger');        
+
         Route::delete('/{emailAutomationTrigger}', [EmailAutomationTriggerController::class, 'destroy'])
              ->name('email-automation-triggers.destroy')
              ->middleware('permission:destroy-email-automation-trigger');

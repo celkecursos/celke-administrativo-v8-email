@@ -121,6 +121,15 @@
                                         </a>
                                     @endcan
 
+                                    <!-- Botão Editar -->
+                                    @can('update-email-automation-trigger')
+                                        <a href="{{ route('email-automation-triggers.edit', $emailAutomationTrigger) }}"
+                                        class="btn-warning-md align-icon-btn" title="Editar">
+                                            <x-lucide-pencil class="icon-btn" />
+                                            <span>Editar</span>
+                                        </a>
+                                    @endcan
+
                                     <!-- Botão Apagar -->
                                     @can('destroy-email-automation-trigger')
                                         <form id="delete-form-{{ $emailAutomationTrigger->id }}" action="{{ route('email-automation-triggers.destroy', $emailAutomationTrigger->id) }}" method="POST" class="inline">

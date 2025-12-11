@@ -5,7 +5,7 @@
     <x-breadcrumb title="Visualizar Gatilho de Automação" :items="[
     ['label' => 'Dashboard', 'url' => route('dashboard.index')],
     ['label' => 'Ações Automatizadas', 'url' => route('email-automation-actions.index')],
-    ['label' => $emailAutomationTrigger->action->name ?? 'Ação sem nome',
+    ['label' => $emailAutomationTrigger->automationAction->name ?? 'Ação sem nome',
      'url'   => route('email-automation-actions.show', $emailAutomationTrigger->automationAction)
     ],
     ['label' => 'Gatilho #' . $emailAutomationTrigger->id],
@@ -19,6 +19,13 @@
                 'url'   => route('email-automation-actions.show', $emailAutomationTrigger->automationAction),
                 'class' => 'btn-info-md',
                 'icon'  => 'lucide-arrow-left',
+            ],
+            [
+                'label' => 'Editar',
+                'url'   => route('email-automation-triggers.edit', $emailAutomationTrigger),
+                'class' => 'btn-warning-md',
+                'icon'  => 'lucide-pencil',
+                'permission' => 'update-email-automation-trigger',
             ],
             [
                 'label' => 'Apagar',
@@ -68,7 +75,57 @@
                     </span>
                 </span>
             </div>
+            <!-- ==================== FILTROS ==================== -->
+            <div class="mt-4 mb-2"><strong>Filtros Aplicados</strong></div>
+            <hr class="my-2">
 
+            <div class="mb-1">
+                <span class="title-detail-content">Máquina de Email:</span>
+                <span class="detail-content">{{ $emailAutomationTrigger->filterEmailMachine->name ?? '—' }}</span>
+            </div>
+
+            <div class="mb-1">
+                <span class="title-detail-content">Sequência da Máquina:</span>
+                <span class="detail-content">{{ $emailAutomationTrigger->filterEmailMachineSequence->name ?? '—' }}</span>
+            </div>
+
+            <div class="mb-1">
+                <span class="title-detail-content">Email da Sequência:</span>
+                <span class="detail-content">{{ $emailAutomationTrigger->filterEmailSequenceEmail->subject ?? '—' }}</span>
+            </div>
+
+            <!-- ==================== AÇÕES ==================== -->
+            <div class="mt-4 mb-2"><strong>Ações Executadas</strong></div>
+            <hr class="my-2">
+
+            <div class="mb-1">
+                <span class="title-detail-content">Adicionar Tag:</span>
+                <span class="detail-content">{{ $emailAutomationTrigger->actionAddEmailTag->name ?? '—' }}</span>
+            </div>
+
+            <div class="mb-1">
+                <span class="title-detail-content">Remover Tag:</span>
+                <span class="detail-content">{{ $emailAutomationTrigger->actionRemoveEmailTag->name ?? '—' }}</span>
+            </div>
+
+            <div class="mb-1">
+                <span class="title-detail-content">Adicionar em Sequência/Email:</span>
+                <span class="detail-content">{{ $emailAutomationTrigger->actionAddEmailSequenceEmail->subject ?? '—' }}</span>
+            </div>
+
+            <div class="mb-1">
+                <span class="title-detail-content">Remover de Sequência/Email:</span>
+                <span class="detail-content">{{ $emailAutomationTrigger->actionRemoveEmailSequenceEmail->subject ?? '—' }}</span>
+            </div>
+
+            <div class="mb-1">
+                <span class="title-detail-content">Remover da Sequência da Máquina:</span>
+                <span class="detail-content">{{ $emailAutomationTrigger->actionRemoveEmailMachineSequence->name ?? '—' }}</span>
+            </div>
+
+            <!-- ==================== DATAS ==================== -->
+            <div class="mt-4"></div>
+            <hr class="my-2">
             <div class="mb-1">
                 <span class="title-detail-content">Cadastrado em: </span>
                 <span class="detail-content">

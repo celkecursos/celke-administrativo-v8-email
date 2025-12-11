@@ -24,6 +24,7 @@ class EmailAutomationTrigger extends Model implements Auditable
         'action_add_email_sequence_email_id',
         'action_remove_email_sequence_email_id',
         'action_remove_email_machine_sequence_id',
+        'is_active',
     ];
 
     /**
