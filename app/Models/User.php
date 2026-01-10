@@ -85,12 +85,6 @@ class User extends Authenticatable implements Auditable
         )->withTimestamps();
     }
 
-    // Usar esse relacionamento no gerenciado de e-mail do CLMS v8
-    public function courseUsers()
-    {
-        return $this->hasMany(CourseUser::class);
-    }
-
     // Formatar o CPF para imprimir na VIEW
     public function getCpfFormattedAttribute()
     {

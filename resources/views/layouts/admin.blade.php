@@ -288,44 +288,6 @@
                         </div>
                     </div>
 
-                    <!-- Dropdown Gestão de Tag CLMS -->
-                    <div x-data="{ open: {{ in_array($menu ?? '', ['clms-email-tag-users']) ? 'true' : 'false' }} }" class="relative">
-                        <button @click="open = !open"
-                            class="sidebar-link w-full flex justify-between items-center cursor-pointer">
-                            <span class="flex items-center space-x-1">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                    stroke-width="1.5" stroke="currentColor" class="size-4">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M4.26 10.147a60.438 60.438 0 0 0-.491 6.347A48.62 48.62 0 0 1 12 20.904a48.62 48.62 0 0 1 8.232-4.41 60.46 60.46 0 0 0-.491-6.347m-15.482 0a50.636 50.636 0 0 0-2.658-.813A59.906 59.906 0 0 1 12 3.493a59.903 59.903 0 0 1 10.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.717 50.717 0 0 1 12 13.489a50.702 50.702 0 0 1 7.74-3.342M6.75 15a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm0 0v-3.675A55.378 55.378 0 0 1 12 8.443m-7.007 11.55A5.981 5.981 0 0 0 6.75 15.75v-1.5" />
-                                </svg>
-                                <span>Gestão de Tag CLMS</span>
-                            </span>
-                            <svg :class="{ 'rotate-180': open }" class="w-4 h-4 transition-transform" fill="none"
-                                stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M19 9l-7 7-7-7" />
-                            </svg>
-                        </button>
-
-                        <!-- Dropdown menu -->
-                        <div x-show="open" x-transition class="ml-0 mt-1 space-y-1">
-                            @can('index-clms-email-tag-user')
-                                <a @class([
-                                    'sidebar-link item-dropdown',
-                                    'active' => isset($menu) && $menu == 'clms-email-tag-users',
-                                ]) href="{{ route('clms-email-tag-users.index') }}">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                        stroke-width="1.5" stroke="currentColor" class="size-4">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 0 0 5.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 0 0 9.568 3Z" />
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 6h.008v.008H6V6Z" />
-                                    </svg>
-                                    <span>Tag</span>
-                                </a>
-                            @endcan
-                        </div>
-                    </div>
-
                     <a href="{{ route('logout') }}" class="sidebar-link">
                         <!-- Ícone arrow-right-circle (Heroicons) -->
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"

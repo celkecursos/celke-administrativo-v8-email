@@ -144,10 +144,4 @@ Route::group(['middleware' => 'auth'], function () {
              ->middleware('permission:destroy-email-automation-trigger');
     });
 
-    // Tags
-    Route::prefix('clms-email-tag-users')->group(function () {
-        Route::get('/', [ClmEmailTagUserController::class, 'index'])->name('clms-email-tag-users.index')->middleware('permission:index-clms-email-tag-user');
-        Route::post('/', [ClmEmailTagUserController::class, 'store'])->name('clms-email-tag-users.store')->middleware('permission:create-clms-email-tag-user');
-    });
-
 });
