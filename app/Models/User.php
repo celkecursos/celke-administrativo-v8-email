@@ -3,6 +3,8 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use App\Models\Clms\CourseUser;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -81,6 +83,12 @@ class User extends Authenticatable implements Auditable
             'user_id',
             'email_tag_id'
         )->withTimestamps();
+    }
+
+    // Usar esse relacionamento no gerenciado de e-mail do CLMS v8
+    public function courseUsers()
+    {
+        return $this->hasMany(CourseUser::class);
     }
 
     // Formatar o CPF para imprimir na VIEW
