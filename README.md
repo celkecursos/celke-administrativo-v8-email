@@ -325,6 +325,69 @@ git config --global --add safe.directory /home/celke-leademail/htdocs/leademail.
 
 ## Ativar o JOB no servidor/VPS
 
+Criar o console responsável por gerar um Job.
+```
+php artisan make:command SendEmailSequence
+```
+
+- Agendar o comando no routes/console.php.
+
+Testar os agendamentos.
+```
+php artisan schedule:run
+```
+
+Ver todos os comandos agendados.
+```
+php artisan schedule:list
+```
+
+Abrir o arquivo para criar um cron diretamente via terminal (SSH) na VPS.
+```
+crontab -e
+```
+
+Criar CRON para ser executado a cada minuto
+```
+* * * * * cd /home/user/htdocs/srv566492.hstgr.cloud && /usr/bin/php8.2 artisan schedule:run >> /dev/null 2>&1
+```
+
+Intervalo de tempo usado no cron.
+```
+* * * * * comando
+│ │ │ │ │
+│ │ │ │ └── Dia da semana (0-7) [0 e 7 = Domingo]
+│ │ │ └──── Mês (1-12)
+│ │ └────── Dia do mês (1-31)
+│ └──────── Hora (0-23)
+└────────── Minuto (0-59)
+```
+
+Reiniciar o serviço de cron.
+```
+sudo service cron restart
+```
+
+Criar o JOB para enviar e-mail.
+```
+php artisan make:job SendEmailSequenceJob
+```
+
+No arquivo .env definir corretamente a fila.
+```
+QUEUE_CONNECTION=database
+```
+
+Iniciar o processamento das filas (queues) no servidor local.
+```
+php artisan queue:work
+```
+
+Testar os agendamentos no servidor local.
+```
+php artisan schedule:run
+```
+
 Atualizar a lista de pacotes disponíveis.
 ```
 sudo apt update
