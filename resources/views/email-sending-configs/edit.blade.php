@@ -77,7 +77,7 @@
 
                                 <div class="mb-4">
                                     <label class="form-label">Provedor *</label>
-                                    <input type="text" name="provider" class="form-input" value="{{ old('provider', $emailSendingConfig->provider) }}" required>
+                                    <input type="text" name="provider" class="form-input" value="{{ old('provider', $emailSendingConfig->provider) }}" placeholder="Provedor" required>
                                     @error('provider')
                                         <p class="form-input-error">{{ $message }}</p>
                                     @enderror
@@ -85,7 +85,7 @@
 
                                 <div class="mb-4">
                                     <label class="form-label">Host *</label>
-                                    <input type="text" name="host" class="form-input" value="{{ old('host', $emailSendingConfig->host) }}" required>
+                                    <input type="text" name="host" class="form-input" value="{{ old('host', $emailSendingConfig->host) }}" placeholder="Host" required>
                                     @error('host')
                                         <p class="form-input-error">{{ $message }}</p>
                                     @enderror
@@ -93,7 +93,7 @@
 
                                 <div class="mb-4">
                                     <label class="form-label">Usuário *</label>
-                                    <input type="text" name="username" class="form-input" value="{{ old('username', $emailSendingConfig->username) }}" required>
+                                    <input type="text" name="username" class="form-input" value="{{ old('username', $emailSendingConfig->username) }}" placeholder="Usuário" required>
                                     @error('username')
                                         <p class="form-input-error">{{ $message }}</p>
                                     @enderror

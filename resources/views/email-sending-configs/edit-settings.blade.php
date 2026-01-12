@@ -89,6 +89,7 @@
                                         class="form-input"
                                         min="1"
                                         value="{{ old('send_quantity_per_request', $emailSendingConfig->send_quantity_per_request) }}"
+                                        placeholder="Quantidade por requisição"
                                     >
                                     @error('send_quantity_per_request')
                                         <p class="form-input-error">{{ $message }}</p>
@@ -104,6 +105,7 @@
                                         class="form-input"
                                         min="1"
                                         value="{{ old('send_quantity_per_hour', $emailSendingConfig->send_quantity_per_hour) }}"
+                                        placeholder="Quantidade por hora"
                                     >
                                     @error('send_quantity_per_hour')
                                         <p class="form-input-error">{{ $message }}</p>

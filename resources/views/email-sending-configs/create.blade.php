@@ -33,6 +33,7 @@
                     id="provider"
                     class="form-input"
                     value="{{ old('provider') }}"
+                    placeholder="Nome do Provedor"
                     required
                 >
                 @error('provider')
@@ -49,6 +50,7 @@
                     id="from_name"
                     class="form-input"
                     value="{{ old('from_name') }}"
+                    placeholder="Nome do Remetente"
                     required
                 >
                 @error('from_name')
@@ -65,6 +67,7 @@
                     id="from_email"
                     class="form-input"
                     value="{{ old('from_email') }}"
+                    placeholder="E-mail do Remetente"
                     required
                 >
                 @error('from_email')
@@ -83,6 +86,7 @@
                     id="send_quantity_per_request"
                     class="form-input"
                     value="{{ old('send_quantity_per_request') }}"
+                    placeholder="Quantidade por Requisição"
                     required
                 >
                 @error('send_quantity_per_request')
@@ -101,6 +105,7 @@
                     id="send_quantity_per_hour"
                     class="form-input"
                     value="{{ old('send_quantity_per_hour') }}"
+                    placeholder="Quantidade por Hora"
                     required
                 >
                 @error('send_quantity_per_hour')
