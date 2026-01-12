@@ -288,6 +288,52 @@
                         </div>
                     </div>
 
+                    <!-- Dropdown Servidor -->
+                    <div x-data="{ open: {{ in_array($menu ?? '', ['email-sending-configs']) ? 'true' : 'false' }} }" class="relative">
+                        <button @click="open = !open"
+                            class="sidebar-link w-full flex justify-between items-center cursor-pointer">
+                            <span class="flex items-center space-x-1">
+                                <!-- Ícone server -->
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                    stroke-width="1.5" stroke="currentColor" class="size-4">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M21 12.75c0 1.243-4.03 2.25-9 2.25s-9-1.007-9-2.25m18 0c0-1.243-4.03-2.25-9-2.25s-9 1.007-9 2.25m18 0V6.75M3 12.75V6.75" />
+                                </svg>
+
+                                <span>Servidor</span>
+                            </span>
+
+                            <svg :class="{ 'rotate-180': open }"
+                                class="w-4 h-4 transition-transform"
+                                fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+
+                        <!-- Item do Dropdown -->
+                        <div x-show="open" x-transition class="ml-0 mt-1 space-y-1">
+
+                            @can('index-email-sending-config')
+                                <a @class([
+                                    'sidebar-link item-dropdown',
+                                    'active' => isset($menu) && $menu == 'email-sending-configs',
+                                ]) href="{{ route('email-sending-configs.index') }}">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        stroke-width="1.5" stroke="currentColor" class="size-4">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M21 12.75c0 1.243-4.03 2.25-9 2.25s-9-1.007-9-2.25" />
+                                    </svg>
+
+                                    <span>Servidor</span>
+                                </a>
+                            @endcan
+
+                        </div>
+                    </div>
+
+
+
                     <a href="{{ route('logout') }}" class="sidebar-link">
                         <!-- Ícone arrow-right-circle (Heroicons) -->
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"

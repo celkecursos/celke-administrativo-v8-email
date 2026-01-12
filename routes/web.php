@@ -7,6 +7,7 @@ use App\Http\Controllers\EmailAutomationActionController;
 use App\Http\Controllers\EmailMachines\EmailMachineController;
 use App\Http\Controllers\EmailMachines\EmailMachineSequenceController;
 use App\Http\Controllers\EmailMachines\EmailSequenceEmailController;
+use App\Http\Controllers\EmailSendingConfigController;
 use App\Http\Controllers\EmailTagController;
 use App\Http\Controllers\EmailUserController;
 use App\Http\Controllers\ProfileController;
@@ -143,5 +144,37 @@ Route::group(['middleware' => 'auth'], function () {
              ->name('email-automation-triggers.destroy')
              ->middleware('permission:destroy-email-automation-trigger');
     });
+
+    // Servidores de E-mail
+    Route::prefix('email-sending-configs')->group(function () {
+        // 📄 Listagem
+        Route::get('/', [EmailSendingConfigController::class, 'index'])->name('email-sending-configs.index')->middleware('permission:index-email-sending-config');
+        // ➕ Criar
+        Route::get('/create', [EmailSendingConfigController::class, 'create'])->name('email-sending-configs.create')->middleware('permission:create-email-sending-config');
+        Route::post('/', [EmailSendingConfigController::class, 'store'])->name('email-sending-configs.store')->middleware('permission:create-email-sending-config');
+        // 👁 Visualizar
+        Route::get('/{emailSendingConfig}', [EmailSendingConfigController::class, 'show'])->name('email-sending-configs.show')->middleware('permission:show-email-sending-config');
+        /*
+        |--------------------------------------------------------------------------
+        | ✏️ EDIÇÕES
+        |--------------------------------------------------------------------------
+        */
+        // 🔹 Credenciais (form principal)
+        Route::get('/{emailSendingConfig}/edit', [EmailSendingConfigController::class, 'edit'])->name('email-sending-configs.edit')->middleware('permission:edit-email-sending-config');
+        Route::put('/{emailSendingConfig}/update-credentials', [EmailSendingConfigController::class, 'update'])->name('email-sending-configs.update-credentials')->middleware('permission:edit-email-sending-config');
+        // 🔹 Senha
+        Route::get('/{emailSendingConfig}/edit-password', [EmailSendingConfigController::class, 'editPassword'])->name('email-sending-configs.edit-password')->middleware('permission:edit-email-sending-config');
+        Route::put('/{emailSendingConfig}/update-password', [EmailSendingConfigController::class, 'updatePassword'])->name('email-sending-configs.update-password')->middleware('permission:edit-email-sending-config');
+        // 🔹 Remetente
+        Route::get('/{emailSendingConfig}/edit-sender', [EmailSendingConfigController::class, 'editSender'])->name('email-sending-configs.edit-sender')->middleware('permission:edit-email-sending-config');
+        Route::put('/{emailSendingConfig}/update-sender', [EmailSendingConfigController::class, 'updateSender'])->name('email-sending-configs.update-sender')->middleware('permission:edit-email-sending-config');
+        // 🔹 Configurações
+        Route::get('/{emailSendingConfig}/edit-settings', [EmailSendingConfigController::class, 'editSettings'])->name('email-sending-configs.edit-settings')->middleware('permission:edit-email-sending-config');
+        Route::put('/{emailSendingConfig}/update-settings', [EmailSendingConfigController::class, 'updateSettings'])->name('email-sending-configs.update-settings')->middleware('permission:edit-email-sending-config');
+        // 🗑 Remover
+        Route::delete('/{emailSendingConfig}', [EmailSendingConfigController::class, 'destroy'])->name('email-sending-configs.destroy')->middleware('permission:destroy-email-sending-config');
+    });
+
+
 
 });
