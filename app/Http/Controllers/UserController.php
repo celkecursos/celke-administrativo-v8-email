@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\EmailTag;
 use App\Models\User;
+use App\Models\UserStatus;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -15,9 +16,13 @@ class UserController extends Controller
     {
         // Recuperar os registros do banco dados
         $users = User::when(
-            $request->filled('name'),
-            fn($query) => $query->whereLike('name', '%' . $request->name . '%')
-        )
+                $request->filled('user_status_id'),
+                fn($query) => $query->where('user_status_id', $request->user_status_id)
+            )
+            ->when(
+                $request->filled('name'),
+                fn($query) => $query->whereLike('name', '%' . $request->name . '%')
+            )
             ->when(
                 $request->filled('email'),
                 fn($query) => $query->whereLike('email', '%' . $request->email . '%')
@@ -68,6 +73,9 @@ class UserController extends Controller
         // Recuperar as tags
         $emailTags = EmailTag::where('is_active', true)->orderBy('name', 'ASC')->get();
 
+        // Recuperar as tags
+        $userStatuses = UserStatus::orderBy('name', 'ASC')->get();
+
         // Salvar log
         Log::info('Listar os usuários.', ['action_user_id' => Auth::id()]);
 
@@ -80,8 +88,10 @@ class UserController extends Controller
             'end_date' => $request->end_date,
             'tagged_or_untagged' => $request->tagged_or_untagged,
             'email_tag_id' => $request->email_tag_id,
+            'user_status_id' => $request->user_status_id,
             'users' => $users,
             'emailTags' => $emailTags,
+            'userStatuses' => $userStatuses,
         ]);
     }
 

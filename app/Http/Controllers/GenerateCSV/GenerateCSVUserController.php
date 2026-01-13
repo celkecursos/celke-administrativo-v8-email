@@ -18,6 +18,7 @@ class GenerateCSVUserController extends Controller
         $start_date = $request->start_date ?? '';
         $end_date = $request->end_date ?? '';
         $tagged_or_untagged = $request->tagged_or_untagged ?? '';
+        $user_status_id = $request->user_status_id ?? '';
         $email_tag_id = $request->email_tag_id ?? [];
 
         // Nome do arquivo CSV
@@ -31,6 +32,7 @@ class GenerateCSVUserController extends Controller
             $start_date,
             $end_date,
             $tagged_or_untagged,
+            $user_status_id,
             $email_tag_id,
             0 // offset inicial
         );

@@ -24,6 +24,7 @@ class GenerateCSVUsersJob implements ShouldQueue
         protected string $start_date = '',
         protected string $end_date = '',
         protected string $tagged_or_untagged = '',
+        protected string $user_status_id = '',
         protected ?array $email_tag_id = null,
         protected int $offset = 0 // Controle de progresso
     ) {}
@@ -37,6 +38,7 @@ class GenerateCSVUsersJob implements ShouldQueue
 
             // Ler os usuários a partir do offset limitado pelo CHUNK_SIZE
             $users = User::query()
+                ->when($this->user_status_id, fn($query) => $query->where('user_status_id', $this->user_status_id))
                 ->when($this->name, fn($query) => $query->whereLike('name', '%' . $this->name . '%'))
                 ->when($this->email, fn($query) => $query->whereLike('email', '%' . $this->email . '%'))
                 ->when($this->start_date, fn($query) => $query->whereDate('created_at', '>=', $this->start_date))
@@ -115,6 +117,7 @@ class GenerateCSVUsersJob implements ShouldQueue
                 $this->start_date,
                 $this->end_date,
                 $this->tagged_or_untagged,
+                $this->user_status_id,
                 $this->email_tag_id,
                 $this->offset + self::CHUNK_SIZE
             ));
