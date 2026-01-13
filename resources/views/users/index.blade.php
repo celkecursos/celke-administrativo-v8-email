@@ -11,22 +11,55 @@
         <x-alert />
 
         <!-- Início Formulário de Pesquisa -->
-        <form class="form-search">
+        <form method="GET">
 
-            <input type="text" name="name" class="form-input" placeholder="Digite o nome"
-                value="{{ $name }}">
+            <div class="form-search mb-4">
+                <input type="text" name="name" class="form-input" placeholder="Digite o nome" value="{{ $name }}">
 
-            <input type="email" name="email" class="form-input" placeholder="Digite o e-mail"
-                value="{{ $email }}">
+                <input type="email" name="email" class="form-input" placeholder="Digite o e-mail"
+                    value="{{ $email }}">
 
-            <input type="date" name="start_date" class="form-input" placeholder="Data de início"
-                value="{{ $start_date }}">
+                <input type="date" name="start_date" class="form-input" placeholder="Data de início"
+                    value="{{ $start_date }}">
 
-            <input type="date" name="end_date" class="form-input" placeholder="Data de fim"
-                value="{{ $end_date }}">
+                <input type="date" name="end_date" class="form-input" placeholder="Data de fim"
+                    value="{{ $end_date }}">
+
+                <select name="tagged_or_untagged" class="form-input">
+                    <option value="">
+                        Selecione com tag ou sem tag
+                    </option>
+                    <option value="1" {{ old('tagged_or_untagged', $tagged_or_untagged) === '1' ? 'selected' : '' }}>
+                        Com TAG
+                    </option>
+                    <option value="0" {{ old('tagged_or_untagged', $tagged_or_untagged) === '0' ? 'selected' : '' }}>
+                        Sem TAG
+                    </option>
+                </select>
+            </div>
+
+            <div class="mb-4">
+                <label for="" class="form-label">Tags</label>
+                <div class="form-search">
+                    @forelse ($emailTags as $emailTag)
+                        <div>
+                            <input type="checkbox" name="email_tag_id[]" id="email_tag_id{{ $emailTag->id }}"
+                                value="{{ $emailTag->id }}"
+                                {{ in_array($emailTag->id, old('email_tag_id', $email_tag_id ?? [])) ? 'checked' : '' }}>
+
+                            <label for="email_tag_id{{ $emailTag->id }}" class="form-input-checkbox">
+                                {{ $emailTag->name }}
+                            </label>
+                        </div>
+                    @empty
+                        <p>Nenhuma tag disponível.</p>
+                    @endforelse
+                </div>
+            </div>
 
             <div class="flex gap-1">
-                <button type="submit" class="btn-primary-md flex items-center space-x-1">
+                <button type="submit" formaction="{{ route('users.index') }}"
+                    class="btn-primary-md flex items-center space-x-1">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="size-5">
                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -34,8 +67,18 @@
                     </svg>
                     <span>Pesquisar</span>
                 </button>
-                <a href="{{ route('users.index') }}" type="submit"
-                    class="btn-warning-md flex items-center space-x-1">
+
+                <button type="submit" formaction="{{ route('users.generate-csv-users') }}"
+                    class="btn-success-md flex items-center space-x-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor" class="size-5">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
+                    </svg>
+                    <span>Exportar</span>
+                </button>
+
+                <a href="{{ route('users.index') }}" type="submit" class="btn-warning-md flex items-center space-x-1">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="size-5">
                         <path stroke-linecap="round" stroke-linejoin="round"
