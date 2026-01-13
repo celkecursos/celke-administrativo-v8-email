@@ -272,7 +272,7 @@ Etapa 3 - Remover o diretório "node_modules".
 
 Alterar a propriedade do diretório.
 ```
-sudo chown -R user:user /home/celke-leademail/htdocs/leademail.celke.com.br
+sudo chown -R celke-leademail:celke-leademail /home/celke-leademail/htdocs/leademail.celke.com.br
 ```
 
 Reiniciar Nginx.

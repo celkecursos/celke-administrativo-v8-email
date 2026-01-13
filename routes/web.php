@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\Clms\ClmEmailTagUserController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EmailAutomationActionController;
 use App\Http\Controllers\EmailMachines\EmailMachineController;
@@ -13,6 +12,7 @@ use App\Http\Controllers\EmailUserController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\EmailAutomationTriggerController;
+use App\Http\Controllers\GenerateCSV\GenerateCSVUserController;
 use Illuminate\Support\Facades\Route;
 
 // Página inicial como redirecionamento para o login
@@ -55,7 +55,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/{emailMachine}/edit', [EmailMachineController::class, 'edit'])->name('email-machines.edit')->middleware('permission:edit-email-machine');
         Route::put('/{emailMachine}', [EmailMachineController::class, 'update'])->name('email-machines.update')->middleware('permission:edit-email-machine');
         Route::delete('/{emailMachine}', [EmailMachineController::class, 'destroy'])->name('email-machines.destroy')->middleware('permission:destroy-role');
-        
+
         // Sequências da máquina
         Route::prefix('{emailMachine}/sequences')->group(function () {
             Route::get('/', [EmailMachineSequenceController::class, 'index'])->name('email-machine-sequences.index')->middleware('permission:index-email-machine-sequence');
@@ -65,7 +65,7 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('/{sequence}/edit', [EmailMachineSequenceController::class, 'edit'])->name('email-machine-sequences.edit')->middleware('permission:edit-email-machine-sequence');
             Route::put('/{sequence}', [EmailMachineSequenceController::class, 'update'])->name('email-machine-sequences.update')->middleware('permission:edit-email-machine-sequence');
             Route::delete('/{sequence}', [EmailMachineSequenceController::class, 'destroy'])->name('email-machine-sequences.destroy')->middleware('permission:destroy-email-machine-sequence');
-            
+
             // E-mails da sequência
             Route::prefix('{sequence}/emails')->group(function () {
                 Route::get('/order', [EmailSequenceEmailController::class, 'order'])->name('email-sequence-emails.order')->middleware('permission:edit-email-sequence-email');
@@ -98,6 +98,9 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/{user}', [UserController::class, 'show'])->name('users.show')->middleware('permission:show-user');
     });
 
+    // Gerar CSV dos usuários
+    Route::get('/generate-csv/users', [GenerateCSVUserController::class, 'generateCSVUsers'])->name('users.generate-csv-users')->middleware('permission:generate-csv-users');
+
     // E-mails do usuário
     Route::prefix('email-users')->group(function () {
         Route::patch('/{emailUser}/toggle-status', [EmailUserController::class, 'toggleStatus'])->name('email-users.toggle-status')->middleware('permission:edit-email-user');
@@ -125,24 +128,24 @@ Route::group(['middleware' => 'auth'], function () {
         Route::put('/{emailAutomationAction}', [EmailAutomationActionController::class, 'update'])->name('email-automation-actions.update')->middleware('permission:edit-email-automation-action');
         Route::delete('/{emailAutomationAction}', [EmailAutomationActionController::class, 'destroy'])->name('email-automation-actions.destroy')->middleware('permission:destroy-email-automation-action');
     });
-    
+
     //Gatilhos de automação de e-mails (Triggers)
     Route::prefix('email-automation-triggers')->group(function () {
         Route::get('/{emailAutomationTrigger}', [EmailAutomationTriggerController::class, 'show'])
-             ->name('email-automation-triggers.show')
-             ->middleware('permission:show-email-automation-trigger');
+            ->name('email-automation-triggers.show')
+            ->middleware('permission:show-email-automation-trigger');
 
         Route::get('/{emailAutomationTrigger}/edit', [EmailAutomationTriggerController::class, 'edit'])
-         ->name('email-automation-triggers.edit')
-         ->middleware('permission:update-email-automation-trigger');
+            ->name('email-automation-triggers.edit')
+            ->middleware('permission:update-email-automation-trigger');
 
         Route::put('/{emailAutomationTrigger}', [EmailAutomationTriggerController::class, 'update'])
             ->name('email-automation-triggers.update')
-            ->middleware('permission:update-email-automation-trigger');        
+            ->middleware('permission:update-email-automation-trigger');
 
         Route::delete('/{emailAutomationTrigger}', [EmailAutomationTriggerController::class, 'destroy'])
-             ->name('email-automation-triggers.destroy')
-             ->middleware('permission:destroy-email-automation-trigger');
+            ->name('email-automation-triggers.destroy')
+            ->middleware('permission:destroy-email-automation-trigger');
     });
 
     // Servidores de E-mail
@@ -174,7 +177,4 @@ Route::group(['middleware' => 'auth'], function () {
         // 🗑 Remover
         Route::delete('/{emailSendingConfig}', [EmailSendingConfigController::class, 'destroy'])->name('email-sending-configs.destroy')->middleware('permission:destroy-email-sending-config');
     });
-
-
-
 });
