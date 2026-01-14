@@ -236,7 +236,7 @@
                     </div>
 
                     <!-- Dropdown Gestão de Contatos -->
-                    <div x-data="{ open: {{ in_array($menu ?? '', ['email-tags', 'email-automation-actions']) ? 'true' : 'false' }} }" class="relative">
+                    <div x-data="{ open: {{ in_array($menu ?? '', ['email-tags', 'email-automation-actions', 'move-email-content']) ? 'true' : 'false' }} }" class="relative">
                         <button @click="open = !open"
                             class="sidebar-link w-full flex justify-between items-center cursor-pointer">
                             <span class="flex items-center space-x-1">
@@ -256,6 +256,21 @@
 
                         <!-- Dropdown menu -->
                         <div x-show="open" x-transition class="ml-0 mt-1 space-y-1">
+
+                            @can('update-move-email-content')
+                                <a @class([
+                                    'sidebar-link item-dropdown',
+                                    'active' => isset($menu) && $menu == 'move-email-content',
+                                ]) href="{{ route('move-email-content.index') }}">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        stroke-width="1.5" stroke="currentColor" class="size-4">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5" />
+                                    </svg>
+                                    <span>Mover E-mail</span>
+                                </a>
+                            @endcan
+
                             @can('index-email-tag')
                                 <a @class([
                                     'sidebar-link item-dropdown',
@@ -303,9 +318,8 @@
                                 <span>Servidor</span>
                             </span>
 
-                            <svg :class="{ 'rotate-180': open }"
-                                class="w-4 h-4 transition-transform"
-                                fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg :class="{ 'rotate-180': open }" class="w-4 h-4 transition-transform" fill="none"
+                                stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M19 9l-7 7-7-7" />
                             </svg>

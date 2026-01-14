@@ -146,7 +146,7 @@ Usar o terminal conectado ao servidor para listar os arquivo.
 cd /caminho-dos-arquivos-no-servidor
 ```
 ```
-cd /home/user/htdocs/srv939001.hstgr.cloud
+cd /home/celke-leademail/htdocs/leademail.celke.com.br
 ```
 
 Listar os arquivo.

@@ -13,6 +13,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\EmailAutomationTriggerController;
 use App\Http\Controllers\GenerateCSV\GenerateCSVUserController;
+use App\Http\Controllers\EmailSequenceEmail\MoveEmailContentController;
 use Illuminate\Support\Facades\Route;
 
 // Página inicial como redirecionamento para o login
@@ -105,6 +106,12 @@ Route::group(['middleware' => 'auth'], function () {
     Route::prefix('email-users')->group(function () {
         Route::patch('/{emailUser}/toggle-status', [EmailUserController::class, 'toggleStatus'])->name('email-users.toggle-status')->middleware('permission:edit-email-user');
         Route::delete('/{emailUser}', [EmailUserController::class, 'destroy'])->name('email-users.destroy')->middleware('permission:destroy-email-user');
+    });
+
+    // Mover o e-mail do conteúdo para o conteúdo selecionado
+    Route::prefix('move-email-content')->group(function () {
+        Route::get('/', [MoveEmailContentController::class, 'index'])->name('move-email-content.index')->middleware('permission:update-move-email-content');
+        Route::get('/update', [MoveEmailContentController::class, 'update'])->name('move-email-content.update')->middleware('permission:update-move-email-content');
     });
 
     // Tags
