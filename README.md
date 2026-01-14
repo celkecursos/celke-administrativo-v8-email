@@ -349,7 +349,7 @@ crontab -e
 
 Criar CRON para ser executado a cada minuto
 ```
-* * * * * cd /home/user/htdocs/srv566492.hstgr.cloud && /usr/bin/php8.2 artisan schedule:run >> /dev/null 2>&1
+* * * * * cd /home/celke-leademail/htdocs/leademail.celke.com.br && /usr/bin/php8.2 artisan schedule:run >> /dev/null 2>&1
 ```
 
 Intervalo de tempo usado no cron.
