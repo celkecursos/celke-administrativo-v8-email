@@ -30,11 +30,18 @@
             {{-- Menu lateral --}}
             <x-form-sidebar-menu :items="[
                 [
-                    'label' => 'Credenciais',
+                    'label' => 'Credenciais SMTP',
                     'url' => route('email-sending-configs.edit', $emailSendingConfig->id),
                     'permission' => 'edit-email-sending-config',
                     'icon' => 'lucide-key',
                     'active' => request()->routeIs('email-sending-configs.edit'),
+                ],
+                [
+                    'label' => 'Credenciais API',
+                    'url' => route('email-sending-configs.edit-api', $emailSendingConfig->id),
+                    'permission' => 'edit-email-sending-config',
+                    'icon' => 'lucide-server-cog',
+                    'active' => request()->routeIs('email-sending-configs.edit-api'),
                 ],
                 [
                     'label' => 'Senha',

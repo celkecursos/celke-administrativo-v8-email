@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\EmailSendingConfigApiRequest;
 use App\Http\Requests\EmailSendingConfigRequest;
 use App\Http\Requests\EmailSendingConfigPasswordRequest;
 use App\Http\Requests\EmailSendingConfigSenderRequest;
@@ -118,12 +119,24 @@ class EmailSendingConfigController extends Controller
     }
 
     /**
-     * Editar - Credenciais
+     * Editar - Credenciais SMTP
      * Campos: provider, host, username
      */
     public function edit(EmailSendingConfig $emailSendingConfig)
     {
         return view('email-sending-configs.edit', [
+            'menu' => 'email-sending-configs',
+            'emailSendingConfig' => $emailSendingConfig,
+        ]);
+    }
+
+    /**
+     * Editar - Credenciais API
+     * Campos: api_user, api_key
+     */
+    public function editApi(EmailSendingConfig $emailSendingConfig)
+    {
+        return view('email-sending-configs.edit-api', [
             'menu' => 'email-sending-configs',
             'emailSendingConfig' => $emailSendingConfig,
         ]);
@@ -201,9 +214,41 @@ class EmailSendingConfigController extends Controller
                 'action_user_id' => Auth::id(),
             ]);
 
-            return redirect()
-                ->route('email-sending-configs.index')
-                ->with('success', 'Credenciais editadas com sucesso!');
+            return back()->with('success', 'Credenciais editadas com sucesso!');
+        } catch (Exception $e) {
+            Log::notice('Credenciais do servidor de e-mail não editadas.', [
+                'error' => $e->getMessage(),
+                'action_user_id' => Auth::id(),
+            ]);
+
+            return back()
+                ->withInput()
+                ->with('error', 'Credenciais não editadas!');
+        }
+    }
+
+    /**
+     * Atualiza as credenciais
+     * Usa apenas EmailSendingConfigRequest (credenciais)
+     */
+    public function updateApi(
+        EmailSendingConfigApiRequest $request,
+        EmailSendingConfig $emailSendingConfig
+    ) {
+        try {
+            // Atualizar apenas campos de credenciais
+            $emailSendingConfig->update([
+                'provider' => $request->provider,
+                'api_user' => $request->api_user,
+                'api_key' => $request->api_key,
+            ]);
+
+            Log::info('Credenciais do servidor de e-mail editadas.', [
+                'id' => $emailSendingConfig->id,
+                'action_user_id' => Auth::id(),
+            ]);
+
+            return back()->with('success', 'Credenciais editadas com sucesso!');
         } catch (Exception $e) {
             Log::notice('Credenciais do servidor de e-mail não editadas.', [
                 'error' => $e->getMessage(),

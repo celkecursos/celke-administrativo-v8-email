@@ -15,6 +15,7 @@ class EmailSequenceEmail extends Model implements Auditable
     protected $fillable = [
         'title',
         'content',
+        'content_text',
         'is_active',
         'skip_email',
         'delay_day',

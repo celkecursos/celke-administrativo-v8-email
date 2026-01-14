@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Jobs\SendEmailSequenceJob;
+use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 
@@ -30,8 +31,9 @@ class SendEmailSequence extends Command
         try {
 
             // Criar o job na fila "emails"
-            SendEmailSequenceJob::dispatch()
-                ->onQueue('emails');
+            // SendEmailSequenceJob::dispatch()
+            //     ->onQueue('emails');
+            SendEmailSequenceJob::dispatch();
 
             $this->info('Job agendado com sucesso.');
 
@@ -39,7 +41,7 @@ class SendEmailSequence extends Command
 
             return Command::SUCCESS;
 
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
 
             Log::error('Erro ao agendar job de envio de e-mail.', [
                 'error' => $e->getMessage()

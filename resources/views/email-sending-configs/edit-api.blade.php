@@ -74,11 +74,11 @@
                     <div class="sidebar-card">
 
                         <div class="sidebar-card-header">
-                            <h3 class="sidebar-card-title">Credenciais SMTP</h3>
+                            <h3 class="sidebar-card-title">Credenciais API</h3>
                         </div>
 
                         <div class="p-4">
-                            <form action="{{ route('email-sending-configs.update-credentials', $emailSendingConfig) }}" method="POST">
+                            <form action="{{ route('email-sending-configs.update-api', $emailSendingConfig) }}" method="POST">
                                 @csrf
                                 @method('PUT')
 
@@ -91,17 +91,17 @@
                                 </div>
 
                                 <div class="mb-4">
-                                    <label class="form-label">Host</label>
-                                    <input type="text" name="host" class="form-input" value="{{ old('host', $emailSendingConfig->host) }}" placeholder="Host do servidor SMTP">
-                                    @error('host')
+                                    <label class="form-label">Usuário da API</label>
+                                    <input type="text" name="api_user" class="form-input" value="{{ old('api_user', $emailSendingConfig->api_user) }}" placeholder="Usuário da API">
+                                    @error('api_user')
                                         <p class="form-input-error">{{ $message }}</p>
                                     @enderror
                                 </div>
 
                                 <div class="mb-4">
-                                    <label class="form-label">Usuário</label>
-                                    <input type="text" name="username" class="form-input" value="{{ old('username', $emailSendingConfig->username) }}" placeholder="Usuário do servidor SMTP">
-                                    @error('username')
+                                    <label class="form-label">Chave da API</label>
+                                    <input type="text" name="api_key" class="form-input" value="{{ old('api_key', $emailSendingConfig->api_key) }}" placeholder="Chave da API">
+                                    @error('api_key')
                                         <p class="form-input-error">{{ $message }}</p>
                                     @enderror
                                 </div>

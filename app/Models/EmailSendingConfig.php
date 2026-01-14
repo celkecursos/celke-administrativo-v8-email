@@ -15,6 +15,8 @@ class EmailSendingConfig extends Model implements Auditable
     // Indicar quais colunas podem ser manipuladas
     protected $fillable = [
         'provider',
+        'api_user',
+        'api_key',
         'host',
         'username',
         'password',

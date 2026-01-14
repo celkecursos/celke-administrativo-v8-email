@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class EmailSendingConfigRequest extends FormRequest
+class EmailSendingConfigApiRequest extends FormRequest
 {
     /**
      * Define se o usuário está autorizado
@@ -34,20 +34,6 @@ class EmailSendingConfigRequest extends FormRequest
                 'max:255',
                 'unique:email_sending_configs,provider,' . ($emailSendingConfig?->id),
             ],
-
-            // Host
-            // 'host' => [
-            //     'nullable',
-            //     'string',
-            //     'max:255',
-            // ],
-
-            // Usuário
-            // 'username' => [
-            //     'nullable',
-            //     'string',
-            //     'max:255',
-            // ],
         ];
     }
 
@@ -61,12 +47,6 @@ class EmailSendingConfigRequest extends FormRequest
             'provider.string' => 'O campo provedor deve ser um texto.',
             'provider.max' => 'O campo provedor não pode ter mais de :max caracteres.',
             'provider.unique' => 'Já existe um servidor cadastrado com este provedor.',
-
-            // 'host.string' => 'O campo host deve ser um texto.',
-            // 'host.max' => 'O campo host não pode ter mais de :max caracteres.',
-
-            // 'username.string' => 'O campo usuário deve ser um texto.',
-            // 'username.max' => 'O campo usuário não pode ter mais de :max caracteres.',
         ];
     }
 }
