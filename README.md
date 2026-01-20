@@ -332,7 +332,7 @@ php artisan make:command SendEmailSequence
 
 - Agendar o comando no routes/console.php.
 
-Testar os agendamentos.
+Testar os agendamentos no servidor local.
 ```
 php artisan schedule:run
 ```
@@ -449,6 +449,15 @@ php artisan queue:clear
 Reiniciar os workers após alteração no código que envolva jobs ou models.
 ```
 php artisan queue:restart
+```
+
+Limpar o cache.
+```
+php artisan route:clear
+php artisan view:clear
+php artisan config:clear
+php artisan cache:clear
+php artisan optimize:clear
 ```
 
 ## Instalar o Node.js no servidor.

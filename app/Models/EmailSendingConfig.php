@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Support\EmailCrypto;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Crypt;
 use OwenIt\Auditing\Contracts\Auditable;
@@ -41,15 +42,22 @@ class EmailSendingConfig extends Model implements Auditable
         'send_quantity_per_hour' => 'integer',
     ];
 
-    // Criptografar ao salvar
-    public function setPasswordAttribute($value)
+    public function setPasswordAttribute($value): void
     {
-        $this->attributes['password'] = Crypt::encryptString($value);
+        if (blank($value)) {
+            $this->attributes['password'] = null;
+            return;
+        }
+
+        $this->attributes['password'] = EmailCrypto::encrypt($value);
     }
 
-    // Descriptografar ao recuperar
-    public function getPasswordAttribute($value)
+    public function getPasswordAttribute($value): ?string
     {
-        return Crypt::decryptString($value);
+        if (blank($value)) {
+            return null;
+        }
+
+        return EmailCrypto::decrypt($value);
     }
 }

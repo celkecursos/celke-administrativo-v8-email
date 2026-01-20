@@ -14,6 +14,9 @@ return [
     */
 
     'name' => env('APP_NAME', 'Celke'),
+    
+    // Chave secreta para criptografia de e-mails
+    'email_secret_key' => env('EMAIL_SECRET_KEY'),
 
     /*
     |--------------------------------------------------------------------------

@@ -9,5 +9,10 @@ use Illuminate\Support\Facades\Schedule;
 // })->purpose('Display an inspiring quote');
 
 
-// Schedule::command('app:send-email-sequence')->everyMinute();
-Schedule::command('app:send-email-sequence')->everyFiveMinutes();
+Schedule::command('app:send-email-sequence')->everyMinute();
+// Schedule::command('app:send-email-sequence')->everyFiveMinutes();
+
+// Schedule::command('app:send-email-sequence')
+//     ->everyFiveMinutes()
+//     ->withoutOverlapping()
+//     ->runInBackground();

@@ -25,7 +25,7 @@
                 <input type="date" name="end_date" class="form-input" placeholder="Data de fim"
                     value="{{ $end_date }}">
 
-                <select name="user_status_id" id="user_status_id" class="form-input" required>
+                <select name="user_status_id" id="user_status_id" class="form-input">
                     <option value="">Selecione o Status</option>
                     @foreach ($userStatuses as $userStatus)
                         <option value="{{ $userStatus->id }}"
@@ -33,9 +33,9 @@
                             {{ $userStatus->name }}
                         </option>
                     @endforeach
-                </select>
+                </select> 
 
-                <select name="tagged_or_untagged" class="form-input">
+                <select name="tagged_or_untagged" class="form-input">  
                     <option value="">
                         Selecione com tag ou sem tag
                     </option>
