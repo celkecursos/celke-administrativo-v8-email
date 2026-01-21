@@ -94,9 +94,21 @@ Route::group(['middleware' => 'auth'], function () {
     });
 
     // Usuários
+    /*Route::prefix('users')->group(function () {
+        Route::get('/', [UserController::class, 'index'])->name('users.index')->middleware('permission:index-user');
+        Route::get('/{user}', [UserController::class, 'show'])->name('users.show')->middleware('permission:show-user');
+    });*/
     Route::prefix('users')->group(function () {
         Route::get('/', [UserController::class, 'index'])->name('users.index')->middleware('permission:index-user');
         Route::get('/{user}', [UserController::class, 'show'])->name('users.show')->middleware('permission:show-user');
+        Route::get('/{user}/details', [UserController::class, 'details'])->name('users.details')->middleware('permission:show-user');
+        Route::get('/{user}/scheduled', [UserController::class, 'scheduled'])->name('users.scheduled')->middleware('permission:show-user');
+        Route::get('/{user}/sent', [UserController::class, 'sent'])->name('users.sent')->middleware('permission:show-user');
+        Route::get('/{user}/failed', [UserController::class, 'failed'])->name('users.failed')->middleware('permission:show-user');
+        Route::get('/{user}/status', [UserController::class, 'status'])->name('users.status')->middleware('permission:show-user');
+        Route::get('/{user}/unsubscribed', [UserController::class, 'unsubscribed'])->name('users.unsubscribed')->middleware('permission:show-user');        
+        Route::patch('/{user}/status', [UserController::class, 'updateStatus'])->name('users.update-status')->middleware('permission:edit-user');  // Assumindo permissão de edição
+        // Rotas de edição separadas, se quiser (ex.: edit-status)
     });
 
     // Gerar CSV dos usuários

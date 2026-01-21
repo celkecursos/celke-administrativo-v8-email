@@ -117,4 +117,147 @@ class UserController extends Controller
             'emailUsers' => $emailUsers
         ]);
     }
+
+    // Página: Dados do Usuário
+    public function details(User $user)
+    {
+        // Carregar as tags do usuário
+        $user->load('emailTags');
+
+        // Log
+        Log::info('Visualizar detalhes do usuário.', [
+            'id' => $user->id,
+            'action_user_id' => Auth::id()
+        ]);
+
+        return view('users.details', [
+            'menu' => 'users',
+            'user' => $user,
+        ]);
+    }
+
+    // Página: E-mails Programados
+    public function scheduled(User $user)
+    {
+        // Carregar os e-mails programados do usuário
+        $emailUsers = $user->emailUser()->with('emailSequenceEmail')->orderBy('id', 'DESC')->get();
+
+        // Log
+        Log::info('Visualizar e-mails programados do usuário.', [
+            'id' => $user->id,
+            'action_user_id' => Auth::id()
+        ]);
+
+        return view('users.scheduled', [
+            'menu' => 'users',
+            'user' => $user,
+            'emailUsers' => $emailUsers,
+        ]);
+    }
+
+    // Página: E-mails Enviados (sem dados, tabela vazia)
+    public function sent(User $user)
+    {
+        // Sem dados (tabela não existe no projeto)
+        $sentEmails = [];
+
+        // Log
+        Log::info('Visualizar e-mails enviados do usuário.', [
+            'id' => $user->id,
+            'action_user_id' => Auth::id()
+        ]);
+
+        return view('users.sent', [
+            'menu' => 'users',
+            'user' => $user,
+            'sentEmails' => $sentEmails,
+        ]);
+    }
+
+    // Página: E-mails Não Enviados (sem dados, tabela vazia)
+    public function failed(User $user)
+    {
+        // Sem dados (tabela não existe no projeto)
+        $failedEmails = [];
+
+        // Log
+        Log::info('Visualizar e-mails não enviados do usuário.', [
+            'id' => $user->id,
+            'action_user_id' => Auth::id()
+        ]);
+
+        return view('users.failed', [
+            'menu' => 'users',
+            'user' => $user,
+            'failedEmails' => $failedEmails,
+        ]);
+    }
+
+    // Página: Status Atual
+    public function status(User $user)
+    {
+        // Carregar o status do usuário
+        $user->load('userStatus');
+
+        // Log
+        Log::info('Visualizar status do usuário.', [
+            'id' => $user->id,
+            'action_user_id' => Auth::id()
+        ]);
+
+        return view('users.status', [
+            'menu' => 'users',
+            'user' => $user,
+        ]);
+    }
+
+    // Página: Descadastros (sem dados, tabela vazia)
+    public function unsubscribed(User $user)
+    {
+        // Sem dados (tabela não existe no projeto)
+        $unsubscribed = [];
+
+        // Log
+        Log::info('Visualizar descadastros do usuário.', [
+            'id' => $user->id,
+            'action_user_id' => Auth::id()
+        ]);
+
+        return view('users.unsubscribed', [
+            'menu' => 'users',
+            'user' => $user,
+            'unsubscribed' => $unsubscribed,
+        ]);
+    }
+
+    // Atualizar o status do usuário
+    public function updateStatus(Request $request, User $user)
+    {
+        // Validar o input
+        $request->validate([
+            'user_status_id' => 'required|exists:user_statuses,id',
+        ]);
+
+        // Atualizar o status do usuário
+        $user->update(['user_status_id' => $request->user_status_id]);
+
+        // Recarregar o usuário do banco para refletir as mudanças
+        $user->refresh();
+
+        // Se o status for 5 ou 6, excluir todos os registros de email_users para este usuário
+        if (in_array($request->user_status_id, [5, 6])) {
+            $user->emailUser()->delete();  // Usa o relacionamento para deletar
+        }
+
+        // Log da ação
+        Log::info('Status do usuário atualizado.', [
+            'user_id' => $user->id,
+            'new_status_id' => $request->user_status_id,
+            'action_user_id' => Auth::id(),
+            'email_users_deleted' => in_array($request->user_status_id, [5, 6]) ? 'Sim' : 'Não',
+        ]);
+
+        // Redirecionar de volta com mensagem de sucesso
+        return redirect()->route('users.status', $user->id)->with('success', 'Status do usuário atualizado com sucesso!');
+    }
 }
