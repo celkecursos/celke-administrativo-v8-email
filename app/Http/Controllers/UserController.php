@@ -250,8 +250,8 @@ class UserController extends Controller
         // Recarregar o usuário do banco para refletir as mudanças
         $user->refresh();
 
-        // Se o status for 5 ou 6, excluir todos os registros de email_users para este usuário
-        if (in_array($request->user_status_id, [5, 6])) {
+        // Se o status for 4 (Spam) ou 5 (Descadastrado), excluir todos os registros de email_users para este usuário
+        if (in_array($request->user_status_id, [4, 5])) {
             $user->emailUser()->delete();  // Usa o relacionamento para deletar
         }
 
@@ -260,7 +260,7 @@ class UserController extends Controller
             'user_id' => $user->id,
             'new_status_id' => $request->user_status_id,
             'action_user_id' => Auth::id(),
-            'email_users_deleted' => in_array($request->user_status_id, [5, 6]) ? 'Sim' : 'Não',
+            'email_users_deleted' => in_array($request->user_status_id, [4, 5]) ? 'Sim' : 'Não',
         ]);
 
         // Redirecionar de volta com mensagem de sucesso
