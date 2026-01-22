@@ -16,9 +16,9 @@ class UserController extends Controller
     {
         // Recuperar os registros do banco dados
         $users = User::when(
-                $request->filled('user_status_id'),
-                fn($query) => $query->where('user_status_id', $request->user_status_id)
-            )
+            $request->filled('user_status_id'),
+            fn($query) => $query->where('user_status_id', $request->user_status_id)
+        )
             ->when(
                 $request->filled('name'),
                 fn($query) => $query->whereLike('name', '%' . $request->name . '%')
@@ -99,7 +99,13 @@ class UserController extends Controller
     public function show(User $user)
     {
         // Carregar os e-mails programados do usuário com o relacionamento
-        $emailUsers = $user->emailUser()->with('emailSequenceEmail')->orderBy('id', 'DESC')->get();
+        $emailUsers = $user->emailUser()
+            ->with([
+                'emailSequenceEmail',
+                'user.userStatus'
+            ])
+            ->orderBy('id', 'DESC')
+            ->get();
 
         // Carregar as tags do usuário
         $user->load('emailTags');

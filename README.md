@@ -460,6 +460,82 @@ php artisan cache:clear
 php artisan optimize:clear
 ```
 
+## Envio de funcionalidade nova para o servidor.
+
+Verificar em qual está branch.
+```
+git branch 
+```
+
+Mudar de branch.
+```
+git switch main
+```
+
+Mesclar o histórico de commits de uma branch em outra branch.
+```
+git merge develop
+```
+
+Fazer o push das alterações. 
+```
+git push origin main
+```
+
+Acessar o servidor com SSH.
+```
+ssh root@72.60.1.59
+```
+
+Usar o terminal conectado ao servidor para listar os arquivo.
+```
+cd /home/celke-leademail/htdocs/leademail.celke.com.br
+```
+
+Instalar as dependências do PHP.
+```
+composer install
+```
+
+Instalar as dependências do Node.js.
+```
+npm install
+```
+
+Gerar a build. Compilar o código-fonte do projeto.
+```
+npm run build
+```
+
+Alterar a propriedade do diretório.
+```
+sudo chown -R celke-leademail:celke-leademail /home/celke-leademail/htdocs/leademail.celke.com.br
+```
+
+Reiniciar Nginx.
+```
+sudo systemctl restart nginx
+```
+
+Limpar cache.
+```
+php artisan config:clear
+```
+
+Limpar o cache.
+```
+php artisan route:clear
+php artisan view:clear
+php artisan config:clear
+php artisan cache:clear
+php artisan optimize:clear
+```
+
+Reiniciar o serviço de cron.
+```
+sudo service cron restart
+```
+
 ## Instalar o Node.js no servidor.
 
 Atualizar a lista de pacotes disponíveis.

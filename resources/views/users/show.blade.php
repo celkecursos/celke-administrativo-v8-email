@@ -49,7 +49,7 @@
                     'icon' => 'lucide-alert-triangle',
                 ],
                 [
-                    'label' => 'Status Atual',
+                    'label' => 'Editar Status Atual',
                     'url' => route('users.status', $user->id),
                     'icon' => 'lucide-settings',
                 ],
@@ -94,6 +94,11 @@
                                 <div>
                                     <span class="title-detail-content">E-mail: </span>
                                     <span class="detail-content">{{ $user->email }}</span>
+                                </div>
+
+                                <div>
+                                    <span class="title-detail-content">Status: </span>
+                                    <span class="detail-content">{{ $user->userStatus->name }}</span>
                                 </div>
 
                                 <div>

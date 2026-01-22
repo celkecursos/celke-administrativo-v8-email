@@ -48,7 +48,7 @@
                     'icon' => 'lucide-alert-triangle',
                 ],
                 [
-                    'label' => 'Status Atual',
+                    'label' => 'Editar Status Atual',
                     'url' => '#status',
                     'icon' => 'lucide-settings',
                     'active' => true,  // Item ativo nesta página

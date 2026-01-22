@@ -48,7 +48,7 @@
                     'icon' => 'lucide-alert-triangle',
                 ],
                 [
-                    'label' => 'Status Atual',
+                    'label' => 'Editar Status Atual',
                     'url' => route('users.status', $user->id),
                     'icon' => 'lucide-settings',
                 ],

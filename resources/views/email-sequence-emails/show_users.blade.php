@@ -92,7 +92,7 @@
 
                                         <div>
                                             <span class="title-detail-content">E-mail: </span>
-                                            <span class="detail-content">{{ $emailUser->user->email }}</span>
+                                            <span class="detail-content"><a href='{{ route('users.show', $emailUser->user->id) }}'>{{ $emailUser->user->email }}</a></span>
                                         </div>
 
                                         @if($emailUser->scheduled_send_date)

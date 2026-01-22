@@ -16,7 +16,7 @@
             <div class="form-search mb-4">
                 <input type="text" name="name" class="form-input" placeholder="Digite o nome" value="{{ $name }}">
 
-                <input type="email" name="email" class="form-input" placeholder="Digite o e-mail"
+                <input type="text" name="email" class="form-input" placeholder="Digite o e-mail"
                     value="{{ $email }}">
 
                 <input type="date" name="start_date" class="form-input" placeholder="Data de início"
