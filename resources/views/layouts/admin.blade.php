@@ -236,7 +236,7 @@
                     </div>
 
                     <!-- Dropdown Gestão de Contatos -->
-                    <div x-data="{ open: {{ in_array($menu ?? '', ['email-tags', 'email-automation-actions', 'move-email-content']) ? 'true' : 'false' }} }" class="relative">
+                    <div x-data="{ open: {{ in_array($menu ?? '', ['email-tags', 'email-automation-actions', 'move-email-content', 'blocked-emails-imports']) ? 'true' : 'false' }} }" class="relative">
                         <button @click="open = !open"
                             class="sidebar-link w-full flex justify-between items-center cursor-pointer">
                             <span class="flex items-center space-x-1">
@@ -268,6 +268,21 @@
                                             d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5" />
                                     </svg>
                                     <span>Mover E-mail</span>
+                                </a>
+                            @endcan
+
+                            @can('blocked-emails-imports')
+                                <a @class([
+                                    'sidebar-link item-dropdown',
+                                    'active' => isset($menu) && $menu == 'blocked-emails-imports',
+                                ]) href="{{ route('blocked-emails-imports.create') }}">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        stroke-width="1.5" stroke="currentColor" class="size-4">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5" />
+                                    </svg>
+
+                                    <span>Importar E-mail</span>
                                 </a>
                             @endcan
 

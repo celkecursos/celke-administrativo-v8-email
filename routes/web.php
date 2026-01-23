@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BlockedEmailImportController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EmailAutomationActionController;
 use App\Http\Controllers\EmailMachines\EmailMachineController;
@@ -198,5 +199,11 @@ Route::group(['middleware' => 'auth'], function () {
         Route::put('/{emailSendingConfig}/update-settings', [EmailSendingConfigController::class, 'updateSettings'])->name('email-sending-configs.update-settings')->middleware('permission:edit-email-sending-config');
         // Remover
         Route::delete('/{emailSendingConfig}', [EmailSendingConfigController::class, 'destroy'])->name('email-sending-configs.destroy')->middleware('permission:destroy-email-sending-config');
+    });
+
+    // Importar CSV com e-mails spam, inválidos e rejeitados no servidor de envio
+    Route::prefix('blocked-emails-imports')->group(function () {
+        Route::get('/create', [BlockedEmailImportController::class, 'create'])->name('blocked-emails-imports.create')->middleware('permission:create-blocked-emails-imports');
+        Route::post('/', [BlockedEmailImportController::class, 'store'])->name('blocked-emails-imports.store')->middleware('permission:create-blocked-emails-imports');
     });
 });

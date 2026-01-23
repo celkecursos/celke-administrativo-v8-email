@@ -770,6 +770,11 @@ Para ativar as alterações do arquivo .ENV.
 php artisan config:clear
 ```
 
+Biblioteca para manipular arquivo CSV
+```
+composer require league/csv
+```
+
 ## Como enviar e baixar os arquivos do GitHub
 
 - Criar o repositório **"curso-laravel-12"** no GitHub.
