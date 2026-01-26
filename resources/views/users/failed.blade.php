@@ -80,19 +80,19 @@
                                         <tr class="table-row-header">
                                             <th class="table-header">ID</th>
                                             <th class="table-header">Título do E-mail</th>
-                                            <th class="table-header">Erro</th>
+                                            <th class="table-header">Mensagem</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @forelse ($failedEmails as $failedEmail)
+                                        @forelse ($failedEmails as $failedEmail)                                        
                                             <tr class="table-row-body">
                                                 <td class="table-body">{{ $failedEmail->id }}</td>
-                                                <td class="table-body">{{ $failedEmail->email_title ?? 'N/A' }}</td>
-                                                <td class="table-body">{{ $failedEmail->error_message ?? 'N/A' }}</td>
+                                                <td class="table-body">{{ $failedEmail->emailSequenceEmail->title ?? 'N/A' }}</td>
+                                                <td class="table-body">{{ $failedEmail->message ?? 'N/A' }}</td>
                                             </tr>
                                         @empty
                                             <tr>
-                                                <td colspan="3" class="table-body text-center">
+                                                <td colspan="4" class="table-body text-center">
                                                     <div class="alert-warning">
                                                         Nenhum e-mail não enviado encontrado para este usuário.
                                                     </div>

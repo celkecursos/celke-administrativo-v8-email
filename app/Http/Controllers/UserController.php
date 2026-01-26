@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\EmailTag;
 use App\Models\User;
 use App\Models\UserStatus;
+use App\Models\EmailUserSentEmail;
+use App\Models\EmailFailedSend;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -161,11 +163,14 @@ class UserController extends Controller
         ]);
     }
 
-    // Página: E-mails Enviados (sem dados, tabela vazia)
+    // Página: E-mails Enviados
     public function sent(User $user)
     {
-        // Sem dados (tabela não existe no projeto)
-        $sentEmails = [];
+        // Consultar os e-mails enviados para o usuário
+        $sentEmails = EmailUserSentEmail::where('user_id', $user->id)
+            ->with(['emailSequenceEmail', 'emailContentSnapshot'])
+            ->orderBy('id', 'DESC')
+            ->get();
 
         // Log
         Log::info('Visualizar e-mails enviados do usuário.', [
@@ -180,11 +185,14 @@ class UserController extends Controller
         ]);
     }
 
-    // Página: E-mails Não Enviados (sem dados, tabela vazia)
+    // Página: E-mails Não Enviados
     public function failed(User $user)
     {
-        // Sem dados (tabela não existe no projeto)
-        $failedEmails = [];
+        // Consultar os e-mails não enviados para o usuário
+        $failedEmails = EmailFailedSend::where('user_id', $user->id)
+            ->with(['emailSequenceEmail'])
+            ->orderBy('id', 'DESC')
+            ->get();
 
         // Log
         Log::info('Visualizar e-mails não enviados do usuário.', [

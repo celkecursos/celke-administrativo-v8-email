@@ -87,8 +87,8 @@
                                         @forelse ($sentEmails as $sentEmail)
                                             <tr class="table-row-body">
                                                 <td class="table-body">{{ $sentEmail->id }}</td>
-                                                <td class="table-body">{{ $sentEmail->email_title ?? 'N/A' }}</td>
-                                                <td class="table-body">{{ $sentEmail->sent_at ? \Carbon\Carbon::parse($sentEmail->sent_at)->tz('America/Sao_Paulo')->format('d/m/Y H:i:s') : 'N/A' }}</td>
+                                                <td class="table-body">{{ $sentEmail->emailSequenceEmail->title ?? $sentEmail->emailContentSnapshot->title ?? 'N/A' }}</td>
+                                                <td class="table-body">{{ $sentEmail->created_at ? \Carbon\Carbon::parse($sentEmail->created_at)->tz('America/Sao_Paulo')->format('d/m/Y H:i:s') : 'N/A' }}</td>
                                             </tr>
                                         @empty
                                             <tr>
