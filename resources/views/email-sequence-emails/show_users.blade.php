@@ -57,6 +57,13 @@
                     'icon' => 'lucide-users',
                     'active' => request()->routeIs('email-sequence-emails.show-users'),
                 ],
+                [
+                    'label' => 'E-mails Enviados',
+                    'url' => route('email-sequence-emails.show-sent', ['emailMachine' => $emailMachine->id, 'sequence' => $sequence->id, 'email' => $email->id]),
+                    'permission' => 'show-email-sequence-email',
+                    'icon' => 'lucide-send',
+                    'active' => request()->routeIs('email-sequence-emails.show-sent'),
+                ],
             ]" />
 
             <!-- Área de Conteúdo Principal -->
@@ -150,6 +157,27 @@
                                                 </form>
                                             @endcan
                                         </div>
+                                        <!-- Novos botões para alterar status do usuário (abaixo) -->
+                                        @can('edit-email-user')
+                                            <div class="flex items-center space-x-2 pt-2">
+                                                @foreach(\App\Models\UserStatus::all() as $userStatus)
+                                                    <form action="{{ route('email-sequence-emails.update-user-status', [
+                                                        'emailMachine' => $emailMachine->id,
+                                                        'sequence' => $sequence->id,
+                                                        'email' => $email->id,
+                                                        'user' => $emailUser->user->id,
+                                                        'status' => $userStatus->id
+                                                    ]) }}" method="POST" class="inline">
+                                                        @csrf
+                                                        @method('PATCH')
+                                                        <button type="submit" class="btn-warning-md align-icon-btn" title="Alterar para {{ $userStatus->name }}">
+                                                            <x-lucide-edit class="icon-btn" />
+                                                            <span>{{ $userStatus->name }}</span>
+                                                        </button>
+                                                    </form>
+                                                @endforeach
+                                            </div>
+                                        @endcan                                        
                                     </div>
                                 </div>
                             @empty

@@ -64,6 +64,13 @@
                     'icon' => 'lucide-users',
                     'active' => request()->routeIs('email-sequence-emails.show-users'),
                 ],
+                [
+                    'label' => 'E-mails Enviados',
+                    'url' => route('email-sequence-emails.show-sent', ['emailMachine' => $emailMachine->id, 'sequence' => $sequence->id, 'email' => $email->id]),
+                    'permission' => 'show-email-sequence-email',
+                    'icon' => 'lucide-send',
+                    'active' => request()->routeIs('email-sequence-emails.show-sent'),
+                ],
             ]" />
 
             <!-- Área de Conteúdo Principal -->

@@ -90,6 +90,9 @@ Route::group(['middleware' => 'auth'], function () {
                 Route::get('/{email}/edit-config', [EmailSequenceEmailController::class, 'editConfig'])->name('email-sequence-emails.edit-config')->middleware('permission:edit-email-sequence-email');
                 Route::put('/{email}/config', [EmailSequenceEmailController::class, 'updateConfig'])->name('email-sequence-emails.update-config')->middleware('permission:edit-email-sequence-email');
                 Route::delete('/{email}', [EmailSequenceEmailController::class, 'destroy'])->name('email-sequence-emails.destroy')->middleware('permission:destroy-email-sequence-email');
+                // Nova rota para atualizar o status do usuário
+                Route::patch('/{email}/users/{user}/status/{status}', [EmailSequenceEmailController::class, 'updateUserStatus'])->name('email-sequence-emails.update-user-status')->middleware('permission:edit-email-sequence-email');
+                Route::get('/{email}/sent', [EmailSequenceEmailController::class, 'showSent'])->name('email-sequence-emails.show-sent')->middleware('permission:show-email-sequence-email');
             });
         });
     });

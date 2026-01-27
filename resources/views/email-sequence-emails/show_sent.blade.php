@@ -2,12 +2,12 @@
 
 @section('content')
     <!-- Título e Trilha de Navegação -->
-    <x-breadcrumb title="Visualizar E-mail - Configuração" :items="[
+    <x-breadcrumb title="Visualizar E-mail - E-mails Enviados" :items="[
         ['label' => 'Dashboard', 'url' => route('dashboard.index')],
         ['label' => 'Máquinas', 'url' => route('email-machines.index')],
         ['label' => $emailMachine->name, 'url' => route('email-machine-sequences.index', ['emailMachine' => $emailMachine->id])],
         ['label' => $sequence->name, 'url' => route('email-machine-sequences.index', ['emailMachine' => $emailMachine->id])],
-        ['label' => 'Configuração'],
+        ['label' => 'E-mails Enviados'],
     ]" />
 
     <div class="content-box">
@@ -21,13 +21,6 @@
                 'permission' => 'index-email-machine-sequence',
                 'class' => 'btn-info-md align-icon-btn',
                 'icon' => 'lucide-list',
-            ],
-            [
-                'label' => 'Editar',
-                'url' => route('email-sequence-emails.edit-config', ['emailMachine' => $emailMachine->id, 'sequence' => $sequence->id, 'email' => $email->id]),
-                'permission' => 'edit-email-sequence-email',
-                'class' => 'btn-warning-md align-icon-btn',
-                'icon' => 'lucide-pencil',
             ],
         ]" />
 
@@ -68,7 +61,7 @@
                     'label' => 'E-mails Enviados',
                     'url' => route('email-sequence-emails.show-sent', ['emailMachine' => $emailMachine->id, 'sequence' => $sequence->id, 'email' => $email->id]),
                     'permission' => 'show-email-sequence-email',
-                    'icon' => 'lucide-send',
+                    'icon' => 'lucide-mail',
                     'active' => request()->routeIs('email-sequence-emails.show-sent'),
                 ],
             ]" />
@@ -76,49 +69,62 @@
             <!-- Área de Conteúdo Principal -->
             <div class="profile-content-container">
 
-                <!-- Seção Configuração -->
+                <!-- Seção E-mails Enviados -->
                 <div class="profile-section">
                     <div class="sidebar-card">
                         <div class="sidebar-card-header">
                             <div class="flex items-center justify-between">
                                 <div>
-                                    <h3 class="sidebar-card-title">Configuração do E-mail</h3>
+                                    <h3 class="sidebar-card-title">E-mails Enviados</h3>
+                                    <p class="form-helper-text">
+                                        Lista de e-mails enviados para este conteúdo
+                                    </p>
                                 </div>
                             </div>
                         </div>
 
                         <div class="p-4">
-                            <div class="detail-box space-y-4">
-                                
-                                <div>
-                                    <span class="title-detail-content">Status: </span>
-                                    <span class="{{ $email->is_active ? 'badge badge-success' : 'badge badge-danger' }}">
-                                        {{ $email->is_active ? 'Ativo' : 'Inativo' }}
-                                    </span>
-                                </div>
+                            @forelse($sentEmails as $sentEmail)
+                                <div class="mb-4 p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
+                                    <div class="space-y-3">
+                                        <div class="flex items-center justify-between">
+                                            <div>
+                                                <span class="title-detail-content">Usuário: </span>
+                                                <span class="detail-content">{{ $sentEmail->user->name }}</span>
+                                            </div>
+                                            <span class="badge badge-success">Enviado</span>
+                                        </div>
 
-                                <div>
-                                    <span class="title-detail-content">Pular E-mail: </span>
-                                    <span class="{{ $email->skip_email ? 'badge badge-warning' : 'badge badge-secondary' }}">
-                                        {{ $email->skip_email ? 'Sim' : 'Não' }}
-                                    </span>
-                                </div>
+                                        <div>
+                                            <span class="title-detail-content">E-mail: </span>
+                                            <span class="detail-content"><a href='{{ route('users.show', $sentEmail->user->id) }}'>{{ $sentEmail->user->email }}</a></span>
+                                        </div>
 
-                                <div>
-                                    <span class="title-detail-content">Cadastrado: </span>
-                                    <span class="detail-content">
-                                        {{ \Carbon\Carbon::parse($email->created_at)->tz('America/Sao_Paulo')->format('d/m/Y H:i:s') }}
-                                    </span>
-                                </div>
+                                        @if($sentEmail->sent_date)
+                                            <div>
+                                                <span class="title-detail-content">Data de Envio: </span>
+                                                <span class="detail-content">
+                                                    {{ \Carbon\Carbon::parse($sentEmail->sent_date)->tz('America/Sao_Paulo')->format('d/m/Y H:i:s') }}
+                                                </span>
+                                            </div>
+                                        @endif
 
-                                <div>
-                                    <span class="title-detail-content">Editado: </span>
-                                    <span class="detail-content">
-                                        {{ \Carbon\Carbon::parse($email->updated_at)->tz('America/Sao_Paulo')->format('d/m/Y H:i:s') }}
-                                    </span>
+                                        <!-- Remover botões de ação, pois é apenas visualização de enviados -->
+                                    </div>
                                 </div>
+                            @empty
+                                <div class="alert-warning">
+                                    <x-lucide-alert-circle class="w-5 h-5 inline-block mr-2" />
+                                    Nenhum e-mail enviado para este conteúdo.
+                                </div>
+                            @endforelse
 
-                            </div>
+                            <!-- Paginação -->
+                            @if($sentEmails->hasPages())
+                                <div class="mt-6">
+                                    {{ $sentEmails->links() }}
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </div>

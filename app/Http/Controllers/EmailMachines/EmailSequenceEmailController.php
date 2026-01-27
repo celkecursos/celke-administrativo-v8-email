@@ -689,4 +689,82 @@ class EmailSequenceEmailController extends Controller
             'emailUsers' => $emailUsers
         ]);
     }
+
+    // Atualizar o status do usuário vinculado ao e-mail
+    public function updateUserStatus($emailMachineId, $sequenceId, $emailId, $userId, $statusId)
+    {
+        try {
+            // Buscar o usuário
+            $user = \App\Models\User::findOrFail($userId);
+
+            // Atualizar o status do usuário (usando user_status_id)
+            $user->update(['user_status_id' => $statusId]);
+
+            // Se o status for 2, 4 ou 5, remover todos os e-mails do usuário na tabela email_users
+            if (in_array($statusId, [2, 4, 5])) {
+                \App\Models\EmailUser::where('user_id', $userId)->delete();
+            }
+
+            // Salvar log
+            Log::info('Status do usuário atualizado via e-mail.', [
+                'user_id' => $userId,
+                'new_status_id' => $statusId,
+                'email_sequence_email_id' => $emailId,
+                'action_user_id' => Auth::id()
+            ]);
+
+            // Redirecionar para a página de usuários do e-mail
+            return redirect()
+                ->route('email-sequence-emails.show-users', [
+                    'emailMachine' => $emailMachineId,
+                    'sequence' => $sequenceId,
+                    'email' => $emailId
+                ])
+                ->with('success', 'Status do usuário atualizado com sucesso!');
+        } catch (Exception $e) {
+            // Salvar log detalhado do erro
+            Log::notice('Status do usuário não atualizado.', [
+                'error' => $e->getMessage(),
+                'user_id' => $userId,
+                'status_id' => $statusId,
+                'action_user_id' => Auth::id()
+            ]);
+
+            // Redirecionar com erro
+            return redirect()->back()->with('error', 'Erro ao atualizar status do usuário!');
+        }
+    }
+
+    // Visualizar os e-mails enviados para o conteúdo
+    public function showSent($emailMachineId, $sequenceId, $id)
+    {
+        // Buscar a máquina, sequência e o e-mail
+        $emailMachine = EmailMachine::findOrFail($emailMachineId);
+        $sequence = EmailMachineSequence::where('email_machine_id', $emailMachineId)
+            ->findOrFail($sequenceId);
+        $email = EmailSequenceEmail::where('email_machine_sequence_id', $sequenceId)
+            ->findOrFail($id);
+
+        // Buscar e-mails enviados com paginação
+        $sentEmails = \App\Models\EmailUserSentEmail::where('email_sequence_email_id', $id)
+            ->with('user')
+            ->orderBy('id', 'DESC')
+            ->paginate(10)
+            ->withQueryString();
+
+        // Salvar log
+        Log::info('Visualizar e-mails enviados do conteúdo.', [
+            'email_sequence_email_id' => $id,
+            'action_user_id' => Auth::id()
+        ]);
+
+        // Carregar a view 
+        return view('email-sequence-emails.show_sent', [
+            'menu' => 'email-machine',
+            'emailMachine' => $emailMachine,
+            'sequence' => $sequence,
+            'email' => $email,
+            'sentEmails' => $sentEmails
+        ]);
+    }
 }
