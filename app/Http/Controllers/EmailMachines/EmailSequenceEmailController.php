@@ -305,8 +305,10 @@ class EmailSequenceEmailController extends Controller
         // Validação adicional para garantir que o conteúdo seja obrigatório na edição
         $request->validate([
             'content' => 'required|string',
+            'content_text' => 'required|string',
         ], [
-            'content.required' => 'Campo conteúdo é obrigatório!',
+            'content.required' => 'Campo conteúdo HTML é obrigatório!',
+            'content_text.required' => 'Campo conteúdo texto é obrigatório!',
         ]);
 
         // Capturar possíveis exceções durante a execução.

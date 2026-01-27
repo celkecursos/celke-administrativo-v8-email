@@ -5,8 +5,14 @@
     <x-breadcrumb title="Visualizar E-mail" :items="[
         ['label' => 'Dashboard', 'url' => route('dashboard.index')],
         ['label' => 'Máquinas', 'url' => route('email-machines.index')],
-        ['label' => $emailMachine->name, 'url' => route('email-machine-sequences.index', ['emailMachine' => $emailMachine->id])],
-        ['label' => $sequence->name, 'url' => route('email-machine-sequences.index', ['emailMachine' => $emailMachine->id])],
+        [
+            'label' => $emailMachine->name,
+            'url' => route('email-machine-sequences.index', ['emailMachine' => $emailMachine->id]),
+        ],
+        [
+            'label' => $sequence->name,
+            'url' => route('email-machine-sequences.index', ['emailMachine' => $emailMachine->id]),
+        ],
         ['label' => 'Visualizar E-mail'],
     ]" />
 
@@ -24,7 +30,11 @@
             ],
             [
                 'label' => 'Editar',
-                'url' => route('email-sequence-emails.edit', ['emailMachine' => $emailMachine->id, 'sequence' => $sequence->id, 'email' => $email->id]),
+                'url' => route('email-sequence-emails.edit', [
+                    'emailMachine' => $emailMachine->id,
+                    'sequence' => $sequence->id,
+                    'email' => $email->id,
+                ]),
                 'permission' => 'edit-email-sequence-email',
                 'class' => 'btn-warning-md align-icon-btn',
                 'icon' => 'lucide-pencil',
@@ -38,28 +48,44 @@
             <x-form-sidebar-menu :items="[
                 [
                     'label' => 'Conteúdo',
-                    'url' => route('email-sequence-emails.show', ['emailMachine' => $emailMachine->id, 'sequence' => $sequence->id, 'email' => $email->id]),
+                    'url' => route('email-sequence-emails.show', [
+                        'emailMachine' => $emailMachine->id,
+                        'sequence' => $sequence->id,
+                        'email' => $email->id,
+                    ]),
                     'permission' => 'show-email-sequence-email',
                     'icon' => 'lucide-file-text',
                     'active' => request()->routeIs('email-sequence-emails.show'),
                 ],
                 [
                     'label' => 'Datas',
-                    'url' => route('email-sequence-emails.show-dates', ['emailMachine' => $emailMachine->id, 'sequence' => $sequence->id, 'email' => $email->id]),
+                    'url' => route('email-sequence-emails.show-dates', [
+                        'emailMachine' => $emailMachine->id,
+                        'sequence' => $sequence->id,
+                        'email' => $email->id,
+                    ]),
                     'permission' => 'show-email-sequence-email',
                     'icon' => 'lucide-calendar-clock',
                     'active' => request()->routeIs('email-sequence-emails.show-dates'),
                 ],
                 [
                     'label' => 'Configuração',
-                    'url' => route('email-sequence-emails.show-config', ['emailMachine' => $emailMachine->id, 'sequence' => $sequence->id, 'email' => $email->id]),
+                    'url' => route('email-sequence-emails.show-config', [
+                        'emailMachine' => $emailMachine->id,
+                        'sequence' => $sequence->id,
+                        'email' => $email->id,
+                    ]),
                     'permission' => 'show-email-sequence-email',
                     'icon' => 'lucide-settings',
                     'active' => request()->routeIs('email-sequence-emails.show-config'),
                 ],
                 [
                     'label' => 'Usuários',
-                    'url' => route('email-sequence-emails.show-users', ['emailMachine' => $emailMachine->id, 'sequence' => $sequence->id, 'email' => $email->id]),
+                    'url' => route('email-sequence-emails.show-users', [
+                        'emailMachine' => $emailMachine->id,
+                        'sequence' => $sequence->id,
+                        'email' => $email->id,
+                    ]),
                     'permission' => 'show-email-sequence-email',
                     'icon' => 'lucide-users',
                     'active' => request()->routeIs('email-sequence-emails.show-users'),
@@ -82,7 +108,7 @@
 
                         <div class="p-4">
                             <div class="detail-box space-y-4">
-                                
+
                                 <div>
                                     <span class="title-detail-content">ID: </span>
                                     <span class="detail-content">{{ $email->id }}</span>
@@ -94,10 +120,14 @@
                                 </div>
 
                                 <div>
-                                    <span class="title-detail-content">Conteúdo: </span>
-                                    <div class="detail-content mt-2 whitespace-pre-wrap">{{ $email->content }}</div>
+                                    <span class="title-detail-content">Conteúdo HTML: </span>
+                                    <div class="detail-content mt-2 ">{!! $email->content !!}</div>
                                 </div>
 
+                                <div>
+                                    <span class="title-detail-content">Conteúdo Texto: </span>
+                                    <div class="detail-content mt-2 whitespace-pre-wrap">{{ $email->content_text }}</div>
+                                </div>
                             </div>
                         </div>
                     </div>

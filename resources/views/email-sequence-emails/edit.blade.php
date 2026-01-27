@@ -88,9 +88,15 @@
                                 </div>
 
                                 <div class="mb-4">
-                                    <label for="content" class="form-label">Conteúdo do E-mail *</label>
+                                    <label for="content" class="form-label">Conteúdo do E-mail HTML *</label>
                                     <textarea name="content" id="content" rows="10" class="form-input"
                                         placeholder="Digite o conteúdo do e-mail..." required>{{ old('content', $email->content) }}</textarea>
+                                </div>
+
+                                <div class="mb-4">
+                                    <label for="content_text" class="form-label">Conteúdo do E-mail Texto *</label>
+                                    <textarea name="content_text" id="content_text" rows="10" class="form-input"
+                                        placeholder="Digite o conteúdo do e-mail..." required>{{ old('content_text', $email->content_text) }}</textarea>
                                 </div>
 
                                 <div class="mb-4">
