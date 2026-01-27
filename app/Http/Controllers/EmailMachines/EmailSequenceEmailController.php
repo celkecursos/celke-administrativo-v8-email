@@ -321,6 +321,7 @@ class EmailSequenceEmailController extends Controller
             $email->update([
                 'title' => $request->title,
                 'content' => $request->content,
+                'content_text' => $request->content_text,
             ]);
 
             // Salvar log

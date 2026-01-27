@@ -492,6 +492,11 @@ Usar o terminal conectado ao servidor para listar os arquivo.
 cd /home/celke-leademail/htdocs/leademail.celke.com.br
 ```
 
+Baixar as atualizações do GitHub.
+```
+git pull
+```
+
 Instalar as dependências do PHP.
 ```
 composer install
