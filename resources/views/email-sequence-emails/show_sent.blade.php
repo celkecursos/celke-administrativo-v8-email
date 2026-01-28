@@ -89,25 +89,23 @@
                                     <div class="space-y-3">
                                         <div class="flex items-center justify-between">
                                             <div>
-                                                <span class="title-detail-content">Usuário: </span>
-                                                <span class="detail-content">{{ $sentEmail->user->name }}</span>
+                                                <span class="title-detail-content">ID: </span>
+                                                <span class="detail-content">{{ $sentEmail->id }}</span>
                                             </div>
                                             <span class="badge badge-success">Enviado</span>
                                         </div>
 
                                         <div>
                                             <span class="title-detail-content">E-mail: </span>
-                                            <span class="detail-content"><a href='{{ route('users.show', $sentEmail->user->id) }}'>{{ $sentEmail->user->email }}</a></span>
+                                            <span class="detail-content"><a href='{{ route('users.show', $sentEmail->user->id) }}'>{{ $sentEmail->to_email }}</a></span>
                                         </div>
 
-                                        @if($sentEmail->sent_date)
-                                            <div>
-                                                <span class="title-detail-content">Data de Envio: </span>
-                                                <span class="detail-content">
-                                                    {{ \Carbon\Carbon::parse($sentEmail->sent_date)->tz('America/Sao_Paulo')->format('d/m/Y H:i:s') }}
-                                                </span>
-                                            </div>
-                                        @endif
+                                        <div>
+                                            <span class="title-detail-content">Data de Criação: </span>
+                                            <span class="detail-content">
+                                                {{ \Carbon\Carbon::parse($sentEmail->created_at)->tz('America/Sao_Paulo')->format('d/m/Y H:i:s') }}
+                                            </span>
+                                        </div>
 
                                         <!-- Remover botões de ação, pois é apenas visualização de enviados -->
                                     </div>
